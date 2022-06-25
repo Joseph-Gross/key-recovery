@@ -31,6 +31,7 @@ export default function Navbar() {
   const mobileNav = useDisclosure();
 
   const { toggleColorMode: toggleMode } = useColorMode();
+  const hoverBg = useColorModeValue("gray.500", "gray.700");
   const text = useColorModeValue("dark", "light");
   const SwitchIcon = useColorModeValue(RiMoonFill, RiSunLine);
 
@@ -96,10 +97,12 @@ export default function Navbar() {
                 />
               </VStack>
             </Box>
-            <Link href="/" style={{ textDecoration: 'none' }}>
+            <Link href="/" style={{ textDecoration: 'none'}}>
               {/* <Logo /> */}
               <VisuallyHidden>KeyKovery</VisuallyHidden>
-              <Heading as="h1" fontWeight="semibold" fontSize="2xl">
+              <Heading as="h1" fontWeight="semibold" fontSize="2xl" _hover={{
+                textColor: hoverBg,
+              }} >
                 KeyKovery
               </Heading>
             </Link>
