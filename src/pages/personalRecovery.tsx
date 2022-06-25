@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { Signer } from "ethers";
 import worldID from "@worldcoin/id";
+import { AddressInput } from "../components/AddressInput";
 import {
   Box,
   Button,
@@ -30,7 +31,7 @@ import {
 } from "../sdk/litUtils";
 import { KEYKOVERY_CONTRACT_ADDRESS } from "../sdk/constants";
 import { PrivyClient } from "@privy-io/privy-browser";
-import { useAccount, useSigner } from "wagmi";
+import { useAccount, useSigner, useProvider } from "wagmi";
 import { usePrivySession } from "../components/PrivySession";
 import {RecoverySuccessModal} from "../components/RecoverySuccessModal";
 
@@ -133,6 +134,7 @@ const PersonalRecovery: NextPage = () => {
   const { data: account} = useAccount();
 
   const currentAddress = account?.address;
+  const provider = useProvider();
 
 
   const {
@@ -153,8 +155,8 @@ const PersonalRecovery: NextPage = () => {
       mb={8}
       w="full"
     >
-      <SimpleGrid columns={2} justifyItems="center">
-        <Heading fontSize="4xl" mb={4}>
+      <SimpleGrid columns={1} justifyItems="center">
+        <Heading fontSize="4xl" mb={6}>
           Personal Key Recovery
         </Heading>
         <Grid
@@ -193,7 +195,15 @@ const PersonalRecovery: NextPage = () => {
             </Button>
           </GridItem>
         </Grid>
-        <Input variant='filled' onChange={(e) => setOldAddress(e.target.value)}/>
+        <AddressInput
+        provider={provider}
+        value=''
+        label='ETH Address or ENS Name'
+        onChange={()=>null}
+        >
+
+        </AddressInput>
+        {/* <Input variant='filled' onChange={(e) => setOldAddress(e.target.value)}/> */}
       </SimpleGrid>
     </Box>
   <RecoverySuccessModal isOpen={isRecoverySuccessModalOpen} onClose={onRecoverySuccessModalClose} privateKey="Private Key"/>
