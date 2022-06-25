@@ -28,27 +28,32 @@ function onPlusClick(isplus:boolean, setplus:any): void {
     }
 }
 
-function displayGuardians(guardians:any, isplus:boolean) {
+function displayGuardians(guardians:any, isplus:boolean, handleAddress:any, currentAddress:any) {
     let guardianList: Array<ReactElement> = [];
     var totalGuardians = guardians.length;
     
     for (var i=0; i<totalGuardians; i++) {
         guardianList.push(
-            <div key={i}>
+            <div>
                     <GridItem colSpan={1}>
                         <FormControl>
                             <FormLabel>Wallet Address</FormLabel>
                             <Input placeholder="Guardian Address"/>
                         </FormControl>
                     </GridItem>
+                    </div>  
+        );
+        guardianList.push(
+            <div>
                     <GridItem colSpan={1}>
                         <FormControl>
-                            <FormLabel>Guardian Label</FormLabel>
-                            <Input placeholder="example:  John Smith"/>
+                            <FormLabel>Wallet Address</FormLabel>
+                            <Input placeholder="Guardian Address"/>
                         </FormControl>
                     </GridItem>
-            </div>
+                    </div>  
         );
+
     }
     if (isplus) {
         guardianList.push(
@@ -56,17 +61,27 @@ function displayGuardians(guardians:any, isplus:boolean) {
                 <GridItem colSpan={1}>
                     <FormControl>
                         <FormLabel>Wallet Address</FormLabel>
-                        <Input placeholder="Guardian Address"/>
-                    </FormControl>
-                </GridItem>
-                <GridItem colSpan={1}>
-                    <FormControl>
-                        <FormLabel>Guardian Label</FormLabel>
-                        <Input placeholder="example:  John Smith"/>
+                        <Input
+                            placeholder="Guardian Address"
+                            id="currentAddress"
+                            name="currentAddress"
+                            onChange={handleAddress}
+                            value={currentAddress}
+                            />
                     </FormControl>
                 </GridItem>
             </div>
-        )
+        );
+        guardianList.push(
+            <div>
+                <GridItem colSpan={1}>
+                    <FormControl>
+                        <FormLabel>Guardian Label</FormLabel>
+                        <Input placeholder="ex: John Smith"/>
+                    </FormControl>
+                </GridItem>
+            </div>
+        );
     }
 
     return (
@@ -74,14 +89,24 @@ function displayGuardians(guardians:any, isplus:boolean) {
     );
 }
 
-function onAddGuardiansClick(currentNumGuardians:number, setNumGuardians:any) {
+function onAddGuardiansClick(currentNumGuardians:number, setNumGuardians:any, addedArray:any, setArray:any) {
     setNumGuardians(currentNumGuardians+1);
+
 
 }
 
 const AuthorizationForm: NextPage = () => {
     const [isPlus, setIsPlus] = useState(true);
     const [numGuardiansAdded, setNumGuardiansAdded] = useState(0);
+    const [currentAddress, setCurrentAddress] = useState<string>('');
+    const [currentLabel, setCurrentLabel] = useState<string>('');
+    const handleAddress = (input:string) => {
+        setCurrentAddress(input);
+    }
+    const handleLabel = (input:string) => {
+        setCurrentLabel(input);
+    }
+
     let guardians: { [address: string]: string } = {}
     const [guardiansToAdd, addGuardian] = useState<Map<string, string>>();
     // if (isPlus == true) {
@@ -100,7 +125,7 @@ const AuthorizationForm: NextPage = () => {
             <Flex direction="column" background="gray.500" justifyContent="center" p={12} rounded={14}>
                 <Heading size="2xl" mb={12} >Authorize Guardians </Heading>
                 <SimpleGrid columns={2} columnGap={3} rowGap={6} w='full' mb={4}>
-                    {displayGuardians(guardians, isPlus)}
+                    {displayGuardians(guardians, isPlus, handleAddress, currentAddress)}
                 </SimpleGrid>
                 {/* return guardianstoadd and then if plus is true also return 
                 input simple grid else: */}
