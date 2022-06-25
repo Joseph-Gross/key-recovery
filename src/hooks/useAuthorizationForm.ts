@@ -1,5 +1,6 @@
 import {useEffect, useMemo} from "react";
-import {useFieldArray, useForm} from "react-hook-form";
+import {Resolver, useFieldArray, useForm} from "react-hook-form";
+import {ethers} from "ethers";
 
 interface Guardian {
     address: string;
@@ -10,8 +11,9 @@ export interface AuthorizationFormValues {
     guardians: Guardian[],
 }
 
+
 export function useAuthorizationForm() {
-    const { register, handleSubmit, control, watch } = useForm<AuthorizationFormValues>();
+    const { register, handleSubmit, control, getFieldState, formState, watch, setValue } = useForm<AuthorizationFormValues>();
     const { fields, append, remove } = useFieldArray({
         name: "guardians",
         control,
@@ -34,5 +36,7 @@ export function useAuthorizationForm() {
         fields,
         append,
         remove,
-    }), [fields]);
+        getFieldState,
+        formState,
+    }), [fields, formState]);
 }
