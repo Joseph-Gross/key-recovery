@@ -10,7 +10,8 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-import { Connector, useConnect } from "wagmi";
+import { Connector, useConnect, useProvider } from "wagmi";
+import {usePrivySession} from "../PrivySession";
 
 type ConnectorModalProps = {
   isOpen: any;
@@ -28,12 +29,14 @@ export default function ConnectorModal({
     isConnecting,
     pendingConnector,
   } = useConnect();
+  const privySession = usePrivySession();
 
   const bg = useColorModeValue("white", "gray.800");
   const buttonBg = useColorModeValue("blue.200", "blue.500");
 
   function handleConnectWallet(connector: Connector) {
     connect(connector);
+    privySession.authenticate().then(response => console.log("Authentication Completed"));
     onClose();
   }
 
@@ -53,7 +56,7 @@ export default function ConnectorModal({
                 disabled={!connector.ready}
                 key={connector.id}
                 onClick={() => {
-                  connect(connector);
+                  handleConnectWallet(connector);
                 }}
               >
                 {connector.name}

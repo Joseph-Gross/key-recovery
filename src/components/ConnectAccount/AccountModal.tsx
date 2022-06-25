@@ -14,7 +14,8 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { ExternalLinkIcon, CopyIcon } from "@chakra-ui/icons";
-import { useAccount, useDisconnect } from "wagmi";
+import {useAccount, useDisconnect, useProvider} from "wagmi";
+import {usePrivySession} from "../PrivySession";
 
 type AccountModalProps = {
   displayAddress: string;
@@ -29,6 +30,7 @@ export default function AccountModal({
 }: AccountModalProps) {
   const { data: account } = useAccount();
   const { disconnect } = useDisconnect();
+  const privySession = usePrivySession();
 
   const bg = useColorModeValue("gray.200", "gray.800");
   const footerBg = useColorModeValue("gray.300", "gray.700");
@@ -41,6 +43,7 @@ export default function AccountModal({
 
   function handleDeactivateAccount() {
     disconnect();
+    privySession.destroy().then(response => console.log(response));
     onClose();
   }
 
@@ -137,17 +140,7 @@ export default function AccountModal({
           </Box>
         </ModalBody>
 
-        <ModalFooter
-          justifyContent="center"
-          background={footerBg}
-          borderBottomLeftRadius="3xl"
-          borderBottomRightRadius="3xl"
-          p={6}
-        >
-          <Text textAlign="center" fontWeight="medium" fontSize="md">
-            Your transactions will appear here...
-          </Text>
-        </ModalFooter>
+
       </ModalContent>
     </Modal>
   );
