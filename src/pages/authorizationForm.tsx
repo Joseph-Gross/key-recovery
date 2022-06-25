@@ -15,7 +15,6 @@ import {
   Input,
   IconButton,
 } from "@chakra-ui/react";
-import AddGuardianModal from "../components/addGuardian";
 import { AddIcon } from "@chakra-ui/icons";
 
 // const {
@@ -124,7 +123,7 @@ const AuthorizationForm: NextPage = () => {
         <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full" mb={4}>
           {displayGuardians(guardians, isPlus)}
         </SimpleGrid>
-        {/* return guardianstoadd and then if plus is true also return 
+        {/* return guardianstoadd and then if plus is true also return
                 input simple grid else: */}
         <IconButton
           justifySelf="left"
