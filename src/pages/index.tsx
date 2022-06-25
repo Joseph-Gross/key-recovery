@@ -1,19 +1,14 @@
 import type { NextPage } from "next";
 
 import { Box, Text } from "@chakra-ui/react";
+import {Hero} from "../components/Hero";
 
 const Landing: NextPage = () => {
   return (
-    <Box
-      display={{ md: "flex" }}
-      alignItems="center"
-      minHeight="70vh"
-      gap={8}
-      mb={8}
-      w="full"
-    >
-    </Box>
+    <Hero/>
   );
 };
 
 export default Landing;
+
+
