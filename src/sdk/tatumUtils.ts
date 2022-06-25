@@ -1,8 +1,11 @@
 import { TATUM_API_KEY } from "../../config";
 
-export async function uploadToIPFS(encryptedData: Uint8Array): Promise<string> {
+export async function uploadToIPFS(rawData: Uint8Array): Promise<string> {
   const form = new FormData();
-  form.append("file", "127654187631872620");
+  const enc = new TextEncoder();
+  const stringRep = enc.decode(rawData);
+
+  form.append("file", stringRep);
 
   const resp: Response = await fetch(`https://api-eu1.tatum.io/v3/ipfs`, {
     method: "POST",
