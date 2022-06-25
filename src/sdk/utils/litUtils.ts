@@ -1,4 +1,56 @@
-export function generateAccessControlConditions(keycoveryContractAddress, lostWalletAddress, chain) {
+import LitJsSdk from "lit-js-sdk/build/index.node.js";
+
+export const litNodeClient = new LitJsSdk.LitNodeClient({
+  alertWhenUnauthorized: false,
+});
+
+export async function getAuthSig(chain): Promise<any> {
+  var authSig = await LitJsSdk.checkAndSignAuthMessage({
+    chain: chain,
+  });
+}
+
+export async function encryptString(s: string): Promise<any> {
+  return await LitJsSdk.encryptString(s);
+}
+
+export async function decryptString(
+  encryptedString: Blob,
+  symmetricKey: Uint8Array
+): Promise<string> {
+  return await LitJsSdk.decryptString(encryptedString, symmetricKey);
+}
+
+export async function saveEncryptionKey(
+  accessControlConditions: any,
+  symmetricKey: Uint8Array,
+  authSig: any,
+  chain: string
+): Promise<Uint8Array> {
+  // Returns the symmetric key that has been encrypted with the Lit network public key.
+  return await litNodeClient.saveEncryptionKey({
+    accessControlConditions,
+    symmetricKey,
+    authSig,
+    chain,
+  });
+}
+
+export async function getEncryptionKey(
+  accessControlConditions: any,
+  encryptedSymmetricKey: Uint8Array,
+  authSig: any,
+  chain: string
+): Promise<Uint8Array> {
+  return await litNodeClient.getEncryptionKey({
+    accessControlConditions,
+    authSig,
+    toDecrypt: LitJsSdk.uint8arrayToString(encryptedSymmetricKey, "base16"),
+    chain,
+  });
+}
+
+export function generateAccessControlConditions(keycoveryContractAddress: string, lostWalletAddress: string, chain: string) {
   return [
     {
       conditionType: "evmContract",
