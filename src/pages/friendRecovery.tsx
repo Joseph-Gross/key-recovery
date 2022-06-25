@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
-import { constants, ethers } from "ethers";
+import { constants } from "ethers";
 import { Box, Flex, Heading, Text, Grid, Button, useDisclosure, SimpleGrid, GridItem, FormControl, FormLabel, Input, IconButton, Spinner } from "@chakra-ui/react";
 import { useState } from "react";
 import { signRecoveryMessage } from "../sdk/signRecoveryMessage";
 import { sendSignatureToAddress } from "../sdk/epnsUtils";
-import { getUserNonce } from "../sdk/getUserNonce";
-import { useSigner } from "wagmi";
+
+
 
 const FriendRecovery: NextPage = () => {
     const [oldAddress, setOldAddress] = useState('');
@@ -15,9 +15,8 @@ const FriendRecovery: NextPage = () => {
     async function onSendSignClick(oldAddress:string, newAddress:string) {
         setIsSending(true);
         // plug in SDK
-        const { data: signer, isError, isLoading } = useSigner();
-        const nonce = await getUserNonce(signer!, oldAddress);
-        const message = await signRecoveryMessage(signer!, oldAddress, newAddress, nonce);
+        const nonce = await getUserNonce(null, oldAddress);
+        const message = await signRecoveryMessage(null, oldAddress, newAddress, nonce);
         const message2 = await sendSignatureToAddress(newAddress, message);
         setIsSending(false);
     }
