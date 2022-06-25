@@ -12,17 +12,17 @@ const PersonalRecovery: NextPage = () => {
     signal: "VerifyHuman" // Should be address of recoverer
   });
 
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const result = await worldID.enable();
-  //       console.log("World ID verified successfully:", result);
-  //     } catch (failure) {
-  //       console.warn("World ID verification failed:", failure);
-  //       // Re-activate here so your end user can try again
-  //     }
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      try {
+        const result = await worldID.enable();
+        console.log("World ID verified successfully:", result);
+      } catch (failure) {
+        console.warn("World ID verification failed:", failure);
+        // Re-activate here so your end user can try again
+      }
+    })();
+  }, []);
   const [isRecovering, setIsRecovering] = useState(false);
 
   async function onRecoverClick(ncurrentAddress:string) {
@@ -39,7 +39,6 @@ const PersonalRecovery: NextPage = () => {
         gap={8}
         mb={8}
         w="full"
-        
         >
       <SimpleGrid columns={1} justifyItems='center'>
         <Heading fontSize='4xl' mb={4} >Personal Key Recovery</Heading>
