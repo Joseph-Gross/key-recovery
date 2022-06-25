@@ -5,36 +5,26 @@ import {
   Divider,
   Flex,
   FormControl,
+    FormErrorMessage,
   IconButton,
   Input,
   Heading,
   Text,
   Button,
+  FormLabel,
 } from "@chakra-ui/react";
 
-import { constants } from "ethers";
-import { useEffect } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { constants, ethers } from "ethers";
 import { IoMdAdd, IoMdRemove } from "react-icons/io";
+import {useAuthorizationForm} from "../hooks/useAuthorizationForm";
 
-export function RecipientForm() {
-  const { register, control } = useForm();
-  const { fields, append, remove } = useFieldArray({
-    name: "guardians",
-    control,
-  });
-  useEffect(() => {
-    if (fields.length === 0) {
-      append({ address: "", label: "" }, { shouldFocus: false });
-    }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+export function AuthorizationForm() {
+  const {register, onSubmit, fields, append, remove, getFieldState, formState} = useAuthorizationForm();
 
   return (
     <>
-      <Divider />
-      <Flex px={{ base: 6, md: 10 }} as="section" direction="column" gap={4}>
+      <Flex px={{ base: 6, md: 10 }} direction="column" gap={4}>
         <Flex direction="column">
           <Heading size="title.md">Guardian List</Heading>
           <Text size="body.md" fontStyle="italic">
@@ -42,7 +32,7 @@ export function RecipientForm() {
           </Text>
         </Flex>
 
-        <Flex direction="column" gap={2}>
+        <Flex direction="column" gap={4}>
           {fields.map((field, index) => {
             return (
               <Flex
@@ -50,28 +40,38 @@ export function RecipientForm() {
                 gap={2}
                 direction={{ base: "column", md: "row" }}
               >
-                <FormControl isInvalid={false}>
+                <FormControl isInvalid={!!getFieldState(`guardians.${index}.address`, formState).error}>
+                  <FormLabel>Address {index+1}</FormLabel>
                   <Input
                     variant="filled"
                     placeholder={constants.AddressZero}
-                    {...register(`recipients.${index}.address`)}
+                    {...register(`guardians.${index}.address`, {validate: (address) => ethers.utils.isAddress(address)})}
+                  />
+                  <FormErrorMessage>{
+                    getFieldState(`guardians.${index}.address`, formState)
+                        .error && "Invalid Address"
+                  }</FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={false}>
+                  <FormLabel>Label {index+1}</FormLabel>
+                  <Input
+                      variant="filled"
+                      placeholder="John Smith"
+                      {...register(`guardians.${index}.label`)}
                   />
                 </FormControl>
                 <FormControl isInvalid={false}>
-                  <Input
-                    variant="filled"
-                    placeholder={constants.AddressZero}
-                    {...register(`recipients.${index}.address`)}
+                  <FormLabel>Remove</FormLabel>
+                  <IconButton
+                      borderRadius="md"
+                      isDisabled={index === 0}
+                      colorScheme="red"
+                      icon={<IoMdRemove />}
+                      aria-label="remove row"
+                      onClick={() => remove(index)}
                   />
                 </FormControl>
-                <IconButton
-                  borderRadius="md"
-                  isDisabled={index === 0}
-                  colorScheme="red"
-                  icon={<IoMdRemove />}
-                  aria-label="remove row"
-                  onClick={() => remove(index)}
-                />
+
               </Flex>
             );
           })}
@@ -86,6 +86,8 @@ export function RecipientForm() {
             Add Guardian
           </Button>
         </Flex>
+
+        <Button onClick={onSubmit}>Submit</Button>
       </Flex>
     </>
   );
