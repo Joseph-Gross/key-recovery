@@ -5,14 +5,14 @@ import {
   Divider,
   Flex,
   FormControl,
-    FormErrorMessage,
+  FormErrorMessage,
   IconButton,
   Input,
   Heading,
   Text,
   Button,
   FormLabel,
-  Textarea,
+  Textarea, Box, Stack, HStack
 } from "@chakra-ui/react";
 
 import { constants, ethers } from "ethers";
@@ -43,7 +43,7 @@ export function AuthorizationForm() {
 
   return (
     <>
-      <Flex px={{ base: 6, md: 10 }} direction="column" gap={4}>
+      <Flex px={{ base: 6, md: 10 }} direction="column" gap={8}>
         <Flex direction="column">
           <Heading size="title.md">Guardian List</Heading>
           <Text size="body.md" fontStyle="italic">
@@ -54,13 +54,12 @@ export function AuthorizationForm() {
         <Flex direction="column" gap={4}>
           {fields.map((field, index) => {
             return (
-              <Flex
+              <HStack
                 key={field.id}
-                gap={2}
+                spacing={3}
                 direction={{ base: "column", md: "row" }}
               >
                 <FormControl isInvalid={!!getFieldState(`guardians.${index}.address`, formState).error}>
-                  <FormLabel>Address {index+1}</FormLabel>
                   <Input
                     variant="filled"
                     placeholder={constants.AddressZero}
@@ -71,17 +70,15 @@ export function AuthorizationForm() {
                         .error && "Invalid Address"
                   }</FormErrorMessage>
                 </FormControl>
-                <FormControl isInvalid={false}>
-                  <FormLabel>Label {index+1}</FormLabel>
+                <FormControl>
                   <Input
                       variant="filled"
                       placeholder="John Smith"
                       {...register(`guardians.${index}.label`)}
                   />
                 </FormControl>
-                <FormControl isInvalid={false}>
-                  <FormLabel>Remove</FormLabel>
-                  <IconButton
+
+                <IconButton
                       borderRadius="md"
                       isDisabled={index === 0}
                       colorScheme="red"
@@ -89,9 +86,9 @@ export function AuthorizationForm() {
                       aria-label="remove row"
                       onClick={() => remove(index)}
                   />
-                </FormControl>
 
-              </Flex>
+
+              </HStack>
             );
           })}
         </Flex>
