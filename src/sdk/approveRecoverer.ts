@@ -1,5 +1,5 @@
 import { Signer } from "ethers";
 
-export async function initializeFriends(signer, friendAddresses, friendLabels) {
+export async function approveRecoverer(lostWalletAddress: string, newWalletAddress: string, friendSignatures: Array<string>) {
 
 }
