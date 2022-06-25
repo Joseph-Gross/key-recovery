@@ -3,8 +3,10 @@ import { KEYKOVERY_CONTRACT_ADDRESS } from "./constants";
 
 import * as litUtils from "./litUtils";
 import * as tatumUtils from "./tatumUtils";
+import { CHAIN_STRING } from "./constants";
 
 import { PrivyClient } from "@privy-io/privy-browser";
+
 // import {encryptString, generateAccessControlConditions, getAuthSig, litNodeClient, saveEncryptionKey} from "./litUtils";
 
 export interface Guardian {
@@ -25,9 +27,13 @@ export async function submitGuardians(
 
   console.log("Connecting lit client...");
   await litUtils.litNodeClient.connect();
+  
   console.log("Getting authSig...");
-  let authSig = await litUtils.getAuthSig("mumbai");
+
+  let authSig = await litUtils.getAuthSig(CHAIN_STRING);
+
   console.log("Encrypting...");
+
   let { encryptedString, symmetricKey } = await litUtils.encryptString(
     privateKey
   );
@@ -38,18 +44,19 @@ export async function submitGuardians(
     litUtils.generateAccessControlConditions(
       signerAddress,
       KEYKOVERY_CONTRACT_ADDRESS,
-      "mumbai"
     ),
     symmetricKey,
-    authSig,
-    "mumbai"
+    authSig
   );
 
-  const encryptedKeyCid = await tatumUtils.uploadToIPFS(encryptedSymmetricKey);
+  const encryptedSymmKeyCid = await tatumUtils.uploadToIPFS(encryptedSymmetricKey);
+  const encryptedPrivateKeyCid = await tatumUtils.uploadToIPFS(encryptedString);
+
   const serializedGuardians = JSON.stringify(guardians);
 
   await privyClient.put(signerAddress, [
-    { field: "encrypted-key-cid", value: encryptedKeyCid },
+    { field: "encrypted-symm-key-cid", value: encryptedSymmKeyCid },
+    { field: "encrypted-private-key-cid", value: encryptedPrivateKeyCid },
     { field: "authorized-guardians-json", value: serializedGuardians },
   ]);
 }

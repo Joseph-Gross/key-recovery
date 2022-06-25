@@ -15,6 +15,7 @@ export async function getAuthSig(): Promise<any> {
   const authSig = await LitJsSdk.checkAndSignAuthMessage({
     chain: CHAIN_STRING,
   });
+  return authSig;
 }
 
 export async function encryptString(s: string): Promise<any> {
@@ -31,21 +32,27 @@ export async function decryptString(
 export async function saveEncryptionKey(
   accessControlConditions: any,
   symmetricKey: Uint8Array,
-  authSig: any,
+  authSig: any
 ): Promise<Uint8Array> {
   // Returns the symmetric key that has been encrypted with the Lit network public key.
+  console.log({
+    accessControlConditions,
+    symmetricKey,
+    authSig,
+    chain: CHAIN_STRING,
+  });
   return await litNodeClient.saveEncryptionKey({
     accessControlConditions,
     symmetricKey,
     authSig,
-    CHAIN_STRING,
+    chain: CHAIN_STRING,
   });
 }
 
 export async function getEncryptionKey(
   accessControlConditions: any,
   encryptedSymmetricKey: Uint8Array,
-  authSig: any,
+  authSig: any
 ): Promise<Uint8Array> {
   return await litNodeClient.getEncryptionKey({
     accessControlConditions,
@@ -89,7 +96,7 @@ export function generateAccessControlConditions(
         stateMutability: "view",
         type: "function",
       },
-      CHAIN_STRING,
+      chain: CHAIN_STRING,
       returnValueTest: {
         comparator: "=",
         value: "true",
