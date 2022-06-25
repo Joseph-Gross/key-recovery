@@ -13,27 +13,15 @@ import {
 } from "@chakra-ui/react";
 
 import { constants } from "ethers";
-import { useEffect } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
 import { IoMdAdd, IoMdRemove } from "react-icons/io";
+import {useAuthorizationForm} from "../hooks/useAuthorizationForm";
 
-export function RecipientForm() {
-  const { register, control } = useForm();
-  const { fields, append, remove } = useFieldArray({
-    name: "guardians",
-    control,
-  });
-  useEffect(() => {
-    if (fields.length === 0) {
-      append({ address: "", label: "" }, { shouldFocus: false });
-    }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+export function AuthorizationForm() {
+  const {register, onSubmit, fields, append, remove} = useAuthorizationForm();
 
   return (
     <>
-      <Divider />
       <Flex px={{ base: 6, md: 10 }} as="section" direction="column" gap={4}>
         <Flex direction="column">
           <Heading size="title.md">Guardian List</Heading>
@@ -54,14 +42,14 @@ export function RecipientForm() {
                   <Input
                     variant="filled"
                     placeholder={constants.AddressZero}
-                    {...register(`recipients.${index}.address`)}
+                    {...register(`guardians.${index}.address`)}
                   />
                 </FormControl>
                 <FormControl isInvalid={false}>
                   <Input
                     variant="filled"
                     placeholder={constants.AddressZero}
-                    {...register(`recipients.${index}.address`)}
+                    {...register(`guardians.${index}.label`)}
                   />
                 </FormControl>
                 <IconButton
@@ -86,6 +74,8 @@ export function RecipientForm() {
             Add Guardian
           </Button>
         </Flex>
+
+        <Button onClick={onSubmit}>Submit</Button>
       </Flex>
     </>
   );
