@@ -10,9 +10,9 @@ const  epnsSdk = new EpnsSDK(CHANNEL_PK);
 export async function sendSignatureToAddress(recipientAddress: string, signature: string): Promise<any> {
   const tx = await epnsSdk.sendNotification(
     recipient,
-    "Signature",
+    "",
     signature,
-    "Signature",
+    "",
     signature,
     3,
     null,

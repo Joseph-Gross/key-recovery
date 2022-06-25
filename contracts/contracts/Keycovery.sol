@@ -15,7 +15,7 @@ contract Keycovery {
   /**
    * Number of friends an account has.
    */
-  mapping (address => uint256) private friendCount;
+  mapping (address => uint256) public friendCount;
 
   /**
    * Mapping from an account address to it's approved recoverer address
@@ -44,6 +44,8 @@ contract Keycovery {
     require(!isPaused); 
     _; 
   }
+    
+  event InitializedFriends(address[] friends);
   
   /**
    * Initialize an account (msg.sender) with an array of friends
@@ -54,6 +56,8 @@ contract Keycovery {
     }
 
     friendCount[msg.sender] = friendArray.length;
+
+    emit InitializedFriends(friendArray);
   }
   
   /**
