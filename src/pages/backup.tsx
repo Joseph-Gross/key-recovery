@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Container, Text, Stack } from "@chakra-ui/react";
 import {useBackup} from "../hooks/useBackUp";
 import {AuthorizationTable} from "../components/AuthorizationTable";
 import {AuthorizationForm} from "../components/AuthorizationForm";
@@ -17,20 +17,21 @@ const AuthorizationList: NextPage = () => {
     console.log()
 
     return (
-        <Box
-            display={{ md: "flex" }}
-            alignItems="center"
-            minHeight="70vh"
-            gap={8}
-            mb={8}
-            w="full"
-        >
+        <Container maxW={"3xl"}>
+            <Stack
+                as={Box}
+                textAlign={"center"}
+                spacing={{ base: 8, md: 14 }}
+                py={{ base: 20, md: 25 }}
+            >
+
             {data?.address ?
 
             <>{isBackedUp ? <AuthorizationTable/> : <AuthorizationForm/>}</> : <NoWallet/>
 
             }
-        </Box>
+            </Stack>
+        </Container>
     );
 };
 
