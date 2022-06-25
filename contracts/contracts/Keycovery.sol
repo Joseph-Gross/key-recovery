@@ -106,7 +106,7 @@ contract Keycovery {
    * Returns true on success, false otherwise.
    */
   function approveRecoverer(address lost, address recoverer, uint256 nonce, bytes[] calldata signatures) external notPaused returns (bool) {
-    require(isVerified[recoverer]);
+    // require(isVerified[recoverer]);
     require(nonce == recoveryNonce[lost]);
     require(friendCount[lost] == signatures.length);
 

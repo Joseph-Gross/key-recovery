@@ -42,7 +42,7 @@ export function FriendRecoveryForm() {
       <HStack spacing={5}>
         <Text fontSize="xl" mr={4}>
           {" "}
-          Old Address:{" "}
+          Lost Address:{" "}
         </Text>
         <FormControl isInvalid={false}>
           <Input
@@ -57,7 +57,7 @@ export function FriendRecoveryForm() {
       <HStack>
         <Text fontSize="xl" mr={4}>
           {" "}
-          New Address:{" "}
+          Recoverer Address:{" "}
         </Text>
         <FormControl isInvalid={false}>
           <Input
