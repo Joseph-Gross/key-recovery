@@ -14,6 +14,7 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@epnsproject/backend-sdk": "^2.0.0",
+    "@epnsproject/backend-sdk-staging": "^2.0.3",
     "@epnsproject/frontend-sdk": "^1.5.2",
     "@epnsproject/frontend-sdk-staging": "^1.8.5",
     "@privy-io/privy-browser": "^0.0.1",

@@ -1,11 +1,11 @@
 
 // @ts-ignore
-import { EmbedSDK }  from "@epnsproject/frontend-sdk";
+import { EmbedSDK }  from "@epnsproject/frontend-sdk-staging";
 
 // @ts-ignore
 import EpnsSDK from "@epnsproject/backend-sdk-staging";
 // @ts-ignore
-import { api, utils } from "@epnsproject/frontend-sdk";
+import { api, utils } from "@epnsproject/frontend-sdk-staging";
 import {useEffect} from "react";
 
 const CHANNEL_PK = "c9731b722aa9b3b0a4ac2badb57965615d5dbe569e701237e00eef4a8b98ffa3";
