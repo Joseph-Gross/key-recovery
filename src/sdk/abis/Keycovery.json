@@ -3,5 +3,6 @@
   "function recoveryNonce(address) external view returns (uint256)",
   "function initializeWalletFriends(address[] memory friendArray) external",
   "function isAuthorizedRecoverer(address lost, address recoverer) external view returns (bool)",
-  "function approveRecoverer(address lost, address recoverer, uint256 nonce, bytes[] calldata signatures) external returns (bool)"
+  "function approveRecoverer(address lost, address recoverer, uint256 nonce, bytes[] calldata signatures) external returns (bool)",
+  "function verify(address recoverer, uint256 root, uint256 nullifierHash, uint256[8] calldata proof) public payable"
 ]

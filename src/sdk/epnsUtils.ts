@@ -59,6 +59,7 @@ export async function sendSignatureToAddress(
     undefined,
     undefined
   );
+  return tx;
 }
 
 // use this to fetch notifications for a receiver of the signatures.
