@@ -45,7 +45,7 @@ export async function saveEncryptionKey(
 export async function getEncryptionKey(
   accessControlConditions: any,
   encryptedSymmetricKey: Uint8Array,
-  authSig: any,
+  authSig: any
 ): Promise<Uint8Array> {
   return await litNodeClient.getEncryptionKey({
     accessControlConditions,
