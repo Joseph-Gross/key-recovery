@@ -8,6 +8,11 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+ },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.2",
     "@chakra-ui/react": "^2.2.1",
@@ -30,6 +35,7 @@
     "react-hook-form": "^7.33.0",
     "react-icons": "^4.4.0",
     "siwe": "^1.1.6",
+    "styled-components": "^5.3.5",
     "wagmi": "^0.4.12"
   },
   "devDependencies": {

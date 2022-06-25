@@ -33,8 +33,8 @@ export function Hero() {
                         </Text>
                     </Heading>
                     <Text color={'gray.500'}>
-                        Never lose access to your blockchain account again. Social recovery method for
-                        any EVM compatible chain. Implemented using advanced cryptography and threshold signatures.
+                        Never lose access to your wallet again. Social recovery method for
+                        any EVM compatible chain. Implemented using threshold cryptography, IPFS, and EPNS.
                     </Text>
 
                     <Stack
@@ -53,7 +53,7 @@ export function Hero() {
                                     _hover={{
                                         bg: 'green.500',
                                     }}>
-                                    Back Up
+                                    Back Up My Wallet
                                 </Button>
                             </Link>
                             <Link href="/personalRecovery">
@@ -65,7 +65,7 @@ export function Hero() {
                                 _hover={{
                                     bg: 'green.500',
                                 }}>
-                                Recover Personal
+                                Recover My Wallet
                             </Button>
                             </Link>
                             <Link href="/friendRecovery">
@@ -77,7 +77,7 @@ export function Hero() {
                                 _hover={{
                                     bg: 'green.500',
                                 }}>
-                                Recover Friend
+                                Recover a Friend's Wallet
                             </Button>
                             </Link>
                         </HStack>

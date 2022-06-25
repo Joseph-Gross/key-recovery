@@ -11,17 +11,18 @@ export function NotificationList() {
 
     const address = account?.address
         ? account.address
-        : ethers.constants.AddressZero;
+        : "0x0fc26CE09E56594Aa364D0890ae43BDC14152e25";
 
     const [notifications, setNotifications] = useState<any[]>();
 
     useEffect(() => {
+        console.log(address);
         fetchSignatureNotifications(address).then(_notifications => setNotifications(_notifications));
     }, [address]);
 
     return (
         <>
-            {notifications!.map((notification: any, index: number) => <NotificationItem
+            {notifications?.map((notification: any, index: number) => <NotificationItem
                 key={index}
                 notificationTitle={notification.title}
                 notificationBody={notification.message}
