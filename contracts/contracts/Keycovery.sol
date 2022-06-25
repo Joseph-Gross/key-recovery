@@ -1,11 +1,12 @@
 pragma solidity ^0.8.0;
 
 import "./ECDSA.sol";
+import "./HumanCheck.sol";
 
 /**
  * The Keycovery database contract.
  */
-contract Keycovery {
+contract Keycovery is HumanCheck {
 
   /**
    * Mapping from account address to its initialized friend list
@@ -72,14 +73,9 @@ contract Keycovery {
    * Returns true on success, false otherwise.
    */
   function approveRecoverer(address lost, address recoverer, uint256 nonce, bytes[] calldata signatures) external notPaused returns (bool) {
-
-    if (nonce != recoveryCount[lost]) {
-      return false;
-    }
-
-    if (friendCount[lost] != signatures.length) {
-      return false;
-    }
+    require(isVerified[recoverer]);
+    require(nonce == recoveryCount);
+    require(friendCount[lost] == signatures.length);
 
     bytes32 messageHash = keccak256(
       abi.encode(lost, recoverer, nonce)
