@@ -1,4 +1,6 @@
-export function generateAccessControlConditions(keycoveryContractAddress, lostWalletAddress, chain) {
+
+
+export function generateAccessControlConditions(keycoveryContractAddress: string, lostWalletAddress: string, chain: string) {
   return [
     {
       conditionType: "evmContract",
