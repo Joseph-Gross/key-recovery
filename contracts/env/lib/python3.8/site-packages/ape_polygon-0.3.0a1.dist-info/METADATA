@@ -1,0 +1,118 @@
+Metadata-Version: 2.1
+Name: ape-polygon
+Version: 0.3.0a1
+Summary: ape-polygon: Ape Ecosystem Plugin for Polygon
+Home-page: https://github.com/ApeWorX/ape-polygon
+Author: ApeWorX Ltd.
+Author-email: admin@apeworx.io
+License: Apache-2.0
+Keywords: ethereum
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Natural Language :: English
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: POSIX
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Requires-Python: >=3.7.2,<3.11
+Description-Content-Type: text/markdown
+Requires-Dist: eth-ape (<0.4.0,>=0.3.0)
+Requires-Dist: importlib-metadata ; python_version < "3.8"
+Provides-Extra: dev
+Requires-Dist: pytest (<7.0,>=6.0) ; extra == 'dev'
+Requires-Dist: pytest-xdist ; extra == 'dev'
+Requires-Dist: pytest-cov ; extra == 'dev'
+Requires-Dist: hypothesis (<7.0,>=6.2.0) ; extra == 'dev'
+Requires-Dist: black (<23.0,>=22.3.0) ; extra == 'dev'
+Requires-Dist: mypy (<1.0,>=0.910) ; extra == 'dev'
+Requires-Dist: flake8 (<4.0,>=3.8.3) ; extra == 'dev'
+Requires-Dist: isort (<6.0,>=5.10.1) ; extra == 'dev'
+Requires-Dist: setuptools ; extra == 'dev'
+Requires-Dist: wheel ; extra == 'dev'
+Requires-Dist: twine ; extra == 'dev'
+Requires-Dist: commitizen ; extra == 'dev'
+Requires-Dist: pre-commit ; extra == 'dev'
+Requires-Dist: pytest-watch ; extra == 'dev'
+Requires-Dist: IPython ; extra == 'dev'
+Requires-Dist: ipdb ; extra == 'dev'
+Provides-Extra: lint
+Requires-Dist: black (<23.0,>=22.3.0) ; extra == 'lint'
+Requires-Dist: mypy (<1.0,>=0.910) ; extra == 'lint'
+Requires-Dist: flake8 (<4.0,>=3.8.3) ; extra == 'lint'
+Requires-Dist: isort (<6.0,>=5.10.1) ; extra == 'lint'
+Provides-Extra: release
+Requires-Dist: setuptools ; extra == 'release'
+Requires-Dist: wheel ; extra == 'release'
+Requires-Dist: twine ; extra == 'release'
+Provides-Extra: test
+Requires-Dist: pytest (<7.0,>=6.0) ; extra == 'test'
+Requires-Dist: pytest-xdist ; extra == 'test'
+Requires-Dist: pytest-cov ; extra == 'test'
+Requires-Dist: hypothesis (<7.0,>=6.2.0) ; extra == 'test'
+
+# Ape Polygon Ecosystem Plugin
+
+Ecosystem Plugin for Polygon support in Ape
+
+## Dependencies
+
+* [python3](https://www.python.org/downloads) version 3.7 or greater, python3-dev
+
+## Installation
+
+### via `ape`
+
+You can install this plugin using `ape`:
+
+```bash
+ape plugins install polygon
+```
+
+or via config file:
+
+```yaml
+# ape-config.yaml
+plugins:
+  - name: polygon
+```
+
+### via `pip`
+
+You can install the latest release via [`pip`](https://pypi.org/project/pip/):
+
+```bash
+pip install ape-polygon
+```
+
+### via `setuptools`
+
+You can clone the repository and use [`setuptools`](https://github.com/pypa/setuptools) for the most up-to-date version:
+
+```bash
+git clone https://github.com/ApeWorX/ape-polygon.git
+cd ape-polygon
+python3 setup.py install
+```
+
+## Quick Usage
+
+Installing this plugin adds support for the Polygon ecosystem:
+
+```bash
+ape console --network polygon:opera
+```
+
+## Development
+
+Comments, questions, criticisms and pull requests are welcomed.
+
+## License
+
+This project is licensed under the [Apache 2.0](LICENSE).
+
+

@@ -1,5 +1,1 @@
 name: Keycovery
-ethereum:
-  default_network: mainnet-fork
-  mainnet_fork:
-    default_provider: hardhat
