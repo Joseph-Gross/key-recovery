@@ -12,14 +12,16 @@ const PersonalRecovery: NextPage = () => {
   });
 
   useEffect(() => {
-    try {
-      const result = await worldID.enable();
-      console.log("World ID verified successfully:", result);
-    } catch (failure) {
-      console.warn("World ID verification failed:", failure);
-      // Re-activate here so your end user can try again
-    }
-  });
+    (async () => {
+      try {
+        const result = await worldID.enable();
+        console.log("World ID verified successfully:", result);
+      } catch (failure) {
+        console.warn("World ID verification failed:", failure);
+        // Re-activate here so your end user can try again
+      }
+    })();
+  }, []);
 
   return (
     <VStack
