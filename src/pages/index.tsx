@@ -5,11 +5,7 @@ import { Hero } from "../components/Hero";
 import { NotificationList } from "../components/NotificationList";
 
 const Landing: NextPage = () => {
-  return (
-    <Hero/>
-  );
+  return <Hero />;
 };
 
 export default Landing;
-
-

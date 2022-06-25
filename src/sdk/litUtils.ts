@@ -50,7 +50,11 @@ export async function getEncryptionKey(
   });
 }
 
-export function generateAccessControlConditions(keycoveryContractAddress: string, lostWalletAddress: string, chain: string) {
+export function generateAccessControlConditions(
+  keycoveryContractAddress: string,
+  lostWalletAddress: string,
+  chain: string
+) {
   return [
     {
       conditionType: "evmContract",
@@ -67,8 +71,8 @@ export function generateAccessControlConditions(keycoveryContractAddress: string
           {
             internalType: "address",
             name: "recoverer",
-            type: "address"
-          }
+            type: "address",
+          },
         ],
         name: "verify",
         outputs: [
@@ -86,6 +90,6 @@ export function generateAccessControlConditions(keycoveryContractAddress: string
         comparator: "=",
         value: "true",
       },
-    }
+    },
   ];
 }
