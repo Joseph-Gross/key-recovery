@@ -13,6 +13,7 @@ import {
   Grid,
   GridItem,
   SimpleGrid,
+  Input
 } from "@chakra-ui/react";
 import { NotificationList } from "../components/NotificationList";
 import { approveRecoverer } from "../sdk/approveRecoverer";
@@ -29,6 +30,8 @@ import {
 } from "../sdk/litUtils";
 import { KEYKOVERY_CONTRACT_ADDRESS } from "../sdk/constants";
 import { PrivyClient } from "@privy-io/privy-browser";
+import { useAccount, useSigner } from "wagmi";
+import { usePrivySession } from "../components/PrivySession";
 
 const PersonalRecovery: NextPage = () => {
   /*
@@ -51,6 +54,8 @@ const PersonalRecovery: NextPage = () => {
   }, []);
   */
 
+  const privySession = usePrivySession();
+  const privyClient = privySession.privy;
   const [isRecovering, setIsRecovering] = useState(false);
 
   async function onRecoverClick(
@@ -122,6 +127,12 @@ const PersonalRecovery: NextPage = () => {
     }
   }
 
+  const [oldAddress, setOldAddress] = useState('');
+  const { data: signer } = useSigner();
+  const { data: account} = useAccount();
+
+  const currentAddress = account?.address;
+
   // TO-DO: Set breakpoints for text
   return (
     <Box
@@ -132,7 +143,7 @@ const PersonalRecovery: NextPage = () => {
       mb={8}
       w="full"
     >
-      <SimpleGrid columns={1} justifyItems="center">
+      <SimpleGrid columns={2} justifyItems="center">
         <Heading fontSize="4xl" mb={4}>
           Personal Key Recovery
         </Heading>
@@ -165,13 +176,14 @@ const PersonalRecovery: NextPage = () => {
             justifySelf="center"
           >
             <Button
-              onClick={() => onRecoverClick("currentAddress")}
+              onClick={() => onRecoverClick(signer!, currentAddress!, oldAddress, privyClient)}
               isLoading={isRecovering}
             >
               Recover Key
             </Button>
           </GridItem>
         </Grid>
+        <Input variant='filled' onChange={(e) => setOldAddress(e.target.value)}/>
       </SimpleGrid>
     </Box>
   );
