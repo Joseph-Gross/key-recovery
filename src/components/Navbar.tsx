@@ -16,6 +16,7 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
+// import { Link as ReachLink } from "@reach/router"
 // import Link from "next/link";
 
 import ConnectAccount from "./ConnectAccount";
@@ -95,13 +96,13 @@ export default function Navbar() {
                 />
               </VStack>
             </Box>
-            <Link href="/" title="wed3.0" display="flex" alignItems="center">
+            <Link href="/" style={{ textDecoration: 'none' }}>
               {/* <Logo /> */}
               <VisuallyHidden>KeyKovery</VisuallyHidden>
+              <Heading as="h1" fontWeight="semibold" fontSize="2xl">
+                KeyKovery
+              </Heading>
             </Link>
-            <Heading as="h1" fontWeight="semibold" fontSize="2xl">
-              KeyKovery
-            </Heading>
           </HStack>
           <HStack spacing={3} display="flex" alignItems="center">
             <HStack spacing={3} display={{ base: "none", md: "inline-flex" }}>
