@@ -27,9 +27,13 @@ export async function submitGuardians(
 
   console.log("Connecting lit client...");
   await litUtils.litNodeClient.connect();
+  
   console.log("Getting authSig...");
+
   let authSig = await litUtils.getAuthSig(CHAIN_STRING);
+
   console.log("Encrypting...");
+
   let { encryptedString, symmetricKey } = await litUtils.encryptString(
     privateKey
   );
@@ -42,7 +46,7 @@ export async function submitGuardians(
       KEYKOVERY_CONTRACT_ADDRESS,
     ),
     symmetricKey,
-    authSig,
+    authSig
   );
 
   const encryptedSymmKeyCid = await tatumUtils.uploadToIPFS(encryptedSymmetricKey);
