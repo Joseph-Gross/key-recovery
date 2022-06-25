@@ -1,17 +1,24 @@
 import type { NextPage } from "next";
 import { constants } from "ethers";
-import { Box, Flex, Heading, Text, Grid, Button, useDisclosure, SimpleGrid, GridItem, FormControl, FormLabel, Input, IconButton } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text, Grid, Button, useDisclosure, SimpleGrid, GridItem, FormControl, FormLabel, Input, IconButton, Spinner } from "@chakra-ui/react";
 import { useState } from "react";
 import { signRecoveryMessage } from "../sdk/signRecoveryMessage";
+import { sendSignatureToAddress } from "../sdk/epnsUtils";
 
-function onSendSignClick(oldAddress:string, newAddress:string): void {
-    // plug in SDK
-    signRecoveryMessage(null, oldAddress, newAddress, null)
-}
+
 
 const FriendRecovery: NextPage = () => {
     const [oldAddress, setOldAddress] = useState('');
     const [newAddress, setNewAddress] = useState('');
+    const [isSending, setIsSending] = useState(false);
+
+    async function onSendSignClick(oldAddress:string, newAddress:string) {
+        setIsSending(true);
+        // plug in SDK
+        const message = await signRecoveryMessage(null, oldAddress, newAddress, null);
+        const message2 = await sendSignatureToAddress(newAddress, message);
+        setIsSending(false);
+    }
 
     return (
         <Box
@@ -38,7 +45,7 @@ const FriendRecovery: NextPage = () => {
                         <Input id='newAddress' onChange={a => setNewAddress(a.target.value)} variant='outline' placeholder={constants.AddressZero}/>
                     </GridItem>
                 </SimpleGrid>
-                <Button onClick={()=>onSendSignClick(oldAddress, newAddress)}>Sign and Send</Button>
+                <Button onClick={()=>onSendSignClick(oldAddress, newAddress)} isLoading={isSending}>Sign and Send</Button>
 
             </Flex>
         </Box>
