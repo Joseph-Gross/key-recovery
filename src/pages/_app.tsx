@@ -14,7 +14,8 @@ import {
   WagmiConfig,
   createClient,
   defaultChains,
-  configureChains, useProvider,
+  configureChains,
+  useProvider,
 } from "wagmi";
 
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -26,7 +27,7 @@ import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import {usePrivySession} from "../components/PrivySession";
+import { usePrivySession } from "../components/PrivySession";
 
 declare global {
   interface Window {
@@ -80,7 +81,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
     function onSuccess() {
       setInitialized(true);
-      console.log("Privy Session Initialized")
+      console.log("Privy Session Initialized");
     }
 
     function onFailure(error: Error) {

@@ -12,33 +12,48 @@ import {
   Text,
   Button,
   FormLabel,
-  Textarea, Box, Stack, HStack
+  Textarea,
+  Box,
+  Stack,
+  HStack,
 } from "@chakra-ui/react";
 
 import { constants, ethers } from "ethers";
 import { IoMdAdd, IoMdRemove } from "react-icons/io";
-import {AuthorizationFormValues, useAuthorizationForm} from "../hooks/useAuthorizationForm";
-import {useState} from "react";
+import {
+  AuthorizationFormValues,
+  useAuthorizationForm,
+} from "../hooks/useAuthorizationForm";
+import { useState } from "react";
 // import * as litUtils from "../sdk/litUtils"
 import * as tatumUtils from "../sdk/tatumUtils";
-import {usePrivySession} from "./PrivySession";
-import {useSubmitGuardians} from "../hooks/useSubmitGuardians";
-
+import { usePrivySession } from "./PrivySession";
+import { useSubmitGuardians } from "../hooks/useSubmitGuardians";
 
 export function AuthorizationForm() {
-  const {register, handleSubmit, fields, append, remove, getFieldState, formState} = useAuthorizationForm();
-  const [privateKey, setPrivateKey] = useState<string>('')
+  const {
+    register,
+    handleSubmit,
+    fields,
+    append,
+    remove,
+    getFieldState,
+    formState,
+  } = useAuthorizationForm();
+  const [privateKey, setPrivateKey] = useState<string>("");
 
-  const {isSubmitLoading, onSubmit} = useSubmitGuardians(privateKey)
+  const { isSubmitLoading, onSubmit } = useSubmitGuardians(privateKey);
 
-  const handleInputChange = (e: { target: { value: any; }; }) => {
-    let inputValue = e.target.value
-    setPrivateKey(inputValue)
-  }
+  const handleInputChange = (e: { target: { value: any } }) => {
+    let inputValue = e.target.value;
+    setPrivateKey(inputValue);
+  };
 
   function submitForm(data: AuthorizationFormValues) {
-    console.log("Encrypting private key, uploading to IPFS, adding authorized guardians, etc.");
-    onSubmit(data.guardians).then(r => console.log("Form Submitted"));
+    console.log(
+      "Encrypting private key, uploading to IPFS, adding authorized guardians, etc."
+    );
+    onSubmit(data.guardians).then((r) => console.log("Form Submitted"));
   }
 
   return (
@@ -59,35 +74,40 @@ export function AuthorizationForm() {
                 spacing={3}
                 direction={{ base: "column", md: "row" }}
               >
-                <FormControl isInvalid={!!getFieldState(`guardians.${index}.address`, formState).error}>
+                <FormControl
+                  isInvalid={
+                    !!getFieldState(`guardians.${index}.address`, formState)
+                      .error
+                  }
+                >
                   <Input
                     variant="filled"
                     placeholder={constants.AddressZero}
-                    {...register(`guardians.${index}.address`, {validate: (address) => ethers.utils.isAddress(address)})}
+                    {...register(`guardians.${index}.address`, {
+                      validate: (address) => ethers.utils.isAddress(address),
+                    })}
                   />
-                  <FormErrorMessage>{
-                    getFieldState(`guardians.${index}.address`, formState)
-                        .error && "Invalid Address"
-                  }</FormErrorMessage>
+                  <FormErrorMessage>
+                    {getFieldState(`guardians.${index}.address`, formState)
+                      .error && "Invalid Address"}
+                  </FormErrorMessage>
                 </FormControl>
                 <FormControl>
                   <Input
-                      variant="filled"
-                      placeholder="John Smith"
-                      {...register(`guardians.${index}.label`)}
+                    variant="filled"
+                    placeholder="John Smith"
+                    {...register(`guardians.${index}.label`)}
                   />
                 </FormControl>
 
                 <IconButton
-                      borderRadius="md"
-                      isDisabled={index === 0}
-                      colorScheme="red"
-                      icon={<IoMdRemove />}
-                      aria-label="remove row"
-                      onClick={() => remove(index)}
-                  />
-
-
+                  borderRadius="md"
+                  isDisabled={index === 0}
+                  colorScheme="red"
+                  icon={<IoMdRemove />}
+                  aria-label="remove row"
+                  onClick={() => remove(index)}
+                />
               </HStack>
             );
           })}
@@ -106,14 +126,16 @@ export function AuthorizationForm() {
         <FormControl isInvalid={false}>
           <FormLabel>Private Key</FormLabel>
           <Textarea
-              value={privateKey}
-              onChange={handleInputChange}
-              placeholder='Paste your private key or seed phrase to encrypt for social recovery'
-              size='sm'
+            value={privateKey}
+            onChange={handleInputChange}
+            placeholder="Paste your private key or seed phrase to encrypt for social recovery"
+            size="sm"
           />
         </FormControl>
 
-        <Button onClick={handleSubmit(submitForm)} isLoading={isSubmitLoading}>Submit</Button>
+        <Button onClick={handleSubmit(submitForm)} isLoading={isSubmitLoading}>
+          Submit
+        </Button>
       </Flex>
     </>
   );

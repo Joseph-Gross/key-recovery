@@ -1,11 +1,7 @@
-
 export interface AddressInputProps {
-    onSubmit: () => any;
-
+  onSubmit: () => any;
 }
 
 export function AddressInputProps() {
-    return (
-        <></>
-    );
+  return <></>;
 }

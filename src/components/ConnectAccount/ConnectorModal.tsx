@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 
 import { Connector, useConnect, useProvider } from "wagmi";
-import {usePrivySession} from "../PrivySession";
+import { usePrivySession } from "../PrivySession";
 
 type ConnectorModalProps = {
   isOpen: any;
@@ -36,7 +36,9 @@ export default function ConnectorModal({
 
   function handleConnectWallet(connector: Connector) {
     connect(connector);
-    privySession.authenticate().then(response => console.log("Authentication Completed"));
+    privySession
+      .authenticate()
+      .then((response) => console.log("Authentication Completed"));
     onClose();
   }
 

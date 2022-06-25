@@ -1,11 +1,9 @@
-import {Text} from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
 
 export function AuthorizationTable() {
-    return (
-        <>
-            <Text>
-                Authorization Table
-            </Text>
-        </>
-    );
+  return (
+    <>
+      <Text>Authorization Table</Text>
+    </>
+  );
 }

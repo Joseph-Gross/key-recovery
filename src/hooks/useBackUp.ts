@@ -1,9 +1,9 @@
-import {useState} from "react";
+import { useState } from "react";
 
 export interface UseBackupReturnValues {
-    isBackedUp: boolean;
+  isBackedUp: boolean;
 }
 
 export function useBackup(): UseBackupReturnValues {
-    return {isBackedUp: false};
+  return { isBackedUp: false };
 }
