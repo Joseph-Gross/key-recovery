@@ -1,11 +1,12 @@
-import LitJsSdk from "lit-js-sdk/build/index.node.js";
+// @ts-ignore
+import * as LitJsSdk from "lit-js-sdk";
 
 export const litNodeClient = new LitJsSdk.LitNodeClient({
   alertWhenUnauthorized: false,
 });
 
-export async function getAuthSig(chain): Promise<any> {
-  var authSig = await LitJsSdk.checkAndSignAuthMessage({
+export async function getAuthSig(chain: string): Promise<any> {
+  const authSig = await LitJsSdk.checkAndSignAuthMessage({
     chain: chain,
   });
 }
