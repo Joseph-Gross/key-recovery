@@ -11,6 +11,7 @@ import { getUserNonce } from "../sdk/getUserNonce";
 import { fetchFromIPFS } from "../sdk/tatumUtils";
 import { stringToUint8Array, getEncryptionKey, decryptString, generateAccessControlConditions, getAuthSig } from "../sdk/litUtils";
 import { KEYKOVERY_CONTRACT_ADDRESS } from "../sdk/constants";
+import { PrivyClient } from "@privy-io/privy-browser";
 
 const PersonalRecovery: NextPage = () => {
 
@@ -49,14 +50,14 @@ const PersonalRecovery: NextPage = () => {
         let recentSigs = signatureNotifs.slice(-friendCount);
         console.log(recentSigs);
         // approve recovery address
-        let tx = await approveRecoverer(signer, lostAddress, currentAddress, recentSigs.map((notif) => notif.message));
+        let tx = await approveRecoverer(signer, lostAddress, currentAddress, recentSigs.map((notif: { message: string; }) => notif.message));
         await tx.wait();
  
         const encryptedPrivateKeyCid = await privy.get(lostAddress, "encrypted-private-key-cid");
         const encryptedSymmetricKeyCid = await privy.get(lostAddress, "encrypted-symm-key-cid");
 
-        const encryptedPrivateKey = await fetchFromIPFS(encryptedPrivateKeyCid);
-        const encryptedSymmetricKey = await fetchFromIPFS(encryptedSymmetricKeyCid);
+        const encryptedPrivateKey = await fetchFromIPFS(encryptedPrivateKeyCid!.text())
+        const encryptedSymmetricKey = await fetchFromIPFS(encryptedSymmetricKeyCid!.text());
 
         console.log(encryptedPrivateKey);
         console.log(encryptedSymmetricKey);
@@ -64,7 +65,7 @@ const PersonalRecovery: NextPage = () => {
         let authSig = await getAuthSig("mumbai");
         
         let encodedSymmetricKey
-        const symmetricKey = getEncryptionKey(
+        const symmetricKey = await getEncryptionKey(
           generateAccessControlConditions(KEYKOVERY_CONTRACT_ADDRESS, lostAddress, "mumbai"),
           stringToUint8Array(encryptedSymmetricKey),
           authSig,
