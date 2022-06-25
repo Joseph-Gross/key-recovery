@@ -1,5 +1,6 @@
 // @ts-ignore
 import * as LitJsSdk from "lit-js-sdk";
+import { CHAIN_STRING } from "./constants";
 
 export const litNodeClient = new LitJsSdk.LitNodeClient({
   alertWhenUnauthorized: false,
@@ -10,9 +11,9 @@ export function stringToUint8Array(str: string): Uint8Array {
   return enc.encode(str);
 }
 
-export async function getAuthSig(chain: string): Promise<any> {
+export async function getAuthSig(): Promise<any> {
   const authSig = await LitJsSdk.checkAndSignAuthMessage({
-    chain: chain,
+    chain: CHAIN_STRING,
   });
 }
 
@@ -31,14 +32,13 @@ export async function saveEncryptionKey(
   accessControlConditions: any,
   symmetricKey: Uint8Array,
   authSig: any,
-  chain: string
 ): Promise<Uint8Array> {
   // Returns the symmetric key that has been encrypted with the Lit network public key.
   return await litNodeClient.saveEncryptionKey({
     accessControlConditions,
     symmetricKey,
     authSig,
-    chain,
+    CHAIN_STRING,
   });
 }
 
@@ -46,20 +46,18 @@ export async function getEncryptionKey(
   accessControlConditions: any,
   encryptedSymmetricKey: Uint8Array,
   authSig: any,
-  chain: string
 ): Promise<Uint8Array> {
   return await litNodeClient.getEncryptionKey({
     accessControlConditions,
     authSig,
     toDecrypt: LitJsSdk.uint8arrayToString(encryptedSymmetricKey, "base16"),
-    chain,
+    CHAIN_STRING,
   });
 }
 
 export function generateAccessControlConditions(
   keycoveryContractAddress: string,
   lostWalletAddress: string,
-  chain: string
 ) {
   return [
     {
@@ -91,7 +89,7 @@ export function generateAccessControlConditions(
         stateMutability: "view",
         type: "function",
       },
-      chain,
+      CHAIN_STRING,
       returnValueTest: {
         comparator: "=",
         value: "true",
