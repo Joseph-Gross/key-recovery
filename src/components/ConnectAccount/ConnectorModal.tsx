@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
   Box,
   HStack,
@@ -25,6 +25,8 @@ import {
   useBalance,
 } from "wagmi";
 import { formatEther } from "@ethersproject/units";
+import {useRouter} from "next/router";
+import {useSession} from "../PrivySession";
 
 type ConnectorModalProps = {
   isOpen: any;
@@ -98,3 +100,5 @@ export default function ConnectorModal({
     </Modal>
   );
 }
+
+

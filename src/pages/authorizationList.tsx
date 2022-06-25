@@ -1,8 +1,10 @@
 import type { NextPage } from "next";
 
 import { Box, Text } from "@chakra-ui/react";
+import NoWallet from "../components/NoWallet";
 
 const AuthorizationList: NextPage = () => {
+
     return (
         <Box
             display={{ md: "flex" }}
@@ -12,7 +14,7 @@ const AuthorizationList: NextPage = () => {
             mb={8}
             w="full"
         >
-            <Text>Authorization List</Text>
+            <NoWallet/>
         </Box>
     );
 };
