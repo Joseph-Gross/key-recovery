@@ -72,7 +72,7 @@ contract Keycovery {
           groupId,
           abi.encodePacked(recoverer).hashToField(),
           nullifierHash,
-          abi.encodePacked("VerifyHuman").hashToField(),
+          abi.encodePacked("wid_staging_90a71492daca49652946f01ead1524de").hashToField(),
           proof
       );
 
