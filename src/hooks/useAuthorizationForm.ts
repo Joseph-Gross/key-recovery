@@ -20,7 +20,7 @@ export function useAuthorizationForm() {
     });
 
     function onSubmit(data: AuthorizationFormValues) {
-        console.log(data);
+        console.log(JSON.stringify(data.guardians));
     }
 
     useEffect(() => {

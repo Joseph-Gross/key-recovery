@@ -48,7 +48,7 @@ export function Hero() {
             position={"relative"}
           >
             <HStack spacing="24px">
-              <Link href="/authorizationForm">
+              <Link href="/backup">
                 <Button
                   colorScheme={"green"}
                   bg={"green.400"}

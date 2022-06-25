@@ -52,7 +52,6 @@ class MyDocument extends Document {
           <meta name="twitter:image" content="../src/images/logo-black.svg" />
 
           {/*<link rel="icon" href="favicon.ico" />*/}
-          <link rel="manifest" href="/manifest.json" />
         </Head>
         <body>
           <ColorModeScript

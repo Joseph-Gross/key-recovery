@@ -14,7 +14,7 @@ import {
   WagmiConfig,
   createClient,
   defaultChains,
-  configureChains,
+  configureChains, useProvider,
 } from "wagmi";
 
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -26,6 +26,14 @@ import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import {usePrivySession} from "../components/PrivySession";
+
+declare global {
+  interface Window {
+    // @ts-ignore
+    ethereum: any;
+  }
+}
 
 const alchemyId = process.env.ALCHEMY_ID;
 
@@ -66,6 +74,27 @@ const client = createClient({
 });
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+  const privySession = usePrivySession();
+  const [initialized, setInitialized] = useState(false);
+
+  useEffect(() => {
+    function onSuccess() {
+      setInitialized(true);
+      console.log("Privy Session Initialized")
+    }
+
+    function onFailure(error: Error) {
+      setInitialized(true);
+      console.log(`Error initializing Privy Session: ${error}`);
+    }
+
+    privySession.initialize().then(onSuccess, onFailure);
+  }, [privySession]);
+
+  if (!initialized) {
+    return null;
+  }
+
   return (
     <WagmiConfig client={client}>
       <ChakraProvider
