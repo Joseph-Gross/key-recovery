@@ -5,6 +5,11 @@ export const litNodeClient = new LitJsSdk.LitNodeClient({
   alertWhenUnauthorized: false,
 });
 
+export function stringToUint8Array(str: string): Uint8Array {
+  let enc = new TextEncoder();
+  return enc.encode(str);
+}
+
 export async function getAuthSig(chain: string): Promise<any> {
   const authSig = await LitJsSdk.checkAndSignAuthMessage({
     chain: chain,
