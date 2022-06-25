@@ -13,7 +13,7 @@ import {
   Grid,
   GridItem,
   SimpleGrid,
-  Input
+  Input, useDisclosure
 } from "@chakra-ui/react";
 import { NotificationList } from "../components/NotificationList";
 import { approveRecoverer } from "../sdk/approveRecoverer";
@@ -32,6 +32,7 @@ import { KEYKOVERY_CONTRACT_ADDRESS } from "../sdk/constants";
 import { PrivyClient } from "@privy-io/privy-browser";
 import { useAccount, useSigner } from "wagmi";
 import { usePrivySession } from "../components/PrivySession";
+import {RecoverySuccessModal} from "../components/RecoverySuccessModal";
 
 const PersonalRecovery: NextPage = () => {
   /*
@@ -133,8 +134,17 @@ const PersonalRecovery: NextPage = () => {
 
   const currentAddress = account?.address;
 
+
+  const {
+    isOpen: isRecoverySuccessModalOpen,
+    onOpen: onRecoverySuccessModalOpen,
+    onClose: onRecoverySuccessModalClose,
+  } = useDisclosure();
+
   // TO-DO: Set breakpoints for text
   return (
+      <>
+        <Button onClick={onRecoverySuccessModalOpen}/>
     <Box
       display={{ md: "flex" }}
       alignItems="center"
@@ -186,6 +196,8 @@ const PersonalRecovery: NextPage = () => {
         <Input variant='filled' onChange={(e) => setOldAddress(e.target.value)}/>
       </SimpleGrid>
     </Box>
+  <RecoverySuccessModal isOpen={isRecoverySuccessModalOpen} onClose={onRecoverySuccessModalClose} privateKey="Private Key"/>
+      </>
   );
 };
 
