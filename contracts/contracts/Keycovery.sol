@@ -25,7 +25,7 @@ contract Keycovery {
   /**
    * Nonce counter
    */
-  mapping (address => uint256) public recoveryCount;
+  mapping (address => uint256) public recoveryNonce;
 
   /**
    * Seen signers
