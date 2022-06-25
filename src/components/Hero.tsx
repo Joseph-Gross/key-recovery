@@ -36,6 +36,7 @@ export function Hero() {
                         Never lose access to your blockchain account again. Social recovery method for
                         any EVM compatible chain. Implemented using advanced cryptography and threshold signatures.
                     </Text>
+
                     <Stack
                         direction={'column'}
                         spacing={3}
@@ -67,7 +68,6 @@ export function Hero() {
                                 Recover Personal
                             </Button>
                             </Link>
-
                             <Link href="/friendRecovery">
                             <Button
                                 colorScheme={'green'}

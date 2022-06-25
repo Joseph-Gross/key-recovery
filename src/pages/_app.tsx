@@ -24,7 +24,6 @@ import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
-import {useSession} from "../components/PrivySession";
 import { useRouter } from "next/router";
 import {useEffect, useState} from "react";
 

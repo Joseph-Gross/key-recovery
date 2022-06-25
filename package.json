@@ -13,10 +13,14 @@
     "@chakra-ui/react": "^2.2.1",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@epnsproject/backend-sdk": "^2.0.0",
+    "@epnsproject/frontend-sdk": "^1.5.2",
+    "@epnsproject/frontend-sdk-staging": "^1.8.5",
     "@privy-io/privy-browser": "^0.0.1",
     "eslint-config-prettier": "^8.5.0",
     "ethers": "^5.6.9",
     "framer-motion": "^6",
+    "iron-session": "^6.1.3",
     "next": "12.1.6",
     "next-seo": "^5.4.0",
     "prettier": "2.7.1",
@@ -24,6 +28,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.33.0",
     "react-icons": "^4.4.0",
+    "siwe": "^1.1.6",
     "wagmi": "^0.4.12"
   },
   "devDependencies": {

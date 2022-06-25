@@ -1,39 +1,31 @@
 import {
-    Center,
-    Flex,
     Heading,
     Stack,
     Box,
     Text,
-    Container, useColorModeValue
+    Container
 } from "@chakra-ui/react";
 
-import ConnectAccount from "./ConnectAccount";
+
 
 export default function NoWallet() {
     return (
-        <Center w="100%" py={6}>
-            <Box
-                maxW={'445px'}
-                w={'full'}
-                bg={useColorModeValue('white', 'gray.900')}
-                boxShadow={'2xl'}
-                rounded={'md'}
-                p={6}
-                overflow={'hidden'}
-            justify-content="center">
-
+        <Container maxW={'3xl'}>
+            <Stack
+                as={Box}
+                textAlign={'center'}
+                spacing={{ base: 8, md: 14 }}
+                py={{ base: 20, md: 36 }}>
                 <Heading
-                        color={useColorModeValue('gray.700', 'white')}
-                        fontSize={'2xl'}
-                        fontFamily={'body'}>
-                        Connect your wallet
-                    </Heading>
-                    <Text color={'gray.500'}>
-                        You need to connect your wallet to deploy and interact with your key management
-                    </Text>
-            </Box>
-
-        </Center>
+                    fontWeight={600}
+                    fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
+                    lineHeight={'110%'}>
+                    Connect your wallet
+                </Heading>
+                <Text color={'gray.500'}>
+                    You need to connect your wallet to deploy and interact with your key management
+                </Text>
+            </Stack>
+        </Container>
     );
 };
