@@ -7,7 +7,7 @@ import customTheme from "../styles/customTheme";
 
 const APP_NAME = "KeyKovery";
 const APP_DESCRIPTION =
-  "Decentralized Privae Key Management with Social Recovery";
+  "Decentralized Private Key Management with Social Recovery";
 
 class MyDocument extends Document {
   static getInitialProps(ctx: DocumentContext) {
