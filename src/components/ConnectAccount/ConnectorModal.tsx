@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  Box,
-  HStack,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, HStack, useColorModeValue } from "@chakra-ui/react";
 import {
   Modal,
   ModalOverlay,
@@ -14,12 +10,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-
-import {
-  Connector,
-  useConnect,
-} from "wagmi";
-
+import { Connector, useConnect } from "wagmi";
 
 type ConnectorModalProps = {
   isOpen: any;
@@ -63,7 +54,6 @@ export default function ConnectorModal({
                 key={connector.id}
                 onClick={() => {
                   connect(connector);
-
                 }}
               >
                 {connector.name}
@@ -96,5 +86,3 @@ export default function ConnectorModal({
     </Modal>
   );
 }
-
-

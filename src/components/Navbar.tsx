@@ -97,12 +97,17 @@ export default function Navbar() {
                 />
               </VStack>
             </Box>
-            <Link href="/" style={{ textDecoration: 'none'}}>
+            <Link href="/" style={{ textDecoration: "none" }}>
               {/* <Logo /> */}
               <VisuallyHidden>KeyKovery</VisuallyHidden>
-              <Heading as="h1" fontWeight="semibold" fontSize="2xl" _hover={{
-                textColor: hoverBg,
-              }} >
+              <Heading
+                as="h1"
+                fontWeight="semibold"
+                fontSize="2xl"
+                _hover={{
+                  textColor: hoverBg,
+                }}
+              >
                 KeyKovery
               </Heading>
             </Link>
@@ -140,8 +145,7 @@ export default function Navbar() {
         mx={2}
         borderWidth={0}
         overflowX="auto"
-      >
-      </Flex>
+      ></Flex>
     </Box>
   );
 }
