@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import {
     Box,
     Heading,
@@ -13,6 +12,8 @@ import {
     createIcon,
 } from '@chakra-ui/react';
 
+import Link from 'next/link'
+
 export function Hero() {
     return (
         <>
@@ -26,7 +27,7 @@ export function Hero() {
                         fontWeight={600}
                         fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
                         lineHeight={'110%'}>
-                        Private Key Management with <br />
+                        Secure Private Key Management with <br />
                         <Text as={'span'} color={'green.400'}>
                             Social Recovery
                         </Text>
@@ -42,16 +43,19 @@ export function Hero() {
                         alignSelf={'center'}
                         position={'relative'}>
                         <HStack spacing='24px'>
-                            <Button
-                                colorScheme={'green'}
-                                bg={'green.400'}
-                                rounded={'full'}
-                                px={6}
-                                _hover={{
-                                    bg: 'green.500',
-                                }}>
-                                Back Up
-                            </Button>
+                            <Link href="/authorizationForm">
+                                <Button
+                                    colorScheme={'green'}
+                                    bg={'green.400'}
+                                    rounded={'full'}
+                                    px={6}
+                                    _hover={{
+                                        bg: 'green.500',
+                                    }}>
+                                    Back Up
+                                </Button>
+                            </Link>
+                            <Link href="/personalRecovery">
                             <Button
                                 colorScheme={'green'}
                                 bg={'green.400'}
@@ -62,6 +66,9 @@ export function Hero() {
                                 }}>
                                 Recover Personal
                             </Button>
+                            </Link>
+
+                            <Link href="/friendRecovery">
                             <Button
                                 colorScheme={'green'}
                                 bg={'green.400'}
@@ -72,6 +79,7 @@ export function Hero() {
                                 }}>
                                 Recover Friend
                             </Button>
+                            </Link>
                         </HStack>
                     </Stack>
                 </Stack>
