@@ -13,6 +13,7 @@
     "@chakra-ui/react": "^2.2.1",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@privy-io/privy-browser": "^0.0.1",
     "eslint-config-prettier": "^8.5.0",
     "ethers": "^5.6.9",
     "framer-motion": "^6",
@@ -21,6 +22,7 @@
     "prettier": "2.7.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.33.0",
     "react-icons": "^4.4.0",
     "wagmi": "^0.4.12"
   },
