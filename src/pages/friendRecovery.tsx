@@ -12,7 +12,7 @@ const FriendRecovery: NextPage = () => {
     const [newAddress, setNewAddress] = useState('');
     const [isSending, setIsSending] = useState(false);
 
-    async function onSendSignClick(oldAddress:string, newAddress:string): void {
+    async function onSendSignClick(oldAddress:string, newAddress:string) {
         setIsSending(true);
         // plug in SDK
         const message = await signRecoveryMessage(null, oldAddress, newAddress, null);
