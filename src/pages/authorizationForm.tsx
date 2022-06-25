@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 
 import { Box, Text } from "@chakra-ui/react";
-import {FileUploadForm} from "../components/FileUpload";
 
 const AuthorizationForm: NextPage = () => {
     return (
@@ -14,7 +13,6 @@ const AuthorizationForm: NextPage = () => {
             w="full"
         >
             <Text>Authorization Form</Text>
-            <FileUploadForm/>
         </Box>
     );
 };

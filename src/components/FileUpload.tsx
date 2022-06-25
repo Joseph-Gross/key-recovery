@@ -47,7 +47,7 @@ export const FileUploadForm = () => {
 
     const validateFiles = (value: FileList) => {
         if (value.length < 1) {
-            return 'Files is required'
+            return 'Upload at least one file'
         }
         for (const file of Array.from(value)) {
             const fsMb = file.size / (1024 * 1024)
