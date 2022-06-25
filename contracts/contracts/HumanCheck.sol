@@ -32,12 +32,12 @@ contract HumanCheck {
             groupId,
             abi.encodePacked(recoverer).hashToField(),
             nullifierHash,
-            abi.encodePacked(address(this)).hashToField(),
+            abi.encodePacked("VerifyHuman").hashToField(),
             proof
         );
 
         isVerified[recoverer] = true;
 
-        emit ProfileVerified(profileId);
+        emit RecovererVerified(recoverer);
     }
 }

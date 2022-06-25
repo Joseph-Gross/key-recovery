@@ -4,7 +4,6 @@ import { Box, Text, Heading, Stack } from "@chakra-ui/react";
 import { FileUploadForm } from "../components/FileUpload";
 
 const PersonalRecovery: NextPage = () => {
-<<<<<<< HEAD
     return (
         <Stack
             as={Box}
@@ -22,7 +21,6 @@ const PersonalRecovery: NextPage = () => {
 {/*                <FileUploadForm/>*/}
         </Stack>
     );
-=======
   return (
     <Stack
       as={Box}
@@ -43,7 +41,6 @@ const PersonalRecovery: NextPage = () => {
       <FileUploadForm />
     </Stack>
   );
->>>>>>> refs/remotes/origin/main
 };
 
 export default PersonalRecovery;
