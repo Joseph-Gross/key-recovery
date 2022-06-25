@@ -1,6 +1,6 @@
 import { TATUM_API_KEY } from "../../config";
 
-export async function uploadToIPFS(): Promise<string> {
+export async function uploadToIPFS(encryptedKey: string): Promise<string> {
   const form = new FormData();
   form.append("file", "127654187631872620");
 

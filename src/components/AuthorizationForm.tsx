@@ -12,15 +12,48 @@ import {
   Text,
   Button,
   FormLabel,
+  Textarea,
 } from "@chakra-ui/react";
 
 import { constants, ethers } from "ethers";
 import { IoMdAdd, IoMdRemove } from "react-icons/io";
-import {useAuthorizationForm} from "../hooks/useAuthorizationForm";
+import {AuthorizationFormValues, useAuthorizationForm} from "../hooks/useAuthorizationForm";
+import {useState} from "react";
+// import * as litUtils from "../sdk/litUtils"
+import * as tatumUtils from "../sdk/tatumUtils";
+import {usePrivySession} from "./PrivySession";
 
 
 export function AuthorizationForm() {
-  const {register, onSubmit, fields, append, remove, getFieldState, formState} = useAuthorizationForm();
+  const {register, handleSubmit, fields, append, remove, getFieldState, formState} = useAuthorizationForm();
+  const [privateKey, setPrivateKey] = useState<string>('')
+
+  const handleInputChange = (e: { target: { value: any; }; }) => {
+    let inputValue = e.target.value
+    setPrivateKey(inputValue)
+  }
+
+  const privySession = usePrivySession();
+
+  async function submitForm(data: AuthorizationFormValues) {
+    // const encryptedKey = await litUtils.encryptString(privateKey);
+    const encryptedKey = "";
+    const encryptedKeyCid = await tatumUtils.uploadToIPFS(encryptedKey);
+
+    const authorizedGuardiansJson = JSON.stringify(data.guardians);
+
+    await privySession.privy.put(privySession.address, [
+      {field: 'encrypted-key-cid', value: encryptedKeyCid},
+      {field: 'authorized-guardians-json', value: authorizedGuardiansJson},
+    ]);
+  }
+
+
+  function onSubmit(data: AuthorizationFormValues) {
+    console.log("Encrypting private key, uploading to IPFS, adding authorized guardians, etc.");
+    submitForm(data).then(response => console.log("Response Submitted"));
+
+  }
 
   return (
     <>
@@ -87,7 +120,17 @@ export function AuthorizationForm() {
           </Button>
         </Flex>
 
-        <Button onClick={onSubmit}>Submit</Button>
+        <FormControl isInvalid={false}>
+          <FormLabel>Private Key</FormLabel>
+          <Textarea
+              value={privateKey}
+              onChange={handleInputChange}
+              placeholder='Paste your private key or seed phrase to encrypt for social recovery'
+              size='sm'
+          />
+        </FormControl>
+
+        <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
       </Flex>
     </>
   );

@@ -4,5 +4,5 @@ export interface UseBackupReturnValues {
 }
 
 export function useBackup(): UseBackupReturnValues {
-    return {isBackedUp: true};
+    return {isBackedUp: false};
 }

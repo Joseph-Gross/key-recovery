@@ -19,10 +19,6 @@ export function useAuthorizationForm() {
         control,
     });
 
-    function onSubmit(data: AuthorizationFormValues) {
-        console.log(JSON.stringify(data.guardians));
-    }
-
     useEffect(() => {
         if (fields.length === 0) {
             append({ address: "", label: "" }, { shouldFocus: false });
@@ -32,7 +28,7 @@ export function useAuthorizationForm() {
 
     return useMemo(() => ({
         register,
-        onSubmit: handleSubmit(onSubmit),
+        handleSubmit,
         fields,
         append,
         remove,
