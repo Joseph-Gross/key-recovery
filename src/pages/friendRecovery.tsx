@@ -2,10 +2,11 @@ import type { NextPage } from "next";
 import { constants } from "ethers";
 import { Box, Flex, Heading, Text, Grid, Button, useDisclosure, SimpleGrid, GridItem, FormControl, FormLabel, Input, IconButton } from "@chakra-ui/react";
 import { useState } from "react";
-
+import { signRecoveryMessage } from "../sdk/signRecoveryMessage";
 
 function onSendSignClick(oldAddress:string, newAddress:string): void {
     // plug in SDK
+    signRecoveryMessage(null, oldAddress, newAddress, null)
 }
 
 const FriendRecovery: NextPage = () => {
@@ -37,7 +38,7 @@ const FriendRecovery: NextPage = () => {
                         <Input id='newAddress' onChange={a => setNewAddress(a.target.value)} variant='outline' placeholder={constants.AddressZero}/>
                     </GridItem>
                 </SimpleGrid>
-                <Button>Sign and Send</Button>
+                <Button onClick={()=>onSendSignClick(oldAddress, newAddress)}>Sign and Send</Button>
 
             </Flex>
         </Box>
