@@ -3,6 +3,7 @@ import { constants } from "ethers";
 import { Box, Flex, Heading, Text, Grid, Button, useDisclosure, SimpleGrid, GridItem, FormControl, FormLabel, Input, IconButton, Spinner } from "@chakra-ui/react";
 import { useState } from "react";
 import { signRecoveryMessage } from "../sdk/signRecoveryMessage";
+import { sendSignatureToAddress } from "../sdk/epnsUtils";
 
 
 
@@ -15,6 +16,7 @@ const FriendRecovery: NextPage = () => {
         setIsSending(true);
         // plug in SDK
         const message = await signRecoveryMessage(null, oldAddress, newAddress, null);
+        const message2 = await sendSignatureToAddress(newAddress, message);
         setIsSending(false);
     }
 
