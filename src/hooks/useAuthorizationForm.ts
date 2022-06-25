@@ -1,14 +1,9 @@
 import {useEffect, useMemo} from "react";
 import {Resolver, useFieldArray, useForm} from "react-hook-form";
-import {ethers} from "ethers";
-
-interface Guardian {
-    address: string;
-    label: string;
-}
+import {Guardian} from "../sdk/submitGuardians";
 
 export interface AuthorizationFormValues {
-    guardians: Guardian[],
+    guardians: Array<Guardian>,
 }
 
 

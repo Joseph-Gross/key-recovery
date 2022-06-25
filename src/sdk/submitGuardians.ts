@@ -1,47 +1,44 @@
-import { Signer } from "ethers";
+import {Contract, Signer} from "ethers";
 import { KEYKOVERY_CONTRACT_ADDRESS } from "./constants";
 
-import "./litUtils";
-import "./privyUtils";
-import "./tatumUtils";
-import "./initializeFriends";
+import * as litUtils from "./litUtils";
+import * as tatumUtils from "./tatumUtils";
 
-interface GuardianValues {
+import {PrivyClient} from "@privy-io/privy-browser";
+// import {encryptString, generateAccessControlConditions, getAuthSig, litNodeClient, saveEncryptionKey} from "./litUtils";
+
+export interface Guardian {
   address: string;
   label: string;
 }
 
-export async function submitGuardians(signer: Signer, pk: string, guardians: Array<GuardianValues>) {
-  // Smart contract initialize friends
-  // Lit protocol encryption + registration
-  // Upload encrypted blob to IPFS
-  // Privy kv store, (guardian labels, cids)
+export async function submitGuardians(signer: Signer, contract: Contract, privateKey: string, guardians: Array<Guardian>, privyClient: PrivyClient) {
+  // console.log("Initializing account on Keykovery contract...")
+  // const guardianAddresses = guardians.map((guardian) => guardian.address);
+  // await contract.initializeWalletFriends(guardianAddresses);
 
-  console.log("Initializing account on Keykovery contract...")
-  let tx = await initializeFriends(signer, guardians.map((guardian) => guardian.address));
-  await tx.wait();
+
   console.log("Connecting lit client...");
-  await litNodeClient.connect();
+  await litUtils.litNodeClient.connect();
   console.log("Getting authSig...");
-  let authSig = await getAuthSig("mumbai");
+  let authSig = await litUtils.getAuthSig("mumbai");
   console.log("Encrypting...")
-  let { encryptedString, symmetricKey } = await encryptString(pk);
+  let { encryptedString, symmetricKey } = await litUtils.encryptString(privateKey);
 
   let signerAddress = await signer.getAddress();
 
-  let encryptedSymmetricKey = await saveEncryptionKey(
-    generateAccessControlConditions(signerAddress, KEYKOVERY_CONTRACT_ADDRESS, "mumbai"),
+  let encryptedSymmetricKey = await litUtils.saveEncryptionKey(
+    litUtils.generateAccessControlConditions(signerAddress, KEYKOVERY_CONTRACT_ADDRESS, "mumbai"),
     symmetricKey,
     authSig,
     "mumbai"
   );
 
   const encryptedKeyCid = await tatumUtils.uploadToIPFS(encryptedSymmetricKey);
-  
   const serializedGuardians = JSON.stringify(guardians);
 
-  await privySession.privy.put(privySession.address, [
+  await privyClient.put(signerAddress, [
       {field: 'encrypted-key-cid', value: encryptedKeyCid},
-      {field: 'authorized-guardians-json', value: authorizedGuardiansJson},
+      {field: 'authorized-guardians-json', value: serializedGuardians},
     ]);
 }

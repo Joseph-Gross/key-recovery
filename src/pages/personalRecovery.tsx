@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
+import { useEffect, useState } from "react";
 import worldID from "@worldcoin/id";
-import { Box, Text, Heading, Stack, VStack, StackDivider } from "@chakra-ui/react";
-import { FileUploadForm } from "../components/FileUpload";
+import { Box, Button, Text, Heading, Stack, VStack, StackDivider, Grid, GridItem, SimpleGrid } from "@chakra-ui/react";
+import { NotificationList } from "../components/NotificationList";
 
 const PersonalRecovery: NextPage = () => {
 
@@ -22,33 +23,48 @@ const PersonalRecovery: NextPage = () => {
       }
     })();
   }, []);
+  const [isRecovering, setIsRecovering] = useState(false);
 
+  async function onRecoverClick(ncurrentAddress:string) {
+    setIsRecovering(true);
+    // plug in SDK
+    setIsRecovering(false);
+}
+  // TO-DO: Set breakpoints for text
   return (
-    <VStack
-      divider={<StackDivider borderColor='gray.500' />}
-      spacing={2}
-      align='stretch'
-      >
-      <div id="world-id-container"></div>
-    </VStack>
-    // <Stack
-    //   as={Box}
-    //   direction={["column"]}
-    //   align={"center"}
-    //   textAlign={"center"}
-    //   spacing={{ base: 8, md: 14 }}
-    //   py={{ base: 20, md: 36 }}
-    // >
-    //   <Heading
-    //     fontWeight={200}
-    //     fontSize={{ base: "md", sm: "2xl", md: "5xl" }}
-    //     lineHeight={"110%"}
-    //   >
-    //     I lost my key! <br />
-    //     <Text color={"green.400"}>Submit signature files here to recover.</Text>
-    //   </Heading>
-    //   <FileUploadForm />
-    // </Stack>
+    <Box
+        display={{ md: "flex" }}
+        alignItems="center"
+        minHeight="70vh"
+        gap={8}
+        mb={8}
+        w="full"
+        >
+      <SimpleGrid columns={1} justifyItems='center'>
+        <Heading fontSize='4xl' mb={4} >Personal Key Recovery</Heading>
+        <Grid
+          h='300px'
+          w='full'
+          templateRows='repeat(2, 1fr)'
+          templateColumns='repeat(5, 1fr)'
+          gap={4}
+        >
+          <GridItem rowSpan={2} colSpan={2} p={6} justifyItems='center'>
+            <NotificationList/>
+          </GridItem>
+          <GridItem rowSpan={3} colSpan={3} p={10} justifyItems='center' justifySelf='center'>
+            <Text fontSize='xl'  fontWeight={700}>
+              Recover your key. Encryption will happen locally. Your private key will only be visible once.
+              </Text>
+          </GridItem>
+          <GridItem rowSpan={1} colSpan={1} colStart={4} justifyItems='center' justifySelf='center'>
+            <Button onClick={()=>onRecoverClick('currentAddress')} isLoading={isRecovering}>
+              Recover Key
+            </Button>
+          </GridItem>
+        </Grid>
+      </SimpleGrid>
+    </Box>
   );
 };
 
