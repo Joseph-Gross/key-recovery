@@ -1,12 +1,16 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 import "./ECDSA.sol";
-import "./HumanCheck.sol";
+import "./worldcoin/world-id/interfaces/IWorldID.sol";
+import "./worldcoin/world-id/libraries/ByteHasher.sol";
 
 /**
  * The Keycovery database contract.
  */
-contract Keycovery is HumanCheck {
+contract Keycovery {
+
+  using ByteHasher for bytes;
 
   /**
    * Mapping from account address to its initialized friend list
@@ -36,18 +40,47 @@ contract Keycovery is HumanCheck {
   bool public isPaused;
   address public admin;
 
-  constructor() {
-    isPaused = false;
+  event RecovererVerified(address indexed recoverer);
+
+  uint256 internal immutable groupId;
+  IWorldID internal immutable worldId;
+
+  mapping(address => bool) public isVerified;
+
+  constructor(IWorldID _worldId, uint256 _groupId) payable {
+    worldId = _worldId;
+    groupId = _groupId;
     admin = msg.sender;
+    isPaused = false;
   }
 
   modifier notPaused() { 
     require(!isPaused); 
     _; 
   }
-    
+  
   event InitializedFriends(address[] friends);
   
+  function verify(
+        address recoverer,
+        uint256 root,
+        uint256 nullifierHash,
+        uint256[8] calldata proof
+  ) public payable {
+      worldId.verifyProof(
+          root,
+          groupId,
+          abi.encodePacked(recoverer).hashToField(),
+          nullifierHash,
+          abi.encodePacked("VerifyHuman").hashToField(),
+          proof
+      );
+
+      isVerified[recoverer] = true;
+
+      emit RecovererVerified(recoverer);
+  }
+
   /**
    * Initialize an account (msg.sender) with an array of friends
    */
@@ -74,7 +107,7 @@ contract Keycovery is HumanCheck {
    */
   function approveRecoverer(address lost, address recoverer, uint256 nonce, bytes[] calldata signatures) external notPaused returns (bool) {
     require(isVerified[recoverer]);
-    require(nonce == recoveryCount);
+    require(nonce == recoveryNonce[lost]);
     require(friendCount[lost] == signatures.length);
 
     bytes32 messageHash = keccak256(
@@ -99,7 +132,7 @@ contract Keycovery is HumanCheck {
     }
 
     approvedRecoverer[lost] = recoverer;
-    recoveryCount[lost] += 1;
+    recoveryNonce[lost] += 1;
 
     return true;
   }
