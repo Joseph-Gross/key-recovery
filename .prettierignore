@@ -1,0 +1,10 @@
+.next
+next-env.d.ts
+node_modules
+yarn.lock
+package-lock.json
+public
+next-seo.config.js
+
+build
+coverage

@@ -23,11 +23,7 @@ export default function Footer() {
         <Container maxW={"6xl"} py={4}>
           <Text>
             {new Date().getFullYear()} -{" "}
-            <Link
-              href="/"
-              isExternal
-              rel="noopener noreferrer"
-            >
+            <Link href="/" isExternal rel="noopener noreferrer">
               © Copyright 2022, KeyKovery. All Rights Reserved.
             </Link>
           </Text>
