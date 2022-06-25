@@ -15,7 +15,8 @@ const FriendRecovery: NextPage = () => {
     async function onSendSignClick(oldAddress:string, newAddress:string) {
         setIsSending(true);
         // plug in SDK
-        const message = await signRecoveryMessage(null, oldAddress, newAddress, null);
+        const nonce = await getUserNonce(null, oldAddress);
+        const message = await signRecoveryMessage(null, oldAddress, newAddress, nonce);
         const message2 = await sendSignatureToAddress(newAddress, message);
         setIsSending(false);
     }

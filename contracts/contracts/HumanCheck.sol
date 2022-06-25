@@ -2,7 +2,7 @@
 pragma solidity ^0.8.10;
 
 import { ByteHasher } from './worldcoin/world-id/libraries/ByteHasher.sol';
-import { ISemaphore } from './worldcoin/world-id/interfaces/ISemaphore.sol';
+import { IWorldID } from './worldcoin/world-id/interfaces/IWorldID.sol';
 
 contract HumanCheck {
     using ByteHasher for bytes;
@@ -12,12 +12,12 @@ contract HumanCheck {
     event RecovererVerified(address indexed recoverer);
 
     uint256 internal immutable groupId;
-    ISemaphore internal immutable semaphore;
+    IWorldID internal immutable worldId;
 
     mapping(address => bool) public isVerified;
 
-    constructor(ISemaphore _semaphore, uint256 _groupId) payable {
-        semaphore = _semaphore;
+    constructor(IWorldID _worldId, uint256 _groupId) payable {
+        worldId = _worldId;
         groupId = _groupId;
     }
 
@@ -27,7 +27,7 @@ contract HumanCheck {
         uint256 nullifierHash,
         uint256[8] calldata proof
     ) public payable {
-        semaphore.verifyProof(
+        worldId.verifyProof(
             root,
             groupId,
             abi.encodePacked(recoverer).hashToField(),

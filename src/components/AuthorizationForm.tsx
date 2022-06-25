@@ -22,37 +22,23 @@ import {useState} from "react";
 // import * as litUtils from "../sdk/litUtils"
 import * as tatumUtils from "../sdk/tatumUtils";
 import {usePrivySession} from "./PrivySession";
+import {useSubmitGuardians} from "../hooks/useSubmitGuardians";
 
 
 export function AuthorizationForm() {
   const {register, handleSubmit, fields, append, remove, getFieldState, formState} = useAuthorizationForm();
   const [privateKey, setPrivateKey] = useState<string>('')
 
+  const {isSubmitLoading, onSubmit} = useSubmitGuardians(privateKey)
+
   const handleInputChange = (e: { target: { value: any; }; }) => {
     let inputValue = e.target.value
     setPrivateKey(inputValue)
   }
 
-  const privySession = usePrivySession();
-
-  async function submitForm(data: AuthorizationFormValues) {
-    // const encryptedKey = await litUtils.encryptString(privateKey);
-    const encryptedKey = "";
-    const encryptedKeyCid = await tatumUtils.uploadToIPFS(encryptedKey);
-
-    const authorizedGuardiansJson = JSON.stringify(data.guardians);
-
-    await privySession.privy.put(privySession.address, [
-      {field: 'encrypted-key-cid', value: encryptedKeyCid},
-      {field: 'authorized-guardians-json', value: authorizedGuardiansJson},
-    ]);
-  }
-
-
-  function onSubmit(data: AuthorizationFormValues) {
+  function submitForm(data: AuthorizationFormValues) {
     console.log("Encrypting private key, uploading to IPFS, adding authorized guardians, etc.");
-    submitForm(data).then(response => console.log("Response Submitted"));
-
+    onSubmit(data.guardians).then(r => console.log("Form Submitted"));
   }
 
   return (
@@ -130,7 +116,7 @@ export function AuthorizationForm() {
           />
         </FormControl>
 
-        <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+        <Button onClick={handleSubmit(submitForm)} isLoading={isSubmitLoading}>Submit</Button>
       </Flex>
     </>
   );

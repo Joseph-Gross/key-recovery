@@ -12,8 +12,9 @@ import {
   ModalCloseButton,
   Text,
   useColorModeValue,
+    useClipboard,
 } from "@chakra-ui/react";
-import { ExternalLinkIcon, CopyIcon } from "@chakra-ui/icons";
+import { ExternalLinkIcon, CopyIcon, CheckIcon } from "@chakra-ui/icons";
 import {useAccount, useDisconnect, useProvider} from "wagmi";
 import {usePrivySession} from "../PrivySession";
 
@@ -31,6 +32,7 @@ export default function AccountModal({
   const { data: account } = useAccount();
   const { disconnect } = useDisconnect();
   const privySession = usePrivySession();
+  const { hasCopied, onCopy } = useClipboard(account?.address ? account.address : "")
 
   const bg = useColorModeValue("gray.200", "gray.800");
   const footerBg = useColorModeValue("gray.300", "gray.700");
@@ -107,6 +109,19 @@ export default function AccountModal({
               </Text>
             </Flex>
             <Flex alignContent="center" m={3}>
+              {hasCopied ? (<Text
+                      variant="link"
+                      color={textBg}
+                      fontWeight="normal"
+                      fontSize="sm"
+                      _hover={{
+                        textDecoration: "none",
+                        color: "whiteAlpha.800",
+                      }}
+                  >
+                    <CheckIcon mr={1} />
+                    Copied to clipboard
+                  </Text>) : (
               <Button
                 variant="link"
                 color={textBg}
@@ -116,10 +131,11 @@ export default function AccountModal({
                   textDecoration: "none",
                   color: "whiteAlpha.800",
                 }}
+                onClick={onCopy}
               >
                 <CopyIcon mr={1} />
                 Copy Address
-              </Button>
+              </Button>)}
               <Link
                 fontSize="sm"
                 display="flex"

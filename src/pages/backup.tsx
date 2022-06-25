@@ -13,7 +13,8 @@ const AuthorizationList: NextPage = () => {
 
     const { data, isError } = useAccount()
 
-    console.log(data);
+
+    console.log()
 
     return (
         <Box
@@ -24,9 +25,9 @@ const AuthorizationList: NextPage = () => {
             mb={8}
             w="full"
         >
-            {isError ? <NoWallet/> :
+            {data?.address ?
 
-            <>{isBackedUp ? <AuthorizationTable/> : <AuthorizationForm/>}</>
+            <>{isBackedUp ? <AuthorizationTable/> : <AuthorizationForm/>}</> : <NoWallet/>
 
             }
         </Box>
