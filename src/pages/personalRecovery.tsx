@@ -16,12 +16,9 @@ const PersonalRecovery: NextPage = () => {
                 fontWeight={200}
                 fontSize={{ base: 'md', sm: '2xl', md: '5xl' }}
                 lineHeight={'110%'}>
-                I lost my key! <br />
-                <Text color={'green.400'} >
-                    Submit signature files here to recover.
-                </Text>
+                You lost your key! HAHAHAHA!
             </Heading>
-                <FileUploadForm/>
+{/*                <FileUploadForm/>*/}
         </Stack>
     );
 };
