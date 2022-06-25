@@ -2,8 +2,6 @@ import React from "react";
 import {
   Box,
   HStack,
-  useDisclosure,
-  Text,
   useColorModeValue,
 } from "@chakra-ui/react";
 import {
@@ -16,15 +14,12 @@ import {
   Button,
 } from "@chakra-ui/react";
 
+
 import {
-  useAccount,
+  Connector,
   useConnect,
-  useDisconnect,
-  useEnsAvatar,
-  useEnsName,
-  useBalance,
 } from "wagmi";
-import { formatEther } from "@ethersproject/units";
+
 
 type ConnectorModalProps = {
   isOpen: any;
@@ -46,8 +41,8 @@ export default function ConnectorModal({
   const bg = useColorModeValue("white", "gray.800");
   const buttonBg = useColorModeValue("blue.200", "blue.500");
 
-  function handleConnectWallet() {
-    connect();
+  function handleConnectWallet(connector: Connector) {
+    connect(connector);
     onClose();
   }
 
@@ -66,7 +61,10 @@ export default function ConnectorModal({
                 bgColor={buttonBg}
                 disabled={!connector.ready}
                 key={connector.id}
-                onClick={() => connect(connector)}
+                onClick={() => {
+                  connect(connector);
+
+                }}
               >
                 {connector.name}
                 {!connector.ready && " (unsupported)"}
@@ -98,3 +96,5 @@ export default function ConnectorModal({
     </Modal>
   );
 }
+
+

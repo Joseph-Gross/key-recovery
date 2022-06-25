@@ -24,7 +24,7 @@ export default function Footer() {
           <Text>
             {new Date().getFullYear()} -{" "}
             <Link
-              href="https://slingprotocol.xyz"
+              href="/"
               isExternal
               rel="noopener noreferrer"
             >

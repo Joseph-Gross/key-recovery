@@ -24,6 +24,8 @@ import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
+import { useRouter } from "next/router";
+import {useEffect, useState} from "react";
 
 const alchemyId = process.env.ALCHEMY_ID;
 
@@ -38,7 +40,7 @@ const { chains, provider, webSocketProvider } = configureChains(defaultChains, [
 const client = createClient({
   autoConnect: true,
   connectors: [
-    // new MetaMaskConnector({ chains }),
+    new MetaMaskConnector({ chains }),
     new CoinbaseWalletConnector({
       chains,
       options: {
@@ -63,7 +65,9 @@ const client = createClient({
   webSocketProvider,
 });
 
+
 const MyApp = ({ Component, pageProps }: AppProps) => {
+
   return (
     <WagmiConfig client={client}>
       <ChakraProvider
@@ -75,7 +79,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
             name="viewport"
             content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover"
           />
-          <title>Sling Protocol</title>
+          <title>Keykovery</title>
         </Head>
         <Layout>
           <Component {...pageProps} />

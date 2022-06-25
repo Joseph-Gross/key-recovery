@@ -15,7 +15,7 @@ contract Keycovery {
   /**
    * Number of friends an account has.
    */
-  mapping (address => uint256) private friendCount;
+  mapping (address => uint256) public friendCount;
 
   /**
    * Mapping from an account address to it's approved recoverer address
@@ -25,7 +25,7 @@ contract Keycovery {
   /**
    * Nonce counter
    */
-  mapping (address => uint256) public recoveryCount;
+  mapping (address => uint256) public recoveryNonce;
 
   /**
    * Seen signers
@@ -44,6 +44,8 @@ contract Keycovery {
     require(!isPaused); 
     _; 
   }
+    
+  event InitializedFriends(address[] friends);
   
   /**
    * Initialize an account (msg.sender) with an array of friends
@@ -52,6 +54,10 @@ contract Keycovery {
     for (uint i = 0; i < friendArray.length; i++) {
       friends[msg.sender][friendArray[i]] = true;
     }
+
+    friendCount[msg.sender] = friendArray.length;
+
+    emit InitializedFriends(friendArray);
   }
   
   /**
@@ -75,7 +81,7 @@ contract Keycovery {
       return false;
     }
 
-    bytes32 message = keccak256(
+    bytes32 messageHash = keccak256(
       abi.encode(lost, recoverer, nonce)
     );
 
@@ -83,7 +89,7 @@ contract Keycovery {
 
     // Check that each friend has signed the message.
     for(uint i = 0; i < friendCount[lost]; i++) {
-      address signer = ECDSA.recover(message, signatures[i]);
+      address signer = ECDSA.recover(messageHash, signatures[i]);
       require(!seenSigners[signer]);
       require(friends[lost][signer]);
       seenSigners[signer] = true;
