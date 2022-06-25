@@ -37,6 +37,11 @@ contract Keycovery {
    */
   mapping (address => bool) public seenSigners;
 
+  /**
+   * Nullifier hashes
+   */
+  mapping (uint256 => bool) public nullifierHashes;
+
   bool public isPaused;
   address public admin;
 
@@ -59,6 +64,8 @@ contract Keycovery {
     _; 
   }
   
+  string public constant actionId = "wid_staging_90a71492daca49652946f01ead1524de";
+
   event InitializedFriends(address[] friends);
   
   function verify(
@@ -67,12 +74,13 @@ contract Keycovery {
         uint256 nullifierHash,
         uint256[8] calldata proof
   ) public payable {
+
       worldId.verifyProof(
           root,
           groupId,
           abi.encodePacked(recoverer).hashToField(),
           nullifierHash,
-          abi.encodePacked("wid_staging_90a71492daca49652946f01ead1524de").hashToField(),
+          abi.encodePacked(address(this)).hashToField(),
           proof
       );
 

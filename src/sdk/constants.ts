@@ -1,5 +1,5 @@
 export const KEYKOVERY_CONTRACT_ADDRESS =
-  "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e";
+  "0x9efF702aE59c7F6d947253c22e2884375048F283";
 
 // Change for whatever chain current contracts are deployed to
 export const CHAIN_STRING = "mumbai";
