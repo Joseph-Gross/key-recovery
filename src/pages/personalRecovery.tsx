@@ -98,18 +98,16 @@ const PersonalRecovery: NextPage = () => {
         console.log(encryptedPrivateKey);
         console.log(encryptedSymmetricKey);
 
-        let authSig = await getAuthSig("mumbai");
+        let authSig = await getAuthSig();
 
         let encodedSymmetricKey;
         const symmetricKey = await getEncryptionKey(
           generateAccessControlConditions(
             KEYKOVERY_CONTRACT_ADDRESS,
             lostAddress,
-            "mumbai"
           ),
           stringToUint8Array(encryptedSymmetricKey),
-          authSig,
-          "mumbai"
+          authSig
         );
 
         // PLAINTEXT PRIVATE KEY
