@@ -7,7 +7,7 @@ const PersonalRecovery: NextPage = () => {
 
   worldID.init("world-id-container", {
     enable_telemetry: true,
-    action_id: "VerifyHuman",
+    action_id: "wid_staging_90a71492daca49652946f01ead1524de",
     signal: "VerifyHuman"
   });
 
