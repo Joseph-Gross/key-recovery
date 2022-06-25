@@ -1,27 +1,6 @@
 import type { NextPage } from "next";
 import { constants } from "ethers";
-<<<<<<< HEAD
-import { Box, Flex, Heading, Text, Grid, Button, useDisclosure, SimpleGrid, GridItem, FormControl, FormLabel, Input, IconButton, Spinner } from "@chakra-ui/react";
-import { useState } from "react";
-import { signRecoveryMessage } from "../sdk/signRecoveryMessage";
-import { sendSignatureToAddress } from "../sdk/epnsUtils";
 
-
-
-const FriendRecovery: NextPage = () => {
-    const [oldAddress, setOldAddress] = useState('');
-    const [newAddress, setNewAddress] = useState('');
-    const [isSending, setIsSending] = useState(false);
-
-    async function onSendSignClick(oldAddress:string, newAddress:string) {
-        setIsSending(true);
-        // plug in SDK
-        const nonce = await getUserNonce(null, oldAddress);
-        const message = await signRecoveryMessage(null, oldAddress, newAddress, nonce);
-        const message2 = await sendSignatureToAddress(newAddress, message);
-        setIsSending(false);
-    }
-=======
 import {
     Box,
     Flex,
@@ -51,7 +30,6 @@ import {FriendRecoveryForm} from "../components/FriendRecoveryForm";
 
 
 const FriendRecovery: NextPage = () => {
->>>>>>> refs/remotes/origin/main
 
     return (
         <Container maxW={"3xl"}>
