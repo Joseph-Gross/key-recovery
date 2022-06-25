@@ -1,55 +1,59 @@
 import type { NextPage } from "next";
 import { constants } from "ethers";
-import { Box, Flex, Heading, Text, Grid, Button, useDisclosure, SimpleGrid, GridItem, FormControl, FormLabel, Input, IconButton, Spinner } from "@chakra-ui/react";
+import {
+    Box,
+    Flex,
+    Heading,
+    Text,
+    VStack,
+    Grid,
+    Button,
+    useDisclosure,
+    SimpleGrid,
+    GridItem,
+    FormControl,
+    FormLabel,
+    Input,
+    IconButton,
+    Spinner,
+    Stack, Container
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { signRecoveryMessage } from "../sdk/signRecoveryMessage";
 import { sendSignatureToAddress } from "../sdk/epnsUtils";
+import {AuthorizationTable} from "../components/AuthorizationTable";
+import {AuthorizationForm} from "../components/AuthorizationForm";
+import NoWallet from "../components/NoWallet";
 
+import {FriendRecoveryForm} from "../components/FriendRecoveryForm";
 
 
 const FriendRecovery: NextPage = () => {
-    const [oldAddress, setOldAddress] = useState('');
-    const [newAddress, setNewAddress] = useState('');
-    const [isSending, setIsSending] = useState(false);
-
-    async function onSendSignClick(oldAddress:string, newAddress:string) {
-        setIsSending(true);
-        // plug in SDK
-        const nonce = await getUserNonce(null, oldAddress);
-        const message = await signRecoveryMessage(null, oldAddress, newAddress, nonce);
-        const message2 = await sendSignatureToAddress(newAddress, message);
-        setIsSending(false);
-    }
 
     return (
-        <Box
-            display={{ md: "flex" }}
-            alignItems="center"
-            minHeight="70vh"
-            gap={8}
-            mb={8}
-            w="full"
-        >
-            <Flex direction="column" background="gray.500" justifyContent="center" p={12} rounded={14}>
-                <Heading size="2xl" mb={12} >Friend Recovery</Heading>
-                <SimpleGrid columns={2} columnGap={3} rowGap={6} w='full' mb={10}>
-                    <GridItem colSpan={1}>
-                        <Text fontSize='xl' mr={4} >Friend's Old Address:</Text>
-                    </GridItem>
-                    <GridItem colSpan={1}>
-                        <Input id='oldAddress' onChange={a => setOldAddress(a.target.value)} variant='outline' placeholder={constants.AddressZero}/>
-                    </GridItem>
-                    <GridItem colSpan={1}>
-                        <Text fontSize='xl' mr={4} >Friend's New Address:</Text>
-                    </GridItem>
-                    <GridItem colSpan={1}>
-                        <Input id='newAddress' onChange={a => setNewAddress(a.target.value)} variant='outline' placeholder={constants.AddressZero}/>
-                    </GridItem>
-                </SimpleGrid>
-                <Button onClick={()=>onSendSignClick(oldAddress, newAddress)} isLoading={isSending}>Sign and Send</Button>
+        <Container maxW={"3xl"}>
 
-            </Flex>
-        </Box>
+            <VStack
+                as={Box}
+                textAlign={"center"}
+                spacing={{ base: 8, md: 14 }}
+                py={{ base: 20, md: 25 }}
+
+            >
+
+                <Flex px={{ base: 6, md: 10 }} direction="column" gap={8}>
+                    <Flex direction="column">
+                        <Heading size="title.md">Friend Key Recovery</Heading>
+                        <Text size="body.md" fontStyle="italic">
+                            Input the old and new wallet address to help your friend recover their key
+                        </Text>
+                    </Flex>
+                </Flex>
+
+
+                <FriendRecoveryForm/>
+            </VStack>
+        </Container>
     );
 };
 
