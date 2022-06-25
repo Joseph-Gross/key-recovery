@@ -6,7 +6,6 @@ import KEYKOVERY_ABI from "./abis/Keycovery.json";
 export async function initializeFriends(
   signer: Signer,
   friendAddresses: Array<string>,
-  friendLabels: Array<string>
 ): Promise<Transaction> {
   let contract = new Contract(
     KEYKOVERY_CONTRACT_ADDRESS,
