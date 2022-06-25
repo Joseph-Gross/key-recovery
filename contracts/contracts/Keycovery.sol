@@ -52,6 +52,8 @@ contract Keycovery {
     for (uint i = 0; i < friendArray.length; i++) {
       friends[msg.sender][friendArray[i]] = true;
     }
+
+    friendCount[msg.sender] = friendArray.length;
   }
   
   /**
@@ -75,7 +77,7 @@ contract Keycovery {
       return false;
     }
 
-    bytes32 message = keccak256(
+    bytes32 messageHash = keccak256(
       abi.encode(lost, recoverer, nonce)
     );
 
@@ -83,7 +85,7 @@ contract Keycovery {
 
     // Check that each friend has signed the message.
     for(uint i = 0; i < friendCount[lost]; i++) {
-      address signer = ECDSA.recover(message, signatures[i]);
+      address signer = ECDSA.recover(messageHash, signatures[i]);
       require(!seenSigners[signer]);
       require(friends[lost][signer]);
       seenSigners[signer] = true;
