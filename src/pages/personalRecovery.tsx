@@ -1,49 +1,37 @@
 import type { NextPage } from "next";
 
-import { Box, Text, Heading, Stack } from "@chakra-ui/react";
+import { Box, Text, Heading, Stack, VStack, StackDivider } from "@chakra-ui/react";
 import { FileUploadForm } from "../components/FileUpload";
 
 const PersonalRecovery: NextPage = () => {
-<<<<<<< HEAD
-    return (
-        <Stack
-            as={Box}
-            direction={['column']}
-            align={'center'}
-            textAlign={'center'}
-            spacing={{ base: 8, md: 14 }}
-            py={{ base: 20, md: 36 }}>
-            <Heading
-                fontWeight={200}
-                fontSize={{ base: 'md', sm: '2xl', md: '5xl' }}
-                lineHeight={'110%'}>
-                You lost your key! HAHAHAHA!
-            </Heading>
-{/*                <FileUploadForm/>*/}
-        </Stack>
-    );
-=======
+
   return (
-    <Stack
-      as={Box}
-      direction={["column"]}
-      align={"center"}
-      textAlign={"center"}
-      spacing={{ base: 8, md: 14 }}
-      py={{ base: 20, md: 36 }}
-    >
-      <Heading
-        fontWeight={200}
-        fontSize={{ base: "md", sm: "2xl", md: "5xl" }}
-        lineHeight={"110%"}
+    <VStack
+      divider={<StackDivider borderColor='gray.500' />}
+      spacing={2}
+      align='stretch'
       >
-        I lost my key! <br />
-        <Text color={"green.400"}>Submit signature files here to recover.</Text>
-      </Heading>
-      <FileUploadForm />
-    </Stack>
+       
+    </VStack>
+    // <Stack
+    //   as={Box}
+    //   direction={["column"]}
+    //   align={"center"}
+    //   textAlign={"center"}
+    //   spacing={{ base: 8, md: 14 }}
+    //   py={{ base: 20, md: 36 }}
+    // >
+    //   <Heading
+    //     fontWeight={200}
+    //     fontSize={{ base: "md", sm: "2xl", md: "5xl" }}
+    //     lineHeight={"110%"}
+    //   >
+    //     I lost my key! <br />
+    //     <Text color={"green.400"}>Submit signature files here to recover.</Text>
+    //   </Heading>
+    //   <FileUploadForm />
+    // </Stack>
   );
->>>>>>> refs/remotes/origin/main
 };
 
 export default PersonalRecovery;
