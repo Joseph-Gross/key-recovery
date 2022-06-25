@@ -1,4 +1,4 @@
-import { Contract, Signer, Transaction } from "ethers";
+import { Contract, Signer, TransactionResponse } from "ethers";
 
 import { KEYKOVERY_CONTRACT_ADDRESS } from "./constants";
 import KEYKOVERY_ABI from "./abis/Keycovery.json";
@@ -8,7 +8,7 @@ export async function approveRecoverer(
   lostWalletAddress: string,
   newWalletAddress: string,
   friendSignatures: Array<string>
-): Promise<Transaction> {
+): Promise<TransactionResponse> {
   let contract = new Contract(
     KEYKOVERY_CONTRACT_ADDRESS,
     KEYKOVERY_ABI,

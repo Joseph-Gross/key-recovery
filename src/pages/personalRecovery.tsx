@@ -9,7 +9,7 @@ import { fetchSignatureNotifications } from "../sdk/epnsUtils";
 import { getFriendCount } from "../sdk/getFriendCount";
 import { getUserNonce } from "../sdk/getUserNonce";
 import { fetchFromIPFS } from "../sdk/tatumUtils";
-import { getEncryptionKey, decryptString, generateAccessControlConditions, getAuthSig } from "../sdk/litUtils";
+import { stringToUint8Array, getEncryptionKey, decryptString, generateAccessControlConditions, getAuthSig } from "../sdk/litUtils";
 import { KEYKOVERY_CONTRACT_ADDRESS } from "../sdk/constants";
 
 const PersonalRecovery: NextPage = () => {
@@ -52,25 +52,27 @@ const PersonalRecovery: NextPage = () => {
         let tx = await approveRecoverer(signer, lostAddress, currentAddress, recentSigs.map((notif) => notif.message));
         await tx.wait();
  
-        const encryptedPrivateKeyCid = await privy.get(oldAddress, "encrypted-private-key-cid");
-        const encryptedSymmetricKeyCid = await privy.get(oldAddress, "encrypted-symm-key-cid");
+        const encryptedPrivateKeyCid = await privy.get(lostAddress, "encrypted-private-key-cid");
+        const encryptedSymmetricKeyCid = await privy.get(lostAddress, "encrypted-symm-key-cid");
 
         const encryptedPrivateKey = await fetchFromIPFS(encryptedPrivateKeyCid);
         const encryptedSymmetricKey = await fetchFromIPFS(encryptedSymmetricKeyCid);
 
-        console.log(encryptedKey);
+        console.log(encryptedPrivateKey);
+        console.log(encryptedSymmetricKey);
 
         let authSig = await getAuthSig("mumbai");
-
+        
+        let encodedSymmetricKey
         const symmetricKey = getEncryptionKey(
           generateAccessControlConditions(KEYKOVERY_CONTRACT_ADDRESS, lostAddress, "mumbai"),
-          encryptedSymmetricKey,
+          stringToUint8Array(encryptedSymmetricKey),
           authSig,
           "mumbai"
         );
 
         // PLAINTEXT PRIVATE KEY
-        let plaintextPrivateKey = await decryptString(encryptedPrivateKey, symmetricKey);
+        let plaintextPrivateKey = await decryptString(new Blob([stringToUint8Array(encryptedPrivateKey)]), symmetricKey);
 
       }
     } else {
