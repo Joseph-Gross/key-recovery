@@ -99,7 +99,7 @@ export default function Navbar() {
             </Box>
             <Link href="/" style={{ textDecoration: "none" }}>
               {/* <Logo /> */}
-              <VisuallyHidden>KeyKovery</VisuallyHidden>
+              <VisuallyHidden>KeyKover</VisuallyHidden>
               <Heading
                 as="h1"
                 fontWeight="semibold"
@@ -108,7 +108,7 @@ export default function Navbar() {
                   textColor: hoverBg,
                 }}
               >
-                KeyKovery
+                KeyKover
               </Heading>
             </Link>
           </HStack>

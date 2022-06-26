@@ -24,7 +24,7 @@ export default function Footer() {
           <Text>
             {new Date().getFullYear()} -{" "}
             <Link href="/" isExternal rel="noopener noreferrer">
-              © Copyright 2022, KeyKovery. All Rights Reserved.
+              © Copyright 2022, KeyKover. All Rights Reserved.
             </Link>
           </Text>
         </Container>
