@@ -16,6 +16,8 @@ import {
   Box,
   Stack,
   HStack,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 
 import { constants, ethers } from "ethers";
@@ -24,7 +26,7 @@ import {
   AuthorizationFormValues,
   useAuthorizationForm,
 } from "../hooks/useAuthorizationForm";
-import { useState } from "react";
+import React, { useState } from "react";
 // import * as litUtils from "../sdk/litUtils"
 import * as tatumUtils from "../sdk/tatumUtils";
 import { usePrivySession } from "./PrivySession";
@@ -60,6 +62,9 @@ export function AuthorizationForm() {
     console.log(data);
     onSubmit(data.guardians).then((r) => console.log("Form Submitted"));
   }
+
+    const [show, setShow] = useState(false);
+    const handleClick = () => setShow(!show);
 
   return (
     <>
@@ -130,12 +135,20 @@ export function AuthorizationForm() {
 
         <FormControl isInvalid={false}>
           <FormLabel>Private Key</FormLabel>
-          <Textarea
+          <InputGroup>
+          <Input
+            type={show ? "text" : "password"}
             value={privateKey}
             onChange={handleInputChange}
             placeholder="Paste your private key or seed phrase to encrypt for social recovery"
-            size="sm"
+            size="md"
           />
+          <InputRightElement width="5.5rem">
+        <Button h="1.5rem" size="sm" onClick={handleClick}>
+          {show ? "Hide" : "Show"}
+        </Button>
+      </InputRightElement>
+          </InputGroup>
         </FormControl>
 
         <Button onClick={handleSubmit(submitForm)} isLoading={isSubmitLoading}>
