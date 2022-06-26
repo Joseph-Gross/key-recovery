@@ -72,6 +72,8 @@ const PersonalRecovery: NextPage = () => {
     let friendCount = await getFriendCount(signer, lostAddress);
     let currentNonce = await getUserNonce(signer, lostAddress);
 
+    console.lose(signatureNotifs);
+    
     if (signatureNotifs.length % friendCount == 0) {
       if (currentNonce == signatureNotifs.length / friendCount - 1) {
         console.log("Enough signatures received... getting most recent ones");
