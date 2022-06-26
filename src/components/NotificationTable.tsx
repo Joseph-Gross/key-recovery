@@ -58,6 +58,8 @@ export function NotificationTable() {
         <Table variant="simple">
           <Thead>
             <Tr>
+              <Th>From (label)</Th>
+              <Th>From (address)</Th>
               <Th>Signature</Th>
             </Tr>
           </Thead>
@@ -65,6 +67,8 @@ export function NotificationTable() {
             {notifications?.map((notification: any, index: number) => {
               return (
                   <Tr key={index}>
+                    <Td>{notification.title}</Td>
+                    <Td>{notification.payloadTitle}</Td>
                     <Td>{`${notification.message.slice(0,10)}......${notification.message.slice(120)}`}</Td>
                   </Tr>
               );

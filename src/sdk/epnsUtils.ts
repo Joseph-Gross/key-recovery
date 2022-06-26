@@ -34,16 +34,20 @@ export async function optIn(signer: Signer) {
  * @description Sends notification to a particular user
  * @param recipientAddress
  * @param signature
+ * @param fromLabel
+ * @param fromAddress
  */
 export async function sendSignatureToAddress(
   recipientAddress: string,
-  signature: string
+  signature: string,
+  fromLabel: string,
+  fromAddress: string
 ): Promise<any> {
   const tx = await epnsSdk.sendNotification(
     recipientAddress,
-    "Signature received",
+    fromAddress,
     signature,
-    "Signature received",
+    fromLabel,
     signature,
     3,
     undefined,

@@ -18,6 +18,7 @@ import { useSigner } from "wagmi";
 import { AddressInput } from "./AddressInput";
 
 export function FriendRecoveryForm() {
+  const [fromLabel, setFromLabel] = useState("");
   const [oldAddress, setOldAddress] = useState("");
   const [newAddress, setNewAddress] = useState("");
   const [isSending, setIsSending] = useState(false);
@@ -35,12 +36,27 @@ export function FriendRecoveryForm() {
       nonce
     );
     console.log(oldAddress);
-    const message2 = await sendSignatureToAddress(newAddress, message);
+
+    const signerAddress = await signer!.getAddress();
+    await sendSignatureToAddress(newAddress, message, signerAddress, fromLabel);
     setIsSending(false);
   }
 
   return (
     <VStack spacing={8} w="full">
+      <HStack spacing={5} w="full">
+        <Text fontSize="xl" mr={4} w="full">
+          From:
+        </Text>
+        <Input
+            variant="filled"
+            value={fromLabel}
+            onChange={(e) => setFromLabel(e.target.value)}
+            placeholder="Attach your name to your message"
+            size="md" minW="31rem"
+        />
+      </HStack>
+
       <HStack spacing={5} w="full">
         <Text fontSize="xl" mr={4} w="full">
           Lost Address:
