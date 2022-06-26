@@ -39,19 +39,17 @@ export function FriendRecoveryForm() {
   }
 
   return (
-    <VStack spacing={8}>
-      <HStack spacing={5}>
-        <Text fontSize="xl" mr={4}>
-          {" "}
-          Lost Address:{" "}
+    <VStack spacing={8} w='full'>
+      <HStack spacing={5} w='full'>
+        <Text fontSize="xl" mr={4} w='full'>
+          Lost Address:
         </Text>
         <AddressInput inputValue={oldAddress} onChange={setOldAddress}/>
       </HStack>
 
-      <HStack>
-        <Text fontSize="xl" mr={4}>
-          {" "}
-          New Address:{" "}
+      <HStack spacing={5} w='full'>
+        <Text fontSize="xl" mr={4} w='full'>
+          New Address:
         </Text>
         <AddressInput inputValue={newAddress} onChange={setNewAddress} />
       </HStack>

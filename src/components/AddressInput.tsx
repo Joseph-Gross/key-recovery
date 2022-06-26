@@ -44,12 +44,13 @@ export function AddressInput({inputValue, onChange, label, canCopy=true}: Addres
   );
 
   return (
-      <FormControl isInvalid={isInvalidInput }>
+      <FormControl isInvalid={isInvalidInput } w='full'>
         {label && (<FormLabel>{label}</FormLabel>)}
-        <InputGroup size='md'>
+        <InputGroup size='md' minW='md' >
         <Input
+            
             variant="filled"
-            placeholder="address or ens"
+            placeholder="Address or Ens"
             isInvalid={isInvalidInput}
             value={inputValue}
             onChange={(e) => onChange(e.target.value)}
