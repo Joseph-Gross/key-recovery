@@ -36,7 +36,7 @@ export async function submitGuardians(
   console.log("Encrypting...");
   console.log(privateKey);
 
-  let { encryptedString, symmetricKey } = await litUtils.encryptString(
+  let { encryptedString, symmetricKey }: {encryptedString: Blob, symmetricKey: Uint8Array} = await litUtils.encryptString(
     privateKey
   );
 
@@ -49,23 +49,21 @@ export async function submitGuardians(
 
   console.log("initter: " + signerAddress);
 
+
   let encryptedSymmetricKey = await litUtils.saveEncryptionKey(
     litUtils.generateAccessControlConditions(signerAddress),
-    symmetricKey,
-    authSig
+      symmetricKey,
+      authSig
   );
 
   console.log("enc symmkey");
   console.log(encryptedSymmetricKey);
 
-  const encryptedSymmetricKeyCid = await ipfsUtils.uploadToIPFS(
-    encryptedSymmetricKey
-  );
-  
-  const encryptedPrivateKeyCid = await ipfsUtils.uploadToIPFS(encryptedString);
+  const encryptedSymmetricKeyCid = await ipfsUtils.uploadUint8ArrayToIPFS(encryptedSymmetricKey);
+  const encryptedPrivateKeyCid = await ipfsUtils.uploadBlobToIPFS(encryptedString);
 
-  console.log(encryptedSymmetricKeyCid);
-  console.log(encryptedPrivateKeyCid);
+  console.log("Encrypted Private Key CID: " + encryptedPrivateKeyCid);
+  console.log("Encrypted Symmetric Key CID: " + encryptedSymmetricKeyCid);
 
   const serializedGuardians = JSON.stringify(guardians);
   console.log("Guardians: " + serializedGuardians);
@@ -75,9 +73,6 @@ export async function submitGuardians(
     { field: "encrypted-private-key-cid", value: encryptedPrivateKeyCid },
     { field: "authorized-guardians-json", value: serializedGuardians },
   ]);
-
-  const getCidData = await ipfsUtils.fetchFromIPFS(encryptedSymmetricKeyCid);
-  console.log("returnedCIDDATA: " + getCidData);
 
   let tx = await initializeWalletGuardians(
     signer,

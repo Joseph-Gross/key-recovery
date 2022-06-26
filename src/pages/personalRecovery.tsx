@@ -37,6 +37,7 @@ const PersonalRecovery: NextPage = () => {
 
     function onCloseSuccessModal() {
         setRecoveredKey("");
+        setIsRecovering(false);
         onRecoverySuccessModalClose();
     }
 

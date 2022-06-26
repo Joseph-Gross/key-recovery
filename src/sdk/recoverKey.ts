@@ -40,16 +40,22 @@ export async function recoverKey(oldAddress: string, newAddress: string, signer:
                 oldAddress,
                 "encrypted-symmetric-key-cid"
             );
+            console.log("Encrypted Private Key CID: " + encryptedPrivateKeyCid!.text());
+            console.log("Encrypted Symmetric Key CID: " + encryptedSymmetricKeyCid!.text());
 
-            const encryptedPrivateKey = await fetchFromIPFS(
+
+            console.log("Fetching encrypted private key");
+            const encryptedPrivateKey: Uint8Array = await fetchFromIPFS(
                 encryptedPrivateKeyCid!.text()
             );
-            const encryptedSymmetricKey = await fetchFromIPFS(
+
+            console.log("Fetching encrypted symmetric key");
+            const encryptedSymmetricKey: Uint8Array = await fetchFromIPFS(
                 encryptedSymmetricKeyCid!.text()
             );
 
-            console.log(encryptedPrivateKey);
-            console.log(encryptedSymmetricKey);
+            console.log("Encrypted Private Key: " + encryptedPrivateKey);
+            console.log("Encrypted Symmetric Key: " + encryptedSymmetricKey);
 
             console.log("Connecting lit client...");
             await litUtils.litNodeClient.connect();
@@ -59,11 +65,13 @@ export async function recoverKey(oldAddress: string, newAddress: string, signer:
 
             console.log("Getting symmetric key");
 
+
             const symmetricKey = await getEncryptionKey(
-                generateAccessControlConditions(oldAddress),
-                encryptedSymmetricKey,
-                authSig
+                    generateAccessControlConditions(oldAddress),
+                    encryptedSymmetricKey,
+                    authSig
             );
+
 
             // PLAINTEXT PRIVATE KEY
             console.log("Attempting to decrypt string");

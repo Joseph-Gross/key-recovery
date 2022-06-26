@@ -1,16 +1,16 @@
 // @ts-ignore
 import * as LitJsSdk from "lit-js-sdk";
-import { CHAIN_STRING, KEYKOVERY_CONTRACT_ADDRESS_KOVAN } from "./constants";
+import {CHAIN_STRING, KEYKOVERY_CONTRACT_ADDRESS_KOVAN} from "./constants";
 
 export const litNodeClient = new LitJsSdk.LitNodeClient({
   alertWhenUnauthorized: false,
+  debug: true
 });
 
 export async function getAuthSig(): Promise<any> {
-  const authSig = await LitJsSdk.checkAndSignAuthMessage({
+  return await LitJsSdk.checkAndSignAuthMessage({
     chain: CHAIN_STRING,
   });
-  return authSig;
 }
 
 export async function encryptString(s: string): Promise<any> {
