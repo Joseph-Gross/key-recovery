@@ -133,6 +133,7 @@ const PersonalRecovery: NextPage = () => {
         let authSig = await getAuthSig();
 
         let encodedSymmetricKey;
+
         const symmetricKey = await getEncryptionKey(
           generateAccessControlConditions(lostAddress),
           encryptedSymmetricKey,
@@ -144,6 +145,8 @@ const PersonalRecovery: NextPage = () => {
           new Blob([encryptedPrivateKey]),
           symmetricKey
         );
+
+        console.log("GOT PK! " + plaintextPrivateKey);
       }
     } else {
       console.log("Not enough signatures");
