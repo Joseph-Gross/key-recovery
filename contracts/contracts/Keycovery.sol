@@ -118,9 +118,11 @@ contract Keycovery {
     require(nonce == recoveryNonce[lost]);
     require(friendCount[lost] == signatures.length);
 
-    bytes32 messageHash = keccak256(
+    bytes32 hash = keccak256(
       abi.encode(lost, recoverer, nonce)
     );
+
+    bytes32 messageHash = ECDSA.toEthSignedMessageHash(hash);
 
     address[] memory seenFriends = new address[](friendCount[lost]);
 
