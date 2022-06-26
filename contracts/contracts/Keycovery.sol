@@ -12,6 +12,25 @@ contract Keycovery {
 
   using ByteHasher for bytes;
 
+  ///////////////////////////////////////////////////////////////////////////////
+  ///                                  ERRORS                                ///
+  //////////////////////////////////////////////////////////////////////////////
+
+  /// @notice Thrown when attempting to reuse a nullifier too many times
+  error InvalidNullifier();
+
+  ///////////////////////////////////////////////////////////////////////////////
+  ///                                  EVENTS                                ///
+  //////////////////////////////////////////////////////////////////////////////
+
+  event RecovererVerified(address indexed recoverer);
+
+  event InitializedFriends(address[] friends);
+
+  ///////////////////////////////////////////////////////////////////////////////
+  ///                              CONFIG STORAGE                            ///
+  //////////////////////////////////////////////////////////////////////////////
+
   /**
    * Mapping from account address to its initialized friend list
    */
@@ -23,7 +42,7 @@ contract Keycovery {
   mapping (address => uint256) public friendCount;
 
   /**
-   * Mapping from an account address to it's approved recoverer address
+   * Mapping from an account address to its approved recoverer address
    */
   mapping (address => address) private approvedRecoverer;
 
@@ -38,19 +57,21 @@ contract Keycovery {
   mapping (address => bool) public seenSigners;
 
   /**
-   * Nullifier hashes
+   * Number of times each nullifier hash has requested to recover their key
    */
-  mapping (uint256 => bool) public nullifierHashes;
+  mapping (uint256 => uint256) public nullifierHashCount;
+
+  /**
+   * 
+   */
+  mapping(address => bool) public isVerified;
 
   bool public isPaused;
   address public admin;
 
-  event RecovererVerified(address indexed recoverer);
-
   uint256 internal immutable groupId;
   IWorldID internal immutable worldId;
 
-  mapping(address => bool) public isVerified;
 
   constructor(IWorldID _worldId, uint256 _groupId) payable {
     worldId = _worldId;
@@ -65,8 +86,6 @@ contract Keycovery {
   }
   
   string public constant actionId = "wid_staging_90a71492daca49652946f01ead1524de";
-
-  event InitializedFriends(address[] friends);
   
   function verify(
         address recoverer,
@@ -75,18 +94,22 @@ contract Keycovery {
         uint256[8] calldata proof
   ) public payable {
 
-      worldId.verifyProof(
-          root,
-          groupId,
-          abi.encodePacked(recoverer).hashToField(),
-          nullifierHash,
-          abi.encodePacked(address(this)).hashToField(),
-          proof
-      );
+    if (nullifierHashCount[nullifierHash] > 2) revert InvalidNullifier();
 
-      isVerified[recoverer] = true;
+    worldId.verifyProof(
+        root,
+        groupId,
+        abi.encodePacked(recoverer).hashToField(),
+        nullifierHash,
+        abi.encodePacked(address(this)).hashToField(),
+        proof
+    );
 
-      emit RecovererVerified(recoverer);
+    isVerified[recoverer] = true;
+
+    nullifierHashCount[nullifierHash] += 1;
+
+    emit RecovererVerified(recoverer);
   }
 
   /**
@@ -114,7 +137,7 @@ contract Keycovery {
    * Returns true on success, false otherwise.
    */
   function approveRecoverer(address lost, address recoverer, uint256 nonce, bytes[] calldata signatures) external notPaused returns (bool) {
-    // require(isVerified[recoverer]);
+    require(isVerified[recoverer]);
     require(nonce == recoveryNonce[lost]);
     require(friendCount[lost] == signatures.length);
 
