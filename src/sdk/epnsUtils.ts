@@ -48,7 +48,7 @@ export async function isUserSubscribed(address: string): boolean {
 
 export async function optIn(signer: Signer) {
   let userAddress = await signer.getAddress();
-  await channels.optIn(signer, CHANNEL_ADDRESS, CHAIN_ID, userAddress, {
+  await channels.optIn(signer, CHANNEL_ADDRESS, KOVAN_CHAIN_ID, userAddress, {
     onSuccess: () => {
       console.log("opted in");
     },
