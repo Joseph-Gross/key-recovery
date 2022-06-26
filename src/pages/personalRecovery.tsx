@@ -67,8 +67,6 @@ const PersonalRecovery: NextPage = () => {
   const privyClient = privySession.privy;
   const [isRecovering, setIsRecovering] = useState(false);
 
-  const start = useEpns(privySession.address);
-
   async function onRecoverClick(
     signer: Signer,
     currentAddress: string,
@@ -146,7 +144,7 @@ const PersonalRecovery: NextPage = () => {
 
   // TODO: EPNS stuff below did not work - @Richter
   useEffect(() => {
-  
+
      async function tryOptIn() {
        const isOptedIn = await isUserSubscribed(privySession.address);
        if (!isOptedIn && signer) {
