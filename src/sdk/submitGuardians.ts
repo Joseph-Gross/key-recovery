@@ -4,7 +4,6 @@ import { KEYKOVERY_CONTRACT_ADDRESS_KOVAN } from "./constants";
 import * as litUtils from "./litUtils";
 import * as ipfsUtils from "./ipfsUtils";
 import { initializeWalletGuardians } from "./initializeWalletGuardians";
-import * as tatumUtils from "./tatumUtils";
 import { CHAIN_STRING } from "./constants";
 
 import { PrivyClient } from "@privy-io/privy-browser";
