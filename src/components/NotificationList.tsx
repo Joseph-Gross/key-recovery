@@ -1,9 +1,9 @@
 // @ts-ignore
 import { NotificationItem } from "@epnsproject/frontend-sdk-staging";
 import { useAccount } from "wagmi";
-import { ethers } from "ethers";
-import { fetchSignatureNotifications } from "../sdk/epnsUtils";
+import {fetchSignatureNotifications, isUserSubscribed, optIn} from "../sdk/epnsUtils";
 import { useEffect, useState } from "react";
+
 
 export function NotificationList() {
   const { data: account } = useAccount();

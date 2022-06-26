@@ -25,6 +25,7 @@ export async function recoverKey(oldAddress: string, newAddress: string, signer:
                 signer,
                 oldAddress,
                 newAddress,
+                currentNonce,
                 recentSigs.map((notif: { message: string }) => notif.message)
             );
             await tx.wait();

@@ -5,7 +5,7 @@ export async function uploadToIPFS(rawData: Uint8Array): Promise<string> {
   const form = new FormData();
 
   console.log(rawData);
-  
+
   let encodedData = Buffer.from(rawData).toString('base64');
 
   const blob = JSON.stringify({

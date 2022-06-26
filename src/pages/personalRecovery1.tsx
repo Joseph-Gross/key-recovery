@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { Signer } from "ethers";
+import { Signer, utils } from "ethers";
 import worldID from "@worldcoin/id";
 import { AddressInput } from "../components/AddressInput";
 import {
@@ -74,10 +74,16 @@ const PersonalRecovery1: NextPage = () => {
     privy: PrivyClient
   ) {
     setIsRecovering(true);
+    console.log("Old: " + oldAddress + lostAddress);
     // plug in SDK
     let signatureNotifs = await fetchSignatureNotifications(currentAddress);
+    console.log("Signatures fetched");
+
     let friendCount = await getFriendCountMumbai(lostAddress);
+    console.log("Friend Count");
+
     let currentNonce = await getUserNonceMumbai(lostAddress);
+    console.log("Current Nonce");
 
     console.log("Notifications: " + signatureNotifs);
 
@@ -87,10 +93,20 @@ const PersonalRecovery1: NextPage = () => {
         let recentSigs = signatureNotifs.slice(-friendCount);
         console.log(recentSigs);
         // approve recovery address
+        console.log(lostAddress);
+        console.log(currentAddress);
+        console.log(currentNonce);
+        console.log(recentSigs.map((notif: { message: string }) => notif.message));
+
+        let hash = utils.keccak256(utils.defaultAbiCoder.encode(["address", "address", "uint256"], [lostAddress, currentAddress, currentNonce]));
+
+        console.log("***RECOVERED****: " + utils.recoverAddress(hash, recentSigs[0].message));
+
         let tx = await approveRecoverer(
           signer,
           lostAddress,
           currentAddress,
+          currentNonce,
           recentSigs.map((notif: { message: string }) => notif.message)
         );
         await tx.wait();
@@ -117,6 +133,7 @@ const PersonalRecovery1: NextPage = () => {
         let authSig = await getAuthSig();
 
         let encodedSymmetricKey;
+
         const symmetricKey = await getEncryptionKey(
           generateAccessControlConditions(lostAddress),
           encryptedSymmetricKey,
@@ -128,6 +145,8 @@ const PersonalRecovery1: NextPage = () => {
           new Blob([encryptedPrivateKey]),
           symmetricKey
         );
+
+        console.log("GOT PK! " + plaintextPrivateKey);
       }
     } else {
       console.log("Not enough signatures");

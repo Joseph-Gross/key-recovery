@@ -56,15 +56,16 @@ export function AddressInput({
   const { hasCopied, onCopy } = useClipboard(toCopy);
 
   return (
-    <FormControl isInvalid={isInvalidInput}>
-      {label && <FormLabel>{label}</FormLabel>}
-      <InputGroup size="md">
+      <FormControl isInvalid={isInvalidInput } w='full'>
+        {label && (<FormLabel>{label}</FormLabel>)}
+        <InputGroup size='md' minW='md' >
         <Input
-          variant="filled"
-          placeholder="address or ens"
-          isInvalid={isInvalidInput}
-          value={inputValue}
-          onChange={(e) => onChange(e.target.value)}
+            
+            variant="filled"
+            placeholder="Address or Ens"
+            isInvalid={isInvalidInput}
+            value={inputValue}
+            onChange={(e) => onChange(e.target.value)}
         />
         {canCopy && (
           <InputRightElement width="5.0rem">

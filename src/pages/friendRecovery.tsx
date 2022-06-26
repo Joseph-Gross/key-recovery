@@ -33,15 +33,16 @@ const FriendRecovery: NextPage = () => {
   return (
     <Container maxW={"3xl"}>
       <VStack
+        w='full'
         as={Box}
         textAlign={"center"}
         spacing={{ base: 8, md: 14 }}
         py={{ base: 20, md: 25 }}
       >
         <Flex px={{ base: 6, md: 10 }} direction="column" gap={8}>
-          <Flex direction="column">
-            <Heading size="title.md">Friend Key Recovery</Heading>
-            <Text size="body.md" fontStyle="italic">
+          <Flex direction="column" >
+            <Heading size="3xl" mb={12}>Friend Key Recovery</Heading>
+            <Text size="body.md" fontStyle="italic" mb={8}>
               Input the old and new wallet address to help your friend recover
               their key
             </Text>
