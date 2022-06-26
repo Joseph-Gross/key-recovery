@@ -11,7 +11,7 @@ import {
   Input,
   FormErrorMessage,
   Button,
-  Text,
+  Text, Alert, AlertIcon, AlertTitle, AlertDescription, CloseButton, useDisclosure,
 } from "@chakra-ui/react";
 import { signRecoveryMessage } from "../sdk/signRecoveryMessage";
 import { useSigner } from "wagmi";
@@ -24,6 +24,12 @@ export function FriendRecoveryForm() {
   const [isSending, setIsSending] = useState(false);
 
   const { data: signer } = useSigner();
+
+  const {
+    isOpen: isMessageAlertOpen,
+    onOpen: onMessageAlertOpen,
+    onClose: onMessageAlertClose,
+  } = useDisclosure();
 
   async function onSendSignClick(oldAddress: string, newAddress: string) {
     setIsSending(true);
@@ -40,9 +46,27 @@ export function FriendRecoveryForm() {
     const signerAddress = await signer!.getAddress();
     await sendSignatureToAddress(newAddress, message, signerAddress, fromLabel);
     setIsSending(false);
+    onMessageAlertOpen();
   }
 
   return (
+      <>
+        {isMessageAlertOpen && (
+            <Alert status="success" variant="top-accent">
+              <AlertIcon />
+              <AlertTitle>Success</AlertTitle>
+              <AlertDescription>
+                Your message was successfully signed and sent to the right wallet and will be used in recovering a private key
+              </AlertDescription>
+              <CloseButton
+                  alignSelf="flex-start"
+                  position="relative"
+                  right={-1}
+                  top={1}
+                  onClick={onMessageAlertClose}
+              />
+            </Alert>
+        )}
     <VStack spacing={8} w="full">
       <HStack spacing={5} w="full">
         <Text fontSize="xl" mr={4} w="full">
@@ -74,10 +98,11 @@ export function FriendRecoveryForm() {
       <Button
         onClick={() => onSendSignClick(oldAddress, newAddress)}
         isLoading={isSending}
-        disabled={fromLabel != undefined}
+        disabled={fromLabel == undefined || fromLabel.length == 0}
       >
         Sign and Send
       </Button>
     </VStack>
+      </>
   );
 }
