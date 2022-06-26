@@ -132,6 +132,13 @@ const PersonalRecovery: NextPage = () => {
           >
             Personal Key Recovery
           </Heading>
+          <Heading
+              as='h5' size='sm'
+              justifyItems="center"
+              justifySelf="center"
+          >
+            Message Inbox
+          </Heading>
           <GridItem p={6} justifyItems="center" w="xl-3">
             <NotificationTable />
           </GridItem>

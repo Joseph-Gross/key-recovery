@@ -45,9 +45,9 @@ export async function sendSignatureToAddress(
 ): Promise<any> {
   const tx = await epnsSdk.sendNotification(
     recipientAddress,
-    fromAddress,
-    signature,
     fromLabel,
+    signature,
+    fromAddress,
     signature,
     3,
     undefined,
