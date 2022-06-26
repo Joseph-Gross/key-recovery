@@ -100,7 +100,7 @@ const PersonalRecovery: NextPage = () => {
 
         let hash = utils.keccak256(utils.defaultAbiCoder.encode(["address", "address", "uint256"], [lostAddress, currentAddress, currentNonce]));
 
-        console.log("***RECOVERED****: " + utils.recoverAddress(hash, recentSigs[0].message));
+        console.log("***RECOVERED****: " + utils.recoverAddress(utils.arrayify(hash), recentSigs[0].message));
 
         let tx = await approveRecoverer(
           signer,
