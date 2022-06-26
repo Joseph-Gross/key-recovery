@@ -31,8 +31,8 @@ export function useAuthorizedGuardians() {
 
   return useMemo(
     () => ({
-      // hasBackedUp: guardians ? guardians.length > 0 : false,
-      hasBackedUp: false, // set to true when you want to deploy to production
+      hasBackedUp: guardians ? guardians.length > 0 : false,
+      // hasBackedUp: false, // set to true when you want to deploy to production
       guardians,
     }),
     [guardians, account]
