@@ -2,8 +2,9 @@ import { Contract, Signer } from "ethers";
 import { KEYKOVERY_CONTRACT_ADDRESS } from "./constants";
 
 import * as litUtils from "./litUtils";
-import * as tatumUtils from "./tatumUtils";
+import * as ipfsUtils from "./ipfsUtils";
 import { initializeWalletGuardians } from "./initializeWalletGuardians";
+import * as tatumUtils from "./tatumUtils";
 import { CHAIN_STRING } from "./constants";
 
 import { PrivyClient } from "@privy-io/privy-browser";
@@ -31,7 +32,7 @@ export async function submitGuardians(
 
   console.log("Getting authSig...");
 
-  let authSig = await litUtils.getAuthSig(CHAIN_STRING);
+  let authSig = await litUtils.getAuthSig();
 
   console.log("Encrypting...");
   console.log(privateKey);
@@ -39,6 +40,7 @@ export async function submitGuardians(
   let { encryptedString, symmetricKey } = await litUtils.encryptString(
     privateKey
   );
+
   console.log("encpk:");
   console.log(encryptedString);
   console.log("symmmkey:");
@@ -51,28 +53,31 @@ export async function submitGuardians(
   let encryptedSymmetricKey = await litUtils.saveEncryptionKey(
     litUtils.generateAccessControlConditions(
       signerAddress,
-      KEYKOVERY_CONTRACT_ADDRESS,
     ),
     symmetricKey,
     authSig
   );
 
-  console.log(encryptedString);
+  console.log("enc symmkey");
   console.log(encryptedSymmetricKey);
 
-  const encryptedSymmKeyCid = "cid1"; // await tatumUtils.uploadToIPFS(encryptedSymmetricKey);
-  const encryptedPrivateKeyCid = "cid2"; // await tatumUtils.uploadToIPFS(encryptedString);
+  const encryptedSymmetricKeyCid = await ipfsUtils.uploadToIPFS(encryptedSymmetricKey);
+  const encryptedPrivateKeyCid = await ipfsUtils.uploadToIPFS(encryptedString);
 
-  console.log(encryptedSymmKeyCid);
+  console.log(encryptedSymmetricKeyCid);
   console.log(encryptedPrivateKeyCid);
 
   const serializedGuardians = JSON.stringify(guardians);
+  console.log("Guardians: " + serializedGuardians);
 
   await privyClient.put(signerAddress, [
-    // { field: "encrypted-symmetric-key-cid", value: encryptedSymmKeyCid },
+    { field: "encrypted-symmetric-key-cid", value: encryptedSymmetricKeyCid },
     { field: "encrypted-private-key-cid", value: encryptedPrivateKeyCid },
-    // { field: "authorized-guardians-json", value: serializedGuardians },
+    { field: "authorized-guardians-json", value: serializedGuardians },
   ]);
+
+  const getCidData = await ipfsUtils.fetchFromIPFS(encryptedSymmetricKeyCid);
+  console.log("returnedCIDDATA: " + getCidData);
 
   let tx = await initializeWalletGuardians(signer, guardians.map((guardian) => guardian.address));
   await tx.wait();
