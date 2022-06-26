@@ -89,6 +89,7 @@ export function generateAccessControlConditions(lostWalletAddress: string) {
       },
       chain: CHAIN_STRING,
       returnValueTest: {
+        key: "",
         comparator: "=",
         value: "true",
       },
