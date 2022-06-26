@@ -62,16 +62,12 @@ export async function uploadUint8ArrayToIPFS(
   return JSON.parse(data)["Cid"]["/"];
 }
 
-export async function uploadBlobToIPFS(
-  rawData: Uint8Array | Blob,
-  isBlob = false
-): Promise<string> {
+export async function uploadBlobToIPFS(rawData: Blob): Promise<string> {
   const form = new FormData();
 
   console.log(rawData);
 
-  let encodedData = await blobToBase64(rawData as Blob);
-
+  let encodedData = await blobToBase64(rawData);
   const blob = JSON.stringify({
     message: encodedData,
   });

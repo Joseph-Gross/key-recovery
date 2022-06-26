@@ -34,7 +34,7 @@ export async function recoverKey(
       console.log("Enough signatures received... getting most recent ones");
 
       let recentSigs = signatureNotifs.slice(0, friendCount);
-      
+
       console.log(recentSigs);
 
       // approve recovery address
