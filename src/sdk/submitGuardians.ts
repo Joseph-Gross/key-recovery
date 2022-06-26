@@ -51,9 +51,7 @@ export async function submitGuardians(
   console.log("initter: " + signerAddress);
 
   let encryptedSymmetricKey = await litUtils.saveEncryptionKey(
-    litUtils.generateAccessControlConditions(
-      signerAddress,
-    ),
+    litUtils.generateAccessControlConditions(signerAddress),
     symmetricKey,
     authSig
   );
@@ -61,7 +59,9 @@ export async function submitGuardians(
   console.log("enc symmkey");
   console.log(encryptedSymmetricKey);
 
-  const encryptedSymmetricKeyCid = await ipfsUtils.uploadToIPFS(encryptedSymmetricKey);
+  const encryptedSymmetricKeyCid = await ipfsUtils.uploadToIPFS(
+    encryptedSymmetricKey
+  );
   const encryptedPrivateKeyCid = await ipfsUtils.uploadToIPFS(encryptedString);
 
   console.log(encryptedSymmetricKeyCid);
@@ -79,6 +79,9 @@ export async function submitGuardians(
   const getCidData = await ipfsUtils.fetchFromIPFS(encryptedSymmetricKeyCid);
   console.log("returnedCIDDATA: " + getCidData);
 
-  let tx = await initializeWalletGuardians(signer, guardians.map((guardian) => guardian.address));
+  let tx = await initializeWalletGuardians(
+    signer,
+    guardians.map((guardian) => guardian.address)
+  );
   await tx.wait();
 }
