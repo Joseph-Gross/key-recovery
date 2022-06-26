@@ -59,7 +59,6 @@ export async function getEncryptionKey(
 export function generateAccessControlConditions(lostWalletAddress: string) {
   return [
     {
-      conditionType: "evmContract",
       contractAddress: KEYKOVERY_CONTRACT_ADDRESS_KOVAN,
       functionName: "isAuthorizedRecoverer",
       functionParams: [lostWalletAddress, ":userAddress"],
