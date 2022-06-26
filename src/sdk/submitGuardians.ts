@@ -32,7 +32,7 @@ export async function submitGuardians(
 
   console.log("Getting authSig...");
 
-  let authSig = await litUtils.getAuthSig(CHAIN_STRING);
+  let authSig = await litUtils.getAuthSig();
 
   console.log("Encrypting...");
   console.log(privateKey);
@@ -53,7 +53,6 @@ export async function submitGuardians(
   let encryptedSymmetricKey = await litUtils.saveEncryptionKey(
     litUtils.generateAccessControlConditions(
       signerAddress,
-      KEYKOVERY_CONTRACT_ADDRESS,
     ),
     symmetricKey,
     authSig
