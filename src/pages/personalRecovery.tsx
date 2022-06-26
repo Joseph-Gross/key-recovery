@@ -152,7 +152,6 @@ const PersonalRecovery: NextPage = () => {
        if (!isOptedIn && signer) {
          await optIn(signer!);
        }
-  
        const signatureNotifs = await fetchSignatureNotifications(privySession.address);
        console.log(signatureNotifs);
      }

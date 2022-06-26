@@ -1,7 +1,7 @@
 // @ts-ignore
 import { EmbedSDK } from "@epnsproject/frontend-sdk-staging";
 import { Signer } from "ethers";
-import { CHAIN_ID } from "./constants";
+import { CHAIN_ID, KOVAN_CHAIN_ID } from "./constants";
 
 // @ts-ignore
 import EpnsSDK from "@epnsproject/backend-sdk-staging";
@@ -22,7 +22,7 @@ export async function isUserSubscribed(address: string): Promise<boolean> {
 
 export async function optIn(signer: Signer) {
   let userAddress = await signer.getAddress();
-  await channels.optIn(signer, CHANNEL_ADDRESS, CHAIN_ID, userAddress, {
+  await channels.optIn(signer, CHANNEL_ADDRESS, KOVAN_CHAIN_ID, userAddress, {
     onSuccess: () => {
       console.log("opted in");
     },
@@ -61,6 +61,7 @@ export async function fetchSignatureNotifications(
   pageNumber = 1,
   itemsPerPage = 20
 ) {
+  console.log(recipientAddress);
   const { count, results } = await api.fetchNotifications(
     recipientAddress,
     itemsPerPage,
