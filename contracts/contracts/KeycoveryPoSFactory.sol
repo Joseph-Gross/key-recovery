@@ -21,12 +21,6 @@ contract KeycoveryPoSFactory {
    */
   mapping (uint256 => bool) public nullifierHashes;
 
-  mapp
-  /**
-   * Nullifier hash
-   */
-  uint256 constant public nullifierHash;
-
   bool public isPaused;
   address public admin;
 
@@ -47,30 +41,16 @@ contract KeycoveryPoSFactory {
     _; 
   }
   
-  event InitializedFriends(address[] friends);
-
-  /**
-   * Initialize an account (msg.sender) with an array of friends
-   */
-  function initializeWalletFriends(address[] memory friendArray) external notPaused {
-    for (uint i = 0; i < friendArray.length; i++) {
-      friends[msg.sender][friendArray[i]] = true;
-    }
-
-    friendCount[msg.sender] = friendArray.length;
-
-    emit InitializedFriends(friendArray);
-  }
-
   /**
    * Approve a recoverer to access the "lost" wallet's private key. Needs signatures from all friends.
    * Returns true on success, false otherwise.
    */
   function deployKeykoInstance(
-    address signal
+    address signal,
     uint256 root,
     uint256 nullifierHash,
-    uint256[8] calldata proof) external returns (bool) {
+    uint256[8] calldata proof,
+    address[] memory friendArray) external returns (address) {
 
     worldId.verifyProof(
         root,
@@ -81,43 +61,12 @@ contract KeycoveryPoSFactory {
         proof
     );
 
-    nullifierHashes[nullifierHash] += 1;
+    nullifierHashes[nullifierHash] = true;
 
-    if(nullifierHashes[nullifierHash] == verificationLimit) {
-      revert InvalidNullifier();
-    }
+    KeycoveryPoS instance = new KeycoveryPoSFactory(worldId, groupId, msg.sender, root, nullifierHash, proof, friendArray);
 
-    require(isVerified[recoverer]);
-    require(nonce == recoveryNonce[lost]);
-    require(friendCount[lost] == signatures.length);
+    return address(instance);
 
-    bytes32 hash = keccak256(
-      abi.encode(lost, recoverer, nonce)
-    );
-
-    bytes32 messageHash = ECDSA.toEthSignedMessageHash(hash);
-
-    address[] memory seenFriends = new address[](friendCount[lost]);
-
-    // Check that each friend has signed the message.
-    for(uint i = 0; i < friendCount[lost]; i++) {
-      address signer = ECDSA.recover(messageHash, signatures[i]);
-      require(!seenSigners[signer]);
-      require(friends[lost][signer]);
-      seenSigners[signer] = true;
-      seenFriends[i] = signer;
-    }
-
-    // Reset seen signers list.
-    for(uint i = 0; i < friendCount[lost]; i++) {
-      address friend = seenFriends[i];
-      seenSigners[friend] = false;
-    }
-
-    approvedRecoverer[lost] = recoverer;
-    recoveryNonce[lost] += 1;
-
-    return true;
   }
 
 }
