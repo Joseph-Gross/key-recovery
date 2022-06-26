@@ -34,6 +34,7 @@ export function FriendRecoveryForm() {
       newAddress,
       nonce
     );
+    console.log(oldAddress)
     const message2 = await sendSignatureToAddress(newAddress, message);
     setIsSending(false);
   }

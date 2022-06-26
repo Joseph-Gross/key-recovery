@@ -145,19 +145,19 @@ const PersonalRecovery: NextPage = () => {
   const provider = useProvider();
 
   // TODO: EPNS stuff below did not work - @Richter
-  // useEffect(() => {
-  //
-  //   async function tryOptIn() {
-  //     const isOptedIn = await isUserSubscribed(privySession.address);
-  //     if (!isOptedIn && signer) {
-  //       await optIn(signer!);
-  //     }
-  //
-  //     const signatureNotifs = await fetchSignatureNotifications(privySession.address);
-  //     console.log(signatureNotifs);
-  //   }
-  //   tryOptIn().then(response => console.log("User subscribed"));
-  // }, [privySession, signer])
+  useEffect(() => {
+  
+     async function tryOptIn() {
+       const isOptedIn = await isUserSubscribed(privySession.address);
+       if (!isOptedIn && signer) {
+         await optIn(signer!);
+       }
+  
+       const signatureNotifs = await fetchSignatureNotifications(privySession.address);
+       console.log(signatureNotifs);
+     }
+     tryOptIn().then(response => console.log("User subscribed"));
+  }, [privySession, signer])
 
   const {
     isOpen: isRecoverySuccessModalOpen,
