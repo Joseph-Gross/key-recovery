@@ -42,7 +42,7 @@ import { useAccount, useSigner, useProvider } from "wagmi";
 import { usePrivySession } from "../components/PrivySession";
 import { RecoverySuccessModal } from "../components/RecoverySuccessModal";
 
-const PersonalRecovery: NextPage = () => {
+const PersonalRecovery1: NextPage = () => {
   /*
   worldID.init("world-id-container", {
     enable_telemetry: true,
@@ -243,7 +243,7 @@ const PersonalRecovery: NextPage = () => {
             <NotificationList />
           </GridItem>
           <GridItem justifyItems="center" mb={4} w="full">
-            <AddressInput inputValue={oldAddress} onChange={setOldAddress} />
+            <AddressInput inputValue={oldAddress} onChange={setOldAddress} label="Old Wallet Address" />
           </GridItem>
           <GridItem p={8}>
             <Button
@@ -271,4 +271,4 @@ const PersonalRecovery: NextPage = () => {
   );
 };
 
-export default PersonalRecovery;
+export default PersonalRecovery1;

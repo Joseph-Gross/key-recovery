@@ -1,13 +1,27 @@
-import {Box, Button, GridItem, Heading, SimpleGrid, useDisclosure} from "@chakra-ui/react";
+import {Box, Button, GridItem, Heading, SimpleGrid, Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription, CloseButton, useDisclosure} from "@chakra-ui/react";
 import {NotificationList} from "../NotificationList";
 import {AddressInput} from "../AddressInput";
 import {RecoverySuccessModal} from "../RecoverySuccessModal";
 import {useState} from "react";
+import {recoverKey} from "../../sdk/recoveryKey";
+import {ethers, Signer} from "ethers";
+import {PrivyClient} from "@privy-io/privy-browser";
+import {useAccount, useSigner} from "wagmi";
+import {usePrivySession} from "../PrivySession";
 
 
 export function PersonalRecovery() {
     const [isRecovering, setIsRecovering] = useState<boolean>();
     const [oldAddress, setOldAddress] = useState("");
+    const [recoveredKey, setRecoveredKey] = useState("");
+
+    const privySession = usePrivySession();
+    const { data: signer } = useSigner();
+    const { data: account } = useAccount();
+
 
     const {
         isOpen: isRecoverySuccessModalOpen,
@@ -15,13 +29,50 @@ export function PersonalRecovery() {
         onClose: onRecoverySuccessModalClose,
     } = useDisclosure();
 
-    function onRecoverClick() {
+    const {
+        isOpen: isRecoveryFailureAlertOpen,
+        onOpen: onRecoveryFailureAlertOpen,
+        onClose: onRecoveryFailureAlertClose,
+    } = useDisclosure();
 
-        console.log("Attempting to Recover");
+    function onCloseSuccessModal() {
+        setRecoveredKey("");
+        onRecoverySuccessModalClose();
+    }
+
+    function onCloseFailureAlert() {
+        setOldAddress("");
+        setIsRecovering(false);
+        onRecoveryFailureAlertClose();
+    }
+
+    async function recover() {
+        try {
+            setIsRecovering(true);
+            const plaintextKey = await recoverKey(oldAddress, account!.address!, signer!, privySession.privy);
+            setRecoveredKey(plaintextKey!);
+            setIsRecovering(true);
+            onRecoverySuccessModalOpen();
+        } catch (e) {
+            onRecoveryFailureAlertOpen();
+        }
     }
 
 
     return (<>
+        {isRecoveryFailureAlertOpen &&
+            <Alert status='error' variant='top-accent'>
+                <AlertIcon />
+                <AlertTitle>Error Retrieving your Private Key</AlertTitle>
+                <AlertDescription>You may not have acquired enough signatures</AlertDescription>
+                <CloseButton
+                    alignSelf='flex-start'
+                    position='relative'
+                    right={-1}
+                    top={1}
+                    onClick={onCloseFailureAlert}
+                />
+            </Alert>}
         <Box
             display={{ md: "flex" }}
             alignItems="center"
@@ -53,10 +104,9 @@ export function PersonalRecovery() {
                 </GridItem>
                 <GridItem p={8}>
                     <Button
-                        onClick={() =>
-                            onRecoverClick()
-                        }
+                        onClick={recover}
                         isLoading={isRecovering}
+                        disabled={!ethers.utils.isAddress(oldAddress)}
                     >
                         Recover Key
                     </Button>
@@ -65,8 +115,9 @@ export function PersonalRecovery() {
         </Box>
         <RecoverySuccessModal
             isOpen={isRecoverySuccessModalOpen}
-            onClose={onRecoverySuccessModalClose}
-            privateKey="Private Key"
+            onClose={onCloseSuccessModal}
+            privateKey={recoveredKey}
         />
+
     </>);
 }

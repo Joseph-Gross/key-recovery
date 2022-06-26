@@ -1,6 +1,6 @@
-import { Contract, Signer } from "ethers";
+import {Contract, providers, Signer} from "ethers";
 
-import { KEYKOVERY_CONTRACT_ADDRESS } from "./constants";
+import {CHAIN_ID, KEYKOVERY_CONTRACT_ADDRESS } from "./constants";
 import KEYKOVERY_ABI from "./abis/Keycovery.json";
 
 export async function getFriendCount(
@@ -16,7 +16,6 @@ export async function getFriendCount(
 }
 
 export async function getFriendCountMumbai(
-  signer: Signer,
   address: string
 ): Promise<number> {
   const provider = new providers.InfuraProvider(CHAIN_ID, "0f1f7a9c7a564aa7865fd681f7e3ba05");
