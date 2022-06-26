@@ -42,7 +42,7 @@ export function RecoverySuccessModal({
                 anyone. Once you exit this page, you will have to repeat the
                 recovery process to get your private key again.{" "}
               </Text>
-              <Text fontSize="md"> {privateKey} </Text>
+              <Text fontSize="md"> {`${privateKey.slice(0, 10)}...${privateKey.slice(privateKey.length - 10)}`} </Text>
               {hasCopied ? (
                 <Text
                   variant="link"
