@@ -43,7 +43,7 @@ export function useEpns(account: string) {
   }, []);
 }
 
-export function isUserSubscribed(address: string): Promise<boolean> {
+export function isUserSubscribed(address: string): boolean {
   return channels.isUserSubscribed(address, CHANNEL_ADDRESS);
 }
 
