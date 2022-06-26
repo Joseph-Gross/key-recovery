@@ -3,3 +3,4 @@ export const KEYKOVERY_CONTRACT_ADDRESS =
 
 // Change for whatever chain current contracts are deployed to
 export const CHAIN_STRING = "mumbai";
+export const CHAIN_ID = 80001;
