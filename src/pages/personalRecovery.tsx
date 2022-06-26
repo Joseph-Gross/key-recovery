@@ -26,8 +26,8 @@ import {
   optIn,
   useEpns,
 } from "../sdk/epnsUtils";
-import { getFriendCount } from "../sdk/getFriendCount";
-import { getUserNonce } from "../sdk/getUserNonce";
+import { getFriendCount, getFriendCountMumbai } from "../sdk/getFriendCount";
+import { getUserNonce, getUserNonceMumbai } from "../sdk/getUserNonce";
 import { fetchFromIPFS } from "../sdk/tatumUtils";
 import {
   stringToUint8Array,
@@ -78,8 +78,8 @@ const PersonalRecovery: NextPage = () => {
     setIsRecovering(true);
     // plug in SDK
     let signatureNotifs = await fetchSignatureNotifications(currentAddress);
-    let friendCount = await getFriendCountMumbai(signer, lostAddress);
-    let currentNonce = await getUserNonceMumbai(signer, lostAddress);
+    let friendCount = await getFriendCountMumbai(lostAddress);
+    let currentNonce = await getUserNonceMumbai(lostAddress);
 
     console.log("Notifications: " + signatureNotifs);
 
