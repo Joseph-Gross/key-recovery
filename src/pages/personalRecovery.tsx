@@ -74,10 +74,16 @@ const PersonalRecovery: NextPage = () => {
     privy: PrivyClient
   ) {
     setIsRecovering(true);
+    console.log("Old: " + oldAddress + lostAddress);
     // plug in SDK
     let signatureNotifs = await fetchSignatureNotifications(currentAddress);
+    console.log("Signatures fetched");
+
     let friendCount = await getFriendCountMumbai(lostAddress);
+    console.log("Friend Count");
+
     let currentNonce = await getUserNonceMumbai(lostAddress);
+    console.log("Current Nonce");
 
     console.log("Notifications: " + signatureNotifs);
 
@@ -87,10 +93,16 @@ const PersonalRecovery: NextPage = () => {
         let recentSigs = signatureNotifs.slice(-friendCount);
         console.log(recentSigs);
         // approve recovery address
+        console.log(lostAddress);
+        console.log(currentAddress);
+        console.log(currentNonce);
+        console.log(recentSigs.map((notif: { message: string }) => notif.message));
+
         let tx = await approveRecoverer(
           signer,
           lostAddress,
           currentAddress,
+          currentNonce,
           recentSigs.map((notif: { message: string }) => notif.message)
         );
         await tx.wait();
