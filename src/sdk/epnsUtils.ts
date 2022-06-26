@@ -15,34 +15,8 @@ const CHANNEL_ADDRESS = "0x0fc26CE09E56594Aa364D0890ae43BDC14152e25";
 
 const epnsSdk = new EpnsSDK(CHANNEL_PK);
 
-export function useEpns(account: string) {
-  return useEffect(() => {
-    EmbedSDK.init({
-      headerText: "Key Recovery", // optional
-      targetID: "sdk-trigger-id", // mandatory
-      appName: "consumerApp", // mandatory
-      user: account, // mandatory
-      viewOptions: {
-        type: "sidebar", // optional [default: 'sidebar', 'modal']
-        showUnreadIndicator: true, // optional
-        unreadIndicatorColor: "#cc1919",
-        unreadIndicatorPosition: "bottom-right",
-      },
-      theme: "light",
-      onOpen: () => {
-        console.log("-> client dApp onOpen callback");
-      },
-      onClose: () => {
-        console.log("-> client dApp onClose callback");
-      },
-    });
-    return () => {
-      EmbedSDK.cleanup();
-    };
-  }, []);
-}
 
-export async function isUserSubscribed(address: string): boolean {
+export async function isUserSubscribed(address: string): Promise<boolean> {
   return await channels.isUserSubscribed(address, CHANNEL_ADDRESS);
 }
 
