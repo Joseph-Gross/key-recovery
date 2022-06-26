@@ -195,14 +195,8 @@ const PersonalRecovery: NextPage = () => {
             </Button>
           </GridItem>
         </Grid>
-        <AddressInput
-        provider={provider}
-        value=''
-        label='ETH Address or ENS Name'
-        onChange={()=>null}
-        >
+        <AddressInput inputValue={oldAddress} onChange={setOldAddress}/>
 
-        </AddressInput>
         {/* <Input variant='filled' onChange={(e) => setOldAddress(e.target.value)}/> */}
       </SimpleGrid>
     </Box>
