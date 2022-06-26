@@ -12,5 +12,5 @@ export async function getUserNonce(
     KEYKOVERY_ABI,
     signer
   );
-  return await contract.getRecoveryNonce(address);
+  return await contract.recoveryNonce(address);
 }

@@ -5,7 +5,6 @@ import * as litUtils from "./litUtils";
 import * as ipfsUtils from "./ipfsUtils";
 import { initializeWalletGuardians } from "./initializeWalletGuardians";
 import * as tatumUtils from "./tatumUtils";
-// import { initializeWalletGuardians } from "./intializeWalletGuardians";
 import { CHAIN_STRING } from "./constants";
 
 import { PrivyClient } from "@privy-io/privy-browser";
@@ -81,6 +80,6 @@ export async function submitGuardians(
   const getCidData = await ipfsUtils.fetchFromIPFS(encryptedSymmetricKeyCid);
   console.log("returnedCIDDATA: " + getCidData);
 
-  // let tx = await initializeWalletGuardians(signer, guardians.map((guardian) => guardian.address));
-  // await tx.wait();
+  let tx = await initializeWalletGuardians(signer, guardians.map((guardian) => guardian.address));
+  await tx.wait();
 }
