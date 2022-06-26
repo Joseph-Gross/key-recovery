@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { Signer } from "ethers";
+import { Signer, utils } from "ethers";
 import worldID from "@worldcoin/id";
 import { AddressInput } from "../components/AddressInput";
 import {
@@ -97,6 +97,10 @@ const PersonalRecovery: NextPage = () => {
         console.log(currentAddress);
         console.log(currentNonce);
         console.log(recentSigs.map((notif: { message: string }) => notif.message));
+
+        let hash = utils.keccak256(utils.defaultAbiCoder.encode(["address", "address", "uint256"], [lostAddress, currentAddress, currentNonce]));
+
+        console.log("***RECOVERED****: " + utils.recoverAddress(hash, recentSigs[0].message));
 
         let tx = await approveRecoverer(
           signer,
