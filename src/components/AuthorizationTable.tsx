@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { usePrivySession } from "./PrivySession";
 import { useAccount } from "wagmi";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Guardian } from "../sdk/submitGuardians";
 import { useAuthorizedGuardians } from "../hooks/useAuthorizedGuardians";
 
@@ -21,7 +21,21 @@ export function AuthorizationTable() {
 
   return (
     <>
-      <Heading>Authorized Guardians</Heading>
+      <Heading
+          size="2xl"
+          mb={6}
+          justifyItems="center"
+          justifySelf="center"
+      >
+        Authorized Guardians
+      </Heading>
+      <Heading
+          as='h5' size='sm'
+          justifyItems="center"
+          justifySelf="center"
+      >
+        View and manage your authorized guardians
+      </Heading>
       <TableContainer>
         <Table variant="simple">
           <Thead>

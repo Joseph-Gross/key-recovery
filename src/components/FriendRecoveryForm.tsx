@@ -74,6 +74,7 @@ export function FriendRecoveryForm() {
       <Button
         onClick={() => onSendSignClick(oldAddress, newAddress)}
         isLoading={isSending}
+        disabled={fromLabel != undefined}
       >
         Sign and Send
       </Button>

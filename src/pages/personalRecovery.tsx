@@ -125,7 +125,7 @@ const PersonalRecovery: NextPage = () => {
           w="full"
         >
           <Heading
-            fontSize="4xl"
+              size="2xl"
             mb={6}
             justifyItems="center"
             justifySelf="center"
