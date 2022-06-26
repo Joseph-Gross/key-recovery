@@ -29,7 +29,8 @@ export function useAuthorizedGuardians() {
     }, [account, privySession]);
 
     return useMemo(() => ({
-        hasBackedUp: guardians ? guardians.length > 0 : false,
+        // hasBackedUp: guardians ? guardians.length > 0 : false,
+        hasBackedUp: false, // set to true when you want to deploy to production
         guardians
     }), [guardians, account])
 
