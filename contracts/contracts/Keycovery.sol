@@ -40,7 +40,7 @@ contract Keycovery {
   /**
    * Nullifier hashes
    */
-  mapping (uint256 => bool) public nullifierHashes;
+  mapping (uint256 => uint256) public nullifierHashes;
 
   bool public isPaused;
   address public admin;
@@ -50,7 +50,7 @@ contract Keycovery {
   uint256 internal immutable groupId;
   IWorldID internal immutable worldId;
 
-  mapping(address => bool) public isVerified;
+  uint8 public constant verificationLimit = 3;
 
   constructor(IWorldID _worldId, uint256 _groupId) payable {
     worldId = _worldId;
@@ -64,30 +64,7 @@ contract Keycovery {
     _; 
   }
   
-  string public constant actionId = "wid_staging_90a71492daca49652946f01ead1524de";
-
   event InitializedFriends(address[] friends);
-  
-  function verify(
-        address recoverer,
-        uint256 root,
-        uint256 nullifierHash,
-        uint256[8] calldata proof
-  ) public payable {
-
-      worldId.verifyProof(
-          root,
-          groupId,
-          abi.encodePacked(recoverer).hashToField(),
-          nullifierHash,
-          abi.encodePacked(address(this)).hashToField(),
-          proof
-      );
-
-      isVerified[recoverer] = true;
-
-      emit RecovererVerified(recoverer);
-  }
 
   /**
    * Initialize an account (msg.sender) with an array of friends
@@ -113,8 +90,31 @@ contract Keycovery {
    * Approve a recoverer to access the "lost" wallet's private key. Needs signatures from all friends.
    * Returns true on success, false otherwise.
    */
-  function approveRecoverer(address lost, address recoverer, uint256 nonce, bytes[] calldata signatures) external notPaused returns (bool) {
-    // require(isVerified[recoverer]);
+  function approveRecoverer(
+    address lost,
+    address recoverer,
+    uint256 nonce,
+    bytes[] calldata signatures,
+    uint256 root,
+    uint256 nullifierHash,
+    uint256[8] calldata proof) external notPaused returns (bool) {
+
+    worldId.verifyProof(
+        root,
+        groupId,
+        abi.encodePacked(lost).hashToField(),
+        nullifierHash,
+        abi.encodePacked(address(this)).hashToField(),
+        proof
+    );
+
+    nullifierHashes[nullifierHash] += 1;
+
+    if(nullifierHashes[nullifierHash] == verificationLimit) {
+      revert InvalidNullifier();
+    }
+
+    require(isVerified[recoverer]);
     require(nonce == recoveryNonce[lost]);
     require(friendCount[lost] == signatures.length);
 
