@@ -15,7 +15,6 @@ const CHANNEL_ADDRESS = "0xA487417C3D40e41CF41B4887f9407bE3d1809428";
 
 const epnsSdk = new EpnsSDK(CHANNEL_PK);
 
-
 export async function isUserSubscribed(address: string): Promise<boolean> {
   return await channels.isUserSubscribed(address, CHANNEL_ADDRESS);
 }

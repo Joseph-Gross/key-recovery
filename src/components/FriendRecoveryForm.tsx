@@ -34,22 +34,22 @@ export function FriendRecoveryForm() {
       newAddress,
       nonce
     );
-    console.log(oldAddress)
+    console.log(oldAddress);
     const message2 = await sendSignatureToAddress(newAddress, message);
     setIsSending(false);
   }
 
   return (
-    <VStack spacing={8} w='full'>
-      <HStack spacing={5} w='full'>
-        <Text fontSize="xl" mr={4} w='full'>
+    <VStack spacing={8} w="full">
+      <HStack spacing={5} w="full">
+        <Text fontSize="xl" mr={4} w="full">
           Lost Address:
         </Text>
         <AddressInput inputValue={oldAddress} onChange={setOldAddress} />
       </HStack>
 
-      <HStack spacing={5} w='full'>
-        <Text fontSize="xl" mr={4} w='full'>
+      <HStack spacing={5} w="full">
+        <Text fontSize="xl" mr={4} w="full">
           New Address:
         </Text>
         <AddressInput inputValue={newAddress} onChange={setNewAddress} />

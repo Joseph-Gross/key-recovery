@@ -36,9 +36,11 @@ export async function submitGuardians(
   console.log("Encrypting...");
   console.log(privateKey);
 
-  let { encryptedString, symmetricKey }: {encryptedString: Blob, symmetricKey: Uint8Array} = await litUtils.encryptString(
-    privateKey
-  );
+  let {
+    encryptedString,
+    symmetricKey,
+  }: { encryptedString: Blob; symmetricKey: Uint8Array } =
+    await litUtils.encryptString(privateKey);
 
   console.log("encpk:");
   console.log(encryptedString);
@@ -49,18 +51,21 @@ export async function submitGuardians(
 
   console.log("initter: " + signerAddress);
 
-
   let encryptedSymmetricKey = await litUtils.saveEncryptionKey(
     litUtils.generateAccessControlConditions(signerAddress),
-      symmetricKey,
-      authSig
+    symmetricKey,
+    authSig
   );
 
   console.log("enc symmkey");
   console.log(encryptedSymmetricKey);
 
-  const encryptedSymmetricKeyCid = await ipfsUtils.uploadUint8ArrayToIPFS(encryptedSymmetricKey);
-  const encryptedPrivateKeyCid = await ipfsUtils.uploadBlobToIPFS(encryptedString);
+  const encryptedSymmetricKeyCid = await ipfsUtils.uploadUint8ArrayToIPFS(
+    encryptedSymmetricKey
+  );
+  const encryptedPrivateKeyCid = await ipfsUtils.uploadBlobToIPFS(
+    encryptedString
+  );
 
   console.log("Encrypted Private Key CID: " + encryptedPrivateKeyCid);
   console.log("Encrypted Symmetric Key CID: " + encryptedSymmetricKeyCid);

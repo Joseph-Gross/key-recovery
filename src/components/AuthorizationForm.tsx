@@ -27,12 +27,7 @@ import {
   useAuthorizationForm,
 } from "../hooks/useAuthorizationForm";
 import React, { useState } from "react";
-// import * as litUtils from "../sdk/litUtils"
-import * as tatumUtils from "../sdk/tatumUtils";
-import { usePrivySession } from "./PrivySession";
 import { useSubmitGuardians } from "../hooks/useSubmitGuardians";
-import { AddressInput } from "./AddressInput";
-import { useController } from "react-hook-form";
 
 export function AuthorizationForm() {
   const {
@@ -63,8 +58,8 @@ export function AuthorizationForm() {
     onSubmit(data.guardians).then((r) => console.log("Form Submitted"));
   }
 
-    const [show, setShow] = useState(false);
-    const handleClick = () => setShow(!show);
+  const [show, setShow] = useState(false);
+  const handleClick = () => setShow(!show);
 
   return (
     <>
@@ -136,18 +131,18 @@ export function AuthorizationForm() {
         <FormControl isInvalid={false}>
           <FormLabel>Private Key</FormLabel>
           <InputGroup>
-          <Input
-            type={show ? "text" : "password"}
-            value={privateKey}
-            onChange={handleInputChange}
-            placeholder="Paste your private key or seed phrase to encrypt for social recovery"
-            size="md"
-          />
-          <InputRightElement width="5.5rem">
-        <Button h="1.5rem" size="sm" onClick={handleClick}>
-          {show ? "Hide" : "Show"}
-        </Button>
-      </InputRightElement>
+            <Input
+              type={show ? "text" : "password"}
+              value={privateKey}
+              onChange={handleInputChange}
+              placeholder="Paste your private key or seed phrase to encrypt for social recovery"
+              size="md"
+            />
+            <InputRightElement width="5.5rem">
+              <Button h="1.5rem" size="sm" onClick={handleClick}>
+                {show ? "Hide" : "Show"}
+              </Button>
+            </InputRightElement>
           </InputGroup>
         </FormControl>
 

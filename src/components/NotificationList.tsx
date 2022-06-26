@@ -1,10 +1,13 @@
 // @ts-ignore
 import { NotificationItem } from "@epnsproject/frontend-sdk-staging";
 import { useAccount } from "wagmi";
-import {fetchSignatureNotifications, isUserSubscribed, optIn} from "../sdk/epnsUtils";
+import {
+  fetchSignatureNotifications,
+  isUserSubscribed,
+  optIn,
+} from "../sdk/epnsUtils";
 import { useEffect, useState } from "react";
-import {Box, Center, GridItem, Heading, SimpleGrid} from "@chakra-ui/react";
-
+import { Box, Center, GridItem, Heading, SimpleGrid } from "@chakra-ui/react";
 
 export function NotificationList() {
   const { data: account } = useAccount();
@@ -24,18 +27,18 @@ export function NotificationList() {
 
   if (notifications === undefined || notifications.length == 0) {
     return (
-            <Box
-                boxShadow="dark-lg"
-                p={10}
-                my={10}
-                w="full"
-                justifyItems="center"
-                justifySelf="center"
-            >
-              <Center fontSize="3xl" justifyItems="center" w="full">
-                No current messages.
-              </Center>
-            </Box>
+      <Box
+        boxShadow="dark-lg"
+        p={10}
+        my={10}
+        w="full"
+        justifyItems="center"
+        justifySelf="center"
+      >
+        <Center fontSize="3xl" justifyItems="center" w="full">
+          No current messages.
+        </Center>
+      </Box>
     );
   }
 
@@ -45,7 +48,10 @@ export function NotificationList() {
         <NotificationItem
           key={index}
           notificationTitle={notification.title}
-          notificationBody={`${notification.message.slice(0, 10)}......${notification.message.slice(120)}`}
+          notificationBody={`${notification.message.slice(
+            0,
+            10
+          )}......${notification.message.slice(120)}`}
           cta={notification.cta}
           app={notification.app}
           icon={notification.icon}
