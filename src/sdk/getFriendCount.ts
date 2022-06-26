@@ -1,6 +1,6 @@
 import { Contract, Signer, providers } from "ethers";
 
-import {MUMBAI_CHAIN_ID, KEYKOVERY_CONTRACT_ADDRESS_KOVAN } from "./constants";
+import {KEYKOVERY_CONTRACT_ADDRESS_KOVAN } from "./constants";
 import KEYKOVERY_ABI from "./abis/Keycovery.json";
 
 

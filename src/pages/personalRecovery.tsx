@@ -54,6 +54,7 @@ const PersonalRecovery: NextPage = () => {
             setIsRecovering(true);
             onRecoverySuccessModalOpen();
         } catch (e) {
+            console.log("Error: " + e);
             onRecoveryFailureAlertOpen();
         }
     }

@@ -18,7 +18,7 @@ export async function recoverKey(oldAddress: string, newAddress: string, signer:
     if (signatureNotifs.length % friendCount == 0) {
         if (currentNonce == signatureNotifs.length / friendCount - 1 || (friendCount == 1 && signatureNotifs.length > 0)) {
             console.log("Enough signatures received... getting most recent ones");
-            let recentSigs = signatureNotifs.slice(friendCount);
+            let recentSigs = signatureNotifs.slice(0, friendCount);
             console.log(recentSigs);
 
             // approve recovery address
@@ -51,8 +51,10 @@ export async function recoverKey(oldAddress: string, newAddress: string, signer:
             console.log(encryptedSymmetricKey);
 
 
+            console.log("Getting Auth Sig");
             let authSig = await getAuthSig();
 
+            console.log("Getting symmetric key");
             const symmetricKey = await getEncryptionKey(
                 generateAccessControlConditions(oldAddress),
                 encryptedSymmetricKey,
