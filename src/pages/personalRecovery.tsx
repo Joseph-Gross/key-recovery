@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-
 import {Box, Button, GridItem, Heading, SimpleGrid, Alert,
     AlertIcon,
     AlertTitle,
@@ -13,7 +12,6 @@ import {ethers, Signer} from "ethers";
 import {useAccount, useSigner} from "wagmi";
 import {usePrivySession} from "../components/PrivySession";
 import {isUserSubscribed, optIn} from "../sdk/epnsUtils";
-
 
 const PersonalRecovery: NextPage = () => {
     const [isRecovering, setIsRecovering] = useState<boolean>();

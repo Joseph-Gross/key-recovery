@@ -11,5 +11,5 @@ export async function signRecoveryMessage(
     [friendLostAddress, friendNewAddress, nonce]
   );
   let hash = utils.keccak256(encodedMessage);
-  return await signer.signMessage(hash);
+  return await signer.signMessage(utils.arrayify(hash));
 }
