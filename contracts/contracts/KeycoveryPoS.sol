@@ -61,7 +61,6 @@ contract KeycoveryPoS {
     admin = msg.sender;
     isPaused = false;
     actionID = currentPubKey;
-
   }
 
   modifier notPaused() { 
