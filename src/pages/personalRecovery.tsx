@@ -6,6 +6,7 @@ import { AddressInput } from "../components/AddressInput";
 import {
   Box,
   Button,
+  Center,
   Text,
   Heading,
   Stack,
@@ -161,61 +162,76 @@ const PersonalRecovery: NextPage = () => {
   } = useDisclosure();
 
 
+  const address = account?.address
+    ? account.address
+    : "0x0fc26CE09E56594Aa364D0890ae43BDC14152e25";
+
+  const [notifications, setNotifications] = useState<any[]>();
+
+  useEffect(() => {
+    console.log(address);
+    fetchSignatureNotifications(address).then((_notifications) =>
+      setNotifications(_notifications)
+    );
+  }, [address]);
+  const numMessages = notifications?.length;
+
   // TO-DO: Set breakpoints for text
-  return (
-      <>
-        <Button onClick={onRecoverySuccessModalOpen}/>
-    <Box
+  if (notifications===undefined || notifications.length==0) {
+    return (
+      <Box
       display={{ md: "flex" }}
       alignItems="center"
+      justifyItems="center"
       minHeight="70vh"
       gap={8}
       mb={8}
       w="full"
     >
-      <SimpleGrid columns={1} justifyItems="center">
-        <Heading fontSize="4xl" mb={6}>
+      <SimpleGrid columns={1} justifyItems="center" justifySelf='center' w='full'>
+        <Heading fontSize="4xl" mb={12} justifyItems="center">
           Personal Key Recovery
         </Heading>
-        <Grid
-          h="300px"
-          w="full"
-          templateRows="repeat(2, 1fr)"
-          templateColumns="repeat(5, 1fr)"
-          gap={4}
-        >
-          <GridItem rowSpan={2} colSpan={2} p={6} justifyItems="center">
-            <NotificationList />
-          </GridItem>
-          <GridItem
-            rowSpan={3}
-            colSpan={3}
-            p={10}
-            justifyItems="center"
-            justifySelf="center"
-          >
-            <Text fontSize="xl" fontWeight={700}>
-              Recover your lost key. Decryption will happen locally.
-            </Text>
-          </GridItem>
-          <GridItem
-            rowSpan={1}
-            colSpan={1}
-            colStart={4}
-            justifyItems="center"
-            justifySelf="center"
-          >
-            <Button
+        <GridItem boxShadow="dark-lg" p={12} w='full' justifyItems='center' justifySelf='center'>
+          <Center fontSize='3xl' justifyItems='center' w='full' >
+            No current messages.
+          </Center>
+        </GridItem>
+      </SimpleGrid>
+      </Box>
+    );
+  }
+  // if there are ENS notifications
+  return (
+      <>
+        {/* <Button onClick={onRecoverySuccessModalOpen}/> */}
+    <Box
+      display={{ md: "flex" }}
+      alignItems="center"
+      justifyItems="center"
+      minHeight="70vh"
+      gap={8}
+      mb={8}
+      w="full"
+    >
+      <SimpleGrid columns={1} justifyItems="center" justifySelf='center' w='full'>
+        <Heading fontSize="4xl" mb={6} justifyItems="center" justifySelf="center">
+          Personal Key Recovery
+        </Heading>
+        <GridItem p={6} justifyItems="center">
+          <NotificationList/>
+        </GridItem>
+        <GridItem justifyItems="center" mb={4} w='full'>
+          <AddressInput inputValue={oldAddress} onChange={setOldAddress} />
+        </GridItem>
+        <GridItem p={8}>
+        <Button
               onClick={() => onRecoverClick(signer!, currentAddress!, oldAddress, privyClient)}
               isLoading={isRecovering}
             >
               Recover Key
             </Button>
-          </GridItem>
-        </Grid>
-        <AddressInput inputValue={oldAddress} onChange={setOldAddress}/>
-
-        {/* <Input variant='filled' onChange={(e) => setOldAddress(e.target.value)}/> */}
+        </GridItem>
       </SimpleGrid>
     </Box>
   <RecoverySuccessModal isOpen={isRecoverySuccessModalOpen} onClose={onRecoverySuccessModalClose} privateKey="Private Key"/>
