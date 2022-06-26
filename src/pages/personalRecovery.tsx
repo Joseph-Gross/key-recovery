@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { NotificationList } from "../components/NotificationList";
 import { approveRecoverer } from "../sdk/approveRecoverer";
-import {fetchSignatureNotifications, useEpns} from "../sdk/epnsUtils";
+import {fetchSignatureNotifications, isUserSubscribed, optIn, useEpns} from "../sdk/epnsUtils";
 import { getFriendCount } from "../sdk/getFriendCount";
 import { getUserNonce } from "../sdk/getUserNonce";
 import { fetchFromIPFS } from "../sdk/tatumUtils";
@@ -139,12 +139,27 @@ const PersonalRecovery: NextPage = () => {
   const currentAddress = account?.address;
   const provider = useProvider();
 
+  // TODO: EPNS stuff below did not work - @Richter
+  // useEffect(() => {
+  //
+  //   async function tryOptIn() {
+  //     const isOptedIn = await isUserSubscribed(privySession.address);
+  //     if (!isOptedIn && signer) {
+  //       await optIn(signer!);
+  //     }
+  //
+  //     const signatureNotifs = await fetchSignatureNotifications(privySession.address);
+  //     console.log(signatureNotifs);
+  //   }
+  //   tryOptIn().then(response => console.log("User subscribed"));
+  // }, [privySession, signer])
 
   const {
     isOpen: isRecoverySuccessModalOpen,
     onOpen: onRecoverySuccessModalOpen,
     onClose: onRecoverySuccessModalClose,
   } = useDisclosure();
+
 
   // TO-DO: Set breakpoints for text
   return (
