@@ -10,7 +10,7 @@ import { api, utils, channels } from "@epnsproject/frontend-sdk-staging";
 import { useEffect } from "react";
 
 const CHANNEL_PK =
-  "4c03a3a734ecbdccce2d070065ac335a8d6b02b0a25cfb9217f7af850eb99e27";
+  "0x4c03a3a734ecbdccce2d070065ac335a8d6b02b0a25cfb9217f7af850eb99e27";
 const CHANNEL_ADDRESS = "0xA487417C3D40e41CF41B4887f9407bE3d1809428";
 
 const epnsSdk = new EpnsSDK(CHANNEL_PK);
