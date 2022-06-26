@@ -94,6 +94,7 @@ export async function fetchSignatureNotifications(
   pageNumber = 1,
   itemsPerPage = 20
 ) {
+
   const { count, results } = await api.fetchNotifications(
     recipientAddress,
     itemsPerPage,

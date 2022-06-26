@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { NotificationList } from "../components/NotificationList";
 import { approveRecoverer } from "../sdk/approveRecoverer";
-import { fetchSignatureNotifications } from "../sdk/epnsUtils";
+import {fetchSignatureNotifications, useEpns} from "../sdk/epnsUtils";
 import { getFriendCount } from "../sdk/getFriendCount";
 import { getUserNonce } from "../sdk/getUserNonce";
 import { fetchFromIPFS } from "../sdk/tatumUtils";
@@ -60,6 +60,8 @@ const PersonalRecovery: NextPage = () => {
   const privyClient = privySession.privy;
   const [isRecovering, setIsRecovering] = useState(false);
 
+  const start = useEpns(privySession.address);
+
   async function onRecoverClick(
     signer: Signer,
     currentAddress: string,
@@ -72,8 +74,8 @@ const PersonalRecovery: NextPage = () => {
     let friendCount = await getFriendCount(signer, lostAddress);
     let currentNonce = await getUserNonce(signer, lostAddress);
 
-    console.lose(signatureNotifs);
-    
+    console.log("Notifications: " + signatureNotifs);
+
     if (signatureNotifs.length % friendCount == 0) {
       if (currentNonce == signatureNotifs.length / friendCount - 1) {
         console.log("Enough signatures received... getting most recent ones");
@@ -112,7 +114,6 @@ const PersonalRecovery: NextPage = () => {
         let encodedSymmetricKey;
         const symmetricKey = await getEncryptionKey(
           generateAccessControlConditions(
-            KEYKOVERY_CONTRACT_ADDRESS,
             lostAddress,
           ),
           stringToUint8Array(encryptedSymmetricKey),
