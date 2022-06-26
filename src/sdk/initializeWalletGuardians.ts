@@ -3,7 +3,7 @@ import { Contract, Signer, providers } from "ethers";
 import { KEYKOVERY_CONTRACT_ADDRESS } from "./constants";
 import KEYKOVERY_ABI from "./abis/Keycovery.json";
 
-export async function intializeWalletGuardians(
+export async function initializeWalletGuardians(
   signer: Signer,
   friendAddresses: Array<string>
 ): Promise<providers.TransactionResponse> {

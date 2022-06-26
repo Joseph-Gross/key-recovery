@@ -3,7 +3,7 @@ import { KEYKOVERY_CONTRACT_ADDRESS } from "./constants";
 
 import * as litUtils from "./litUtils";
 import * as tatumUtils from "./tatumUtils";
-import { initializeWalletGuardians } from "./intializeWalletGuardians";
+import { initializeWalletGuardians } from "./initializeWalletGuardians";
 import { CHAIN_STRING } from "./constants";
 
 import { PrivyClient } from "@privy-io/privy-browser";
