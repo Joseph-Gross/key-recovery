@@ -13,7 +13,6 @@ const CHANNEL_PK =
   "0xc9731b722aa9b3b0a4ac2badb57965615d5dbe569e701237e00eef4a8b98ffa3";
 const CHANNEL_ADDRESS = "0x0fc26CE09E56594Aa364D0890ae43BDC14152e25";
 
-
 const epnsSdk = new EpnsSDK(CHANNEL_PK);
 
 export function useEpns(account: string) {
@@ -49,17 +48,11 @@ export async function isUserSubscribed(address: string): boolean {
 
 export async function optIn(signer: Signer) {
   let userAddress = await signer.getAddress();
-  await channels.optIn(
-    signer,
-    CHANNEL_ADDRESS,
-    CHAIN_ID,
-    userAddress,
-    {
-      onSuccess: () => {
-        console.log("opted in");
-      }
-    }
-  );
+  await channels.optIn(signer, CHANNEL_ADDRESS, CHAIN_ID, userAddress, {
+    onSuccess: () => {
+      console.log("opted in");
+    },
+  });
 }
 
 /**
@@ -94,7 +87,6 @@ export async function fetchSignatureNotifications(
   pageNumber = 1,
   itemsPerPage = 20
 ) {
-
   const { count, results } = await api.fetchNotifications(
     recipientAddress,
     itemsPerPage,

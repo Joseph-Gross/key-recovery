@@ -15,11 +15,17 @@ import {
   Grid,
   GridItem,
   SimpleGrid,
-  Input, useDisclosure
+  Input,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { NotificationList } from "../components/NotificationList";
 import { approveRecoverer } from "../sdk/approveRecoverer";
-import {fetchSignatureNotifications, useEpns} from "../sdk/epnsUtils";
+import {
+  fetchSignatureNotifications,
+  isUserSubscribed,
+  optIn,
+  useEpns,
+} from "../sdk/epnsUtils";
 import { getFriendCount } from "../sdk/getFriendCount";
 import { getUserNonce } from "../sdk/getUserNonce";
 import { fetchFromIPFS } from "../sdk/tatumUtils";
@@ -34,7 +40,7 @@ import { KEYKOVERY_CONTRACT_ADDRESS } from "../sdk/constants";
 import { PrivyClient } from "@privy-io/privy-browser";
 import { useAccount, useSigner, useProvider } from "wagmi";
 import { usePrivySession } from "../components/PrivySession";
-import {RecoverySuccessModal} from "../components/RecoverySuccessModal";
+import { RecoverySuccessModal } from "../components/RecoverySuccessModal";
 
 const PersonalRecovery: NextPage = () => {
   /*
@@ -114,9 +120,7 @@ const PersonalRecovery: NextPage = () => {
 
         let encodedSymmetricKey;
         const symmetricKey = await getEncryptionKey(
-          generateAccessControlConditions(
-            lostAddress,
-          ),
+          generateAccessControlConditions(lostAddress),
           stringToUint8Array(encryptedSymmetricKey),
           authSig
         );
@@ -133,14 +137,28 @@ const PersonalRecovery: NextPage = () => {
     }
   }
 
-  const [oldAddress, setOldAddress] = useState('');
+  const [oldAddress, setOldAddress] = useState("");
   const { data: signer } = useSigner();
-  const { data: account} = useAccount();
+  const { data: account } = useAccount();
 
   const currentAddress = account?.address;
   const provider = useProvider();
 
-  // get notifications
+  // TODO: EPNS stuff below did not work - @Richter
+  // useEffect(() => {
+  //
+  //   async function tryOptIn() {
+  //     const isOptedIn = await isUserSubscribed(privySession.address);
+  //     if (!isOptedIn && signer) {
+  //       await optIn(signer!);
+  //     }
+  //
+  //     const signatureNotifs = await fetchSignatureNotifications(privySession.address);
+  //     console.log(signatureNotifs);
+  //   }
+  //   tryOptIn().then(response => console.log("User subscribed"));
+  // }, [privySession, signer])
+
   const {
     isOpen: isRecoverySuccessModalOpen,
     onOpen: onRecoverySuccessModalOpen,
@@ -160,66 +178,99 @@ const PersonalRecovery: NextPage = () => {
     );
   }, [address]);
   const numMessages = notifications?.length;
+
   // TO-DO: Set breakpoints for text
-  if (notifications===undefined || notifications.length==0) {
+  if (notifications === undefined || notifications.length == 0) {
     return (
       <Box
-      display={{ md: "flex" }}
-      alignItems="center"
-      justifyItems="center"
-      minHeight="70vh"
-      gap={8}
-      mb={8}
-      w="full"
-    >
-      <SimpleGrid columns={1} justifyItems="center" justifySelf='center' w='full'>
-        <Heading fontSize="4xl" mb={12} justifyItems="center">
-          Personal Key Recovery
-        </Heading>
-        <GridItem boxShadow="dark-lg" p={12} w='full' justifyItems='center' justifySelf='center'>
-          <Center fontSize='3xl' justifyItems='center' w='full' >
-            No current messages.
-          </Center>
-        </GridItem>
-      </SimpleGrid>
+        display={{ md: "flex" }}
+        alignItems="center"
+        justifyItems="center"
+        minHeight="70vh"
+        gap={8}
+        mb={8}
+        w="full"
+      >
+        <SimpleGrid
+          columns={1}
+          justifyItems="center"
+          justifySelf="center"
+          w="full"
+        >
+          <Heading fontSize="4xl" mb={12} justifyItems="center">
+            Personal Key Recovery
+          </Heading>
+          <GridItem
+            boxShadow="dark-lg"
+            p={12}
+            w="full"
+            justifyItems="center"
+            justifySelf="center"
+          >
+            <Center fontSize="3xl" justifyItems="center" w="full">
+              No current messages.
+            </Center>
+          </GridItem>
+        </SimpleGrid>
       </Box>
     );
   }
   // if there are ENS notifications
   return (
-      <>
-        {/* <Button onClick={onRecoverySuccessModalOpen}/> */}
-    <Box
-      display={{ md: "flex" }}
-      alignItems="center"
-      justifyItems="center"
-      minHeight="70vh"
-      gap={8}
-      mb={8}
-      w="full"
-    >
-      <SimpleGrid columns={1} justifyItems="center" justifySelf='center' w='full'>
-        <Heading fontSize="4xl" mb={6} justifyItems="center" justifySelf="center">
-          Personal Key Recovery
-        </Heading>
-        <GridItem p={6} justifyItems="center">
-          <NotificationList/>
-        </GridItem>
-        <GridItem justifyItems="center" mb={4} w='full'>
-          <AddressInput inputValue={oldAddress} onChange={setOldAddress} />
-        </GridItem>
-        <GridItem p={8}>
-        <Button
-              onClick={() => onRecoverClick(signer!, currentAddress!, oldAddress, privyClient)}
+    <>
+      {/* <Button onClick={onRecoverySuccessModalOpen}/> */}
+      <Box
+        display={{ md: "flex" }}
+        alignItems="center"
+        justifyItems="center"
+        minHeight="70vh"
+        gap={8}
+        mb={8}
+        w="full"
+      >
+        <SimpleGrid
+          columns={1}
+          justifyItems="center"
+          justifySelf="center"
+          w="full"
+        >
+          <Heading
+            fontSize="4xl"
+            mb={6}
+            justifyItems="center"
+            justifySelf="center"
+          >
+            Personal Key Recovery
+          </Heading>
+          <GridItem p={6} justifyItems="center">
+            <NotificationList />
+          </GridItem>
+          <GridItem justifyItems="center" mb={4} w="full">
+            <AddressInput inputValue={oldAddress} onChange={setOldAddress} />
+          </GridItem>
+          <GridItem p={8}>
+            <Button
+              onClick={() =>
+                onRecoverClick(
+                  signer!,
+                  currentAddress!,
+                  oldAddress,
+                  privyClient
+                )
+              }
               isLoading={isRecovering}
             >
               Recover Key
             </Button>
-        </GridItem>
-      </SimpleGrid>
-    </Box>
-  <RecoverySuccessModal isOpen={isRecoverySuccessModalOpen} onClose={onRecoverySuccessModalClose} privateKey="Private Key"/>
-      </>
+          </GridItem>
+        </SimpleGrid>
+      </Box>
+      <RecoverySuccessModal
+        isOpen={isRecoverySuccessModalOpen}
+        onClose={onRecoverySuccessModalClose}
+        privateKey="Private Key"
+      />
+    </>
   );
 };
 

@@ -56,9 +56,7 @@ export async function getEncryptionKey(
   });
 }
 
-export function generateAccessControlConditions(
-  lostWalletAddress: string,
-) {
+export function generateAccessControlConditions(lostWalletAddress: string) {
   return [
     {
       conditionType: "evmContract",
