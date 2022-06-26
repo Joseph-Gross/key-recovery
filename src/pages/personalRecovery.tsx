@@ -12,7 +12,7 @@ import {
   CloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { NotificationList } from "../components/NotificationList";
+import { NotificationTable} from "../components/NotificationTable";
 import { AddressInput } from "../components/AddressInput";
 import { RecoverySuccessModal } from "../components/RecoverySuccessModal";
 import { useEffect, useState } from "react";
@@ -133,7 +133,7 @@ const PersonalRecovery: NextPage = () => {
             Personal Key Recovery
           </Heading>
           <GridItem p={6} justifyItems="center" w="xl">
-            <NotificationList />
+            <NotificationTable />
           </GridItem>
           <GridItem justifyItems="center" mb={0} w="lg">
             <AddressInput

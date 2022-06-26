@@ -40,7 +40,7 @@ class MyDocument extends Document {
           <meta property="og:site_name" content={APP_NAME} />
           <meta property="og:title" content={APP_NAME} />
           <meta property="og:description" content={APP_DESCRIPTION} />
-          <meta property="og:image" content="../src/images/logo-black.svg" />
+          <meta property="og:image" content="../src/images/keyko.png" />
           <meta property="og:type" content="website" />
 
           {/*Twitter*/}
@@ -49,7 +49,7 @@ class MyDocument extends Document {
           <meta name="twitter:creator" content="" />
           <meta name="twitter:title" content="" />
           <meta name="twitter:description" content={APP_DESCRIPTION} />
-          <meta name="twitter:image" content="../src/images/logo-black.svg" />
+          <meta name="twitter:image" content="../src/images/keyko.png" />
 
           {/*<link rel="icon" href="favicon.ico" />*/}
         </Head>
