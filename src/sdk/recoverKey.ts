@@ -55,6 +55,7 @@ export async function recoverKey(oldAddress: string, newAddress: string, signer:
             let authSig = await getAuthSig();
 
             console.log("Getting symmetric key");
+            
             const symmetricKey = await getEncryptionKey(
                 generateAccessControlConditions(oldAddress),
                 encryptedSymmetricKey,

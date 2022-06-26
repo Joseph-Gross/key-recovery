@@ -36,7 +36,7 @@ export async function saveEncryptionKey(
 ): Promise<Uint8Array> {
   // Returns the symmetric key that has been encrypted with the Lit network public key.
   return await litNodeClient.saveEncryptionKey({
-    accessControlConditions,
+    evmContractConditions: accessControlConditions,
     symmetricKey,
     authSig,
     chain: CHAIN_STRING,
@@ -49,7 +49,7 @@ export async function getEncryptionKey(
   authSig: any
 ): Promise<Uint8Array> {
   return await litNodeClient.getEncryptionKey({
-    accessControlConditions,
+    evmContractConditions: accessControlConditions,
     authSig,
     toDecrypt: LitJsSdk.uint8arrayToString(encryptedSymmetricKey, "base16"),
     chain: CHAIN_STRING,
