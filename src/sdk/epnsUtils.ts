@@ -1,7 +1,7 @@
 // @ts-ignore
 import { EmbedSDK } from "@epnsproject/frontend-sdk-staging";
 import { Signer } from "ethers";
-import { CHAIN_ID } from "./constants";
+import { CHAIN_ID, KOVAN_CHAIN_ID } from "./constants";
 
 // @ts-ignore
 import EpnsSDK from "@epnsproject/backend-sdk-staging";
@@ -87,6 +87,7 @@ export async function fetchSignatureNotifications(
   pageNumber = 1,
   itemsPerPage = 20
 ) {
+  console.log(recipientAddress);
   const { count, results } = await api.fetchNotifications(
     recipientAddress,
     itemsPerPage,
