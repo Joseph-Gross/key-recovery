@@ -38,8 +38,8 @@ export function RecoverySuccessModal({
               <Text fontSize="lg">
                 {" "}
                 Your private key recovery was successful! This key will only be
-                displayed. Copy it to your clipboard and do not share with
-                anyone. Once you exit this modal, you will have to repeat the
+                displayed once. Copy it to your clipboard and do not share with
+                anyone. Once you exit this page, you will have to repeat the
                 recovery process to get your private key again.{" "}
               </Text>
               <Text fontSize="md"> {privateKey} </Text>
