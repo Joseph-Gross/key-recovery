@@ -42,9 +42,9 @@ export async function sendSignatureToAddress(
 ): Promise<any> {
   const tx = await epnsSdk.sendNotification(
     recipientAddress,
-    "Recover your account using this signature",
+    "Signature received",
     signature,
-    "Recover your account using this signature",
+    "Signature received",
     signature,
     3,
     undefined,

@@ -22,6 +22,11 @@ export async function recoverKey(oldAddress: string, newAddress: string, signer:
             let recentSigs = signatureNotifs.slice(0, friendCount);
             console.log(recentSigs);
 
+            console.log(oldAddress);
+            console.log(newAddress);
+            console.log(currentNonce);
+            console.log(recentSigs.map((notif: { message: string }) => notif.message));
+            
             // approve recovery address
             let tx = await approveRecoverer(
                 signer,
