@@ -72,8 +72,8 @@ const PersonalRecovery: NextPage = () => {
     setIsRecovering(true);
     // plug in SDK
     let signatureNotifs = await fetchSignatureNotifications(currentAddress);
-    let friendCount = await getFriendCount(signer, lostAddress);
-    let currentNonce = await getUserNonce(signer, lostAddress);
+    let friendCount = await getFriendCountMumbai(signer, lostAddress);
+    let currentNonce = await getUserNonceMumbai(signer, lostAddress);
 
     console.log("Notifications: " + signatureNotifs);
 

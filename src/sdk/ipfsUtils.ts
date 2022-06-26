@@ -6,8 +6,10 @@ export async function uploadToIPFS(rawData: Uint8Array): Promise<string> {
   const stringRep = dec.decode(rawData.buffer);
   console.log(stringRep);
 
+  let encodedData = Buffer.from(rawData).toString('base64');
+
   const blob = JSON.stringify({
-  	"message": btoa(unescape(encodeURIComponent(stringRep)))
+  	"message": encodedData
   })
 
   form.append("file", blob);
@@ -25,7 +27,7 @@ export async function uploadToIPFS(rawData: Uint8Array): Promise<string> {
   return JSON.parse(data)["Cid"]["/"];
 }
 
-export async function fetchFromIPFS(cid: string): Promise<string> {
+export async function fetchFromIPFS(cid: string): Promise<Buffer> {
   const resp = await fetch(`https://ipfs.infura.io:5001/api/v0/dag/get?arg=${cid}`, {
     method: "POST",
     headers: {
@@ -37,5 +39,5 @@ export async function fetchFromIPFS(cid: string): Promise<string> {
   let jsonResp = JSON.parse(text);
   let message = jsonResp["message"];
 
-  return message;
+  return Buffer.from(message, 'base64');
 }

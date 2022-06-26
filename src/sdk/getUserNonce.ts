@@ -1,6 +1,6 @@
-import { Contract, Signer } from "ethers";
+import { Contract, Signer, providers } from "ethers";
 
-import { KEYKOVERY_CONTRACT_ADDRESS } from "./constants";
+import { KEYKOVERY_CONTRACT_ADDRESS, CHAIN_ID } from "./constants";
 import KEYKOVERY_ABI from "./abis/Keycovery.json";
 
 export async function getUserNonce(
@@ -11,6 +11,18 @@ export async function getUserNonce(
     KEYKOVERY_CONTRACT_ADDRESS,
     KEYKOVERY_ABI,
     signer
+  );
+  return await contract.recoveryNonce(address);
+}
+
+export async function getUserNonceMumbai(
+  address: string
+): Promise<number> {
+  const provider = new providers.InfuraProvider(CHAIN_ID, "0f1f7a9c7a564aa7865fd681f7e3ba05");
+  let contract = new Contract(
+    KEYKOVERY_CONTRACT_ADDRESS,
+    KEYKOVERY_ABI,
+    provider
   );
   return await contract.recoveryNonce(address);
 }

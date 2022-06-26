@@ -14,3 +14,16 @@ export async function getFriendCount(
   );
   return await contract.friendCount(address);
 }
+
+export async function getFriendCountMumbai(
+  signer: Signer,
+  address: string
+): Promise<number> {
+  const provider = new providers.InfuraProvider(CHAIN_ID, "0f1f7a9c7a564aa7865fd681f7e3ba05");
+  let contract = new Contract(
+    KEYKOVERY_CONTRACT_ADDRESS,
+    KEYKOVERY_ABI,
+    provider
+  );
+  return await contract.friendCount(address);
+}
