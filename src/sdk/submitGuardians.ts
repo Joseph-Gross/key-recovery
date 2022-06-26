@@ -78,6 +78,9 @@ export async function submitGuardians(
     { field: "authorized-guardians-json", value: serializedGuardians },
   ]);
 
+  const getCidData = await ipfsUtils.fetchFromIPFS(encryptedSymmetricKeyCid);
+  console.log("returnedCIDDATA: " + getCidData);
+
   // let tx = await initializeWalletGuardians(signer, guardians.map((guardian) => guardian.address));
   // await tx.wait();
 }

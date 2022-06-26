@@ -35,7 +35,7 @@ export async function fetchFromIPFS(cid: string): Promise<string> {
   const text = await resp.text();
   console.log(text);
   let jsonResp = JSON.parse(text);
-  console.log(jsonResp);
-  
-  return JSON.parse(decodeURIComponent(escape(atob((jsonResp["Data"])))))["message"];
+  let message = jsonResp["message"];
+
+  return message;
 }
