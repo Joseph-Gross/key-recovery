@@ -12,6 +12,8 @@ contract KeycoveryPoS {
 
   using ByteHasher for bytes;
 
+  error InvalidNullifier();
+
   /**
    * Mapping from account address to its initialized friend list
    */
@@ -35,16 +37,9 @@ contract KeycoveryPoS {
   /**
    * Seen signers
    */
-  mapping (address => bool) public seenSigners;
+  uint256 public nullifierHash;
 
-  /**
-   * Nullifier hash
-   */
-  uint256 constant public nullifierHash;
-
-  string constant public actionID;
-
-
+  address immutable public actionID;
 
   bool public isPaused;
   address public admin;
@@ -55,25 +50,20 @@ contract KeycoveryPoS {
   uint256 internal immutable groupId;
   IWorldID internal immutable worldId;
 
-  constructor(IWorldID _worldId, uint256 _groupId, string currentPubKey) payable {
-    worldId = _worldId;
-    groupId = _groupId;
-    admin = msg.sender;
-    isPaused = false;
-    actionID = currentPubKey;
-  }
-
-  modifier notPaused() { 
-    require(!isPaused); 
-    _; 
-  }
-  
   event InitializedFriends(address[] friends);
 
-  /**
-   * Initialize an account (msg.sender) with an array of friends
-   */
-  function initializeWalletFriends(address[] memory friendArray) external notPaused {
+  constructor(IWorldID worldId_, uint256 groupId, address signal, uint256 root, uint256 _nullifierHash, uint256[8] calldata proof, address[] memory friendArray) payable {
+    worldId_.verifyProof(
+        root,
+        groupId,
+        abi.encodePacked(signal).hashToField(),
+        nullifierHash,
+        abi.encodePacked(address(this)).hashToField(),
+        proof
+    );
+
+    nullifierHash = _nullifierHash;
+
     for (uint i = 0; i < friendArray.length; i++) {
       friends[msg.sender][friendArray[i]] = true;
     }
@@ -82,11 +72,12 @@ contract KeycoveryPoS {
 
     emit InitializedFriends(friendArray);
   }
+
   
   /**
    * Getter for if an address is authorized to recover the private key
    */
-  function isAuthorizedRecoverer(address lost, address recoverer) external view notPaused returns (bool) {
+  function isAuthorizedRecoverer(address lost, address recoverer) external view returns (bool) {
     return approvedRecoverer[lost] == recoverer;
   }
 
@@ -100,8 +91,12 @@ contract KeycoveryPoS {
     uint256 nonce,
     bytes[] calldata signatures,
     uint256 root,
-    uint256 nullifierHash,
-    uint256[8] calldata proof) external notPaused returns (bool) {
+    uint256 nullifierHash_,
+    uint256[8] calldata proof) external returns (bool) {
+
+    if (nullifierHash_ != nullifierHash) {
+      revert InvalidNullifier();
+    }
 
     worldId.verifyProof(
         root,
@@ -150,10 +145,6 @@ contract KeycoveryPoS {
 
     return true;
   }
-
-  function pause() external {
-    require(msg.sender == admin);
-    isPaused = true;
-  }
+  
 }
 

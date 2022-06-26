@@ -14,58 +14,32 @@ contract KeycoveryPoSFactory {
 
   using ByteHasher for bytes;
 
-  mapping(string => KeycoveryPoS) public proxies;
-
-  /**
-   * Mapping from account address to its initialized friend list
-   */
-  mapping (address => mapping(address => bool)) private friends;
-
-  /**
-   * Number of friends an account has.
-   */
-  mapping (address => uint256) public friendCount;
-
-  /**
-   * Mapping from an account address to it's approved recoverer address
-   */
-  mapping (address => address) private approvedRecoverer;
-
-  /**
-   * Nonce counter
-   */
-  mapping (address => uint256) public recoveryNonce;
+  mapping(address => KeycoveryPoS) public proxies;
 
   /**
    * Seen signers
    */
-  mapping (address => bool) public seenSigners;
+  mapping (uint256 => bool) public nullifierHashes;
 
+  mapp
   /**
    * Nullifier hash
    */
   uint256 constant public nullifierHash;
-
-  string constant public actionID;
-
-
 
   bool public isPaused;
   address public admin;
 
   event RecovererVerified(address indexed recoverer);
 
-
   uint256 internal immutable groupId;
   IWorldID internal immutable worldId;
 
-  constructor(IWorldID _worldId, uint256 _groupId, string currentPubKey) payable {
+  constructor(IWorldID _worldId, uint256 _groupId) payable {
     worldId = _worldId;
     groupId = _groupId;
     admin = msg.sender;
     isPaused = false;
-    actionID = currentPubKey;
-
   }
 
   modifier notPaused() { 
@@ -87,26 +61,16 @@ contract KeycoveryPoSFactory {
 
     emit InitializedFriends(friendArray);
   }
-  
-  /**
-   * Getter for if an address is authorized to recover the private key
-   */
-  function isAuthorizedRecoverer(address lost, address recoverer) external view notPaused returns (bool) {
-    return approvedRecoverer[lost] == recoverer;
-  }
 
   /**
    * Approve a recoverer to access the "lost" wallet's private key. Needs signatures from all friends.
    * Returns true on success, false otherwise.
    */
-  function approveRecoverer(
-    address lost,
-    address recoverer,
-    uint256 nonce,
-    bytes[] calldata signatures,
+  function deployKeykoInstance(
+    address signal
     uint256 root,
     uint256 nullifierHash,
-    uint256[8] calldata proof) external notPaused returns (bool) {
+    uint256[8] calldata proof) external returns (bool) {
 
     worldId.verifyProof(
         root,
@@ -156,9 +120,5 @@ contract KeycoveryPoSFactory {
     return true;
   }
 
-  function pause() external {
-    require(msg.sender == admin);
-    isPaused = true;
-  }
 }
 
