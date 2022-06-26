@@ -15,7 +15,7 @@ import {usePrivySession} from "../components/PrivySession";
 import {isUserSubscribed, optIn} from "../sdk/epnsUtils";
 
 
-const PersonalRecovery2: NextPage = () => {
+const PersonalRecovery: NextPage = () => {
     const [isRecovering, setIsRecovering] = useState<boolean>();
     const [oldAddress, setOldAddress] = useState("");
     const [recoveredKey, setRecoveredKey] = useState("");
@@ -62,13 +62,23 @@ const PersonalRecovery2: NextPage = () => {
 
     useEffect(() => {
         async function tryOptIn() {
-            const isOptedIn = await isUserSubscribed(privySession.address);
+            if(account?.address == undefined) {
+                return;
+            }
+
+            const isOptedIn = await isUserSubscribed(account.address);
             if (!isOptedIn && signer) {
                 await optIn(signer!);
             }
         }
-        tryOptIn().then(response => console.log("User subscribed to channel"));
+        try{
+            tryOptIn().then(response => console.log("User subscribed to channel"));
+        } catch(e) {
+            console.log("User not signed in");
+        }
     }, [privySession, signer])
+
+
 
     return (<>
         {isRecoveryFailureAlertOpen &&
@@ -107,11 +117,11 @@ const PersonalRecovery2: NextPage = () => {
                 >
                     Personal Key Recovery
                 </Heading>
-                <GridItem p={6} justifyItems="center">
+                <GridItem p={6} justifyItems="center" w="xl">
                     <NotificationList />
                 </GridItem>
-                <GridItem justifyItems="center" mb={4} w="full">
-                    <AddressInput inputValue={oldAddress} onChange={setOldAddress} />
+                <GridItem justifyItems="center" mb={0} w="lg">
+                    <AddressInput inputValue={oldAddress} onChange={setOldAddress} label="Old Address"/>
                 </GridItem>
                 <GridItem p={8}>
                     <Button
@@ -133,4 +143,4 @@ const PersonalRecovery2: NextPage = () => {
     </>);
 }
 
-export default PersonalRecovery2;
+export default PersonalRecovery;

@@ -42,7 +42,7 @@ import { useAccount, useSigner, useProvider } from "wagmi";
 import { usePrivySession } from "../components/PrivySession";
 import { RecoverySuccessModal } from "../components/RecoverySuccessModal";
 
-const PersonalRecovery1: NextPage = () => {
+const PersonalRecoveryLegacy: NextPage = () => {
   /*
   worldID.init("world-id-container", {
     enable_telemetry: true,
@@ -290,4 +290,4 @@ const PersonalRecovery1: NextPage = () => {
   );
 };
 
-export default PersonalRecovery1;
+export default PersonalRecoveryLegacy;

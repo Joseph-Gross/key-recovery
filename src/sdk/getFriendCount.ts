@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-import {Contract, providers, Signer} from "ethers";
-=======
 import { Contract, Signer, providers } from "ethers";
->>>>>>> refs/remotes/origin/main
 
 import {CHAIN_ID, KEYKOVERY_CONTRACT_ADDRESS } from "./constants";
 import KEYKOVERY_ABI from "./abis/Keycovery.json";
-import { CHAIN_ID } from "./constants";
+
 
 export async function getFriendCount(
   signer: Signer,
