@@ -53,7 +53,6 @@ export function NotificationTable() {
 
   return (
     <>
-      <Heading as='h4' size='md'>Signature Inbox</Heading>
       <TableContainer>
         <Table variant="simple">
           <Thead>
@@ -68,7 +67,7 @@ export function NotificationTable() {
               return (
                   <Tr key={index}>
                     <Td>{notification.title}</Td>
-                    <Td>{notification.payloadTitle}</Td>
+                    <Td>{notification.notification.title}</Td>
                     <Td>{`${notification.message.slice(0,10)}......${notification.message.slice(120)}`}</Td>
                   </Tr>
               );

@@ -41,13 +41,23 @@ const FriendRecovery: NextPage = () => {
       >
         <Flex px={{ base: 6, md: 10 }} direction="column" gap={8}>
           <Flex direction="column">
-            <Heading size="3xl" mb={12}>
+            <Heading
+                size="2xl"
+                mb={6}
+                justifyItems="center"
+                justifySelf="center"
+            >
               Friend Key Recovery
             </Heading>
-            <Text size="body.md" fontStyle="italic" mb={8}>
+            <Heading
+                as='h5' size='sm'
+                justifyItems="center"
+                justifySelf="center"
+            >
               Input the old and new wallet address to help your friend recover
               their key
-            </Text>
+            </Heading>
+
           </Flex>
         </Flex>
 

@@ -65,10 +65,21 @@ export function AuthorizationForm() {
     <>
       <Flex px={{ base: 6, md: 10 }} direction="column" gap={8}>
         <Flex direction="column">
-          <Heading size="title.md">Guardian List</Heading>
-          <Text size="body.md" fontStyle="italic">
+          <Heading
+              size="2xl"
+              mb={6}
+              justifyItems="center"
+              justifySelf="center"
+          >
+            Guardian List
+          </Heading>
+          <Heading
+              as='h5' size='sm'
+              justifyItems="center"
+              justifySelf="center"
+          >
             Define the guardians who can collectively recover your key
-          </Text>
+          </Heading>
         </Flex>
 
         <Flex direction="column" gap={4}>
