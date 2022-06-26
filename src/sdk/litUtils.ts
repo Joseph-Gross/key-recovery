@@ -1,10 +1,10 @@
 // @ts-ignore
 import * as LitJsSdk from "lit-js-sdk";
-import {CHAIN_STRING, KEYKOVERY_CONTRACT_ADDRESS_KOVAN} from "./constants";
+import { CHAIN_STRING, KEYKOVERY_CONTRACT_ADDRESS_KOVAN } from "./constants";
 
 export const litNodeClient = new LitJsSdk.LitNodeClient({
   alertWhenUnauthorized: false,
-  debug: true
+  debug: true,
 });
 
 export async function getAuthSig(): Promise<any> {
@@ -55,37 +55,37 @@ export function generateAccessControlConditions(lostWalletAddress: string) {
   return [
     {
       contractAddress: KEYKOVERY_CONTRACT_ADDRESS_KOVAN,
-      functionName: 'isAuthorizedRecoverer',
-      functionParams: [lostWalletAddress, ':userAddress'],
+      functionName: "isAuthorizedRecoverer",
+      functionParams: [lostWalletAddress, ":userAddress"],
       functionAbi: {
         inputs: [
           {
-            internalType: 'address',
-            name: 'lost',
-            type: 'address',
+            internalType: "address",
+            name: "lost",
+            type: "address",
           },
           {
-            internalType: 'address',
-            name: 'recoverer',
+            internalType: "address",
+            name: "recoverer",
             type: "address",
           },
         ],
-        name: 'isAuthorizedRecoverer',
+        name: "isAuthorizedRecoverer",
         outputs: [
           {
-            internalType: 'bool',
-            name: '',
-            type: 'bool',
+            internalType: "bool",
+            name: "",
+            type: "bool",
           },
         ],
-        stateMutability: 'view',
-        type: 'function',
+        stateMutability: "view",
+        type: "function",
       },
       chain: CHAIN_STRING,
       returnValueTest: {
-        key: '',
-        comparator: '=',
-        value: 'true'
+        key: "",
+        comparator: "=",
+        value: "true",
       },
     },
   ];

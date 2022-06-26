@@ -4,7 +4,6 @@ import * as LitJsSdk from "lit-js-sdk";
 const AUTH_DIGEST =
   "Basic MkI1bWpncUdzNVdaOVpIRG9VdDRuWkdrVU5jOjY3MWI4YzQyZDdkNDY0OTAzMmFjMmZiNTVkYTJjZTcw";
 
-
 /**
  * This function encodes into base 64.
  * it's useful for storing symkeys and files in ceramic
@@ -25,53 +24,24 @@ export function blobToBase64(blob: Blob) {
   return new Promise((resolve, _) => {
     const reader = new FileReader();
     reader.onloadend = () =>
-        resolve(
-            // @ts-ignore
-            reader.result.replace("data:application/octet-stream;base64,", "")
-        );
+      resolve(
+        // @ts-ignore
+        reader.result.replace("data:application/octet-stream;base64,", "")
+      );
     reader.readAsDataURL(blob);
   });
 }
 
-
-export async function uploadUint8ArrayToIPFS(rawData: Uint8Array): Promise<string> {
+export async function uploadUint8ArrayToIPFS(
+  rawData: Uint8Array
+): Promise<string> {
   const form = new FormData();
 
   console.log(rawData);
-  let encodedData = encodeb64(rawData)
+  let encodedData = encodeb64(rawData);
 
   const blob = JSON.stringify({
-    "message": encodedData
-  });
-
-  form.append("file", blob);
-
-  const resp: Response = await fetch(
-      `https://ipfs.infura.io:5001/api/v0/dag/put`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: AUTH_DIGEST,
-        },
-        body: form,
-      }
-  );
-
-  const data: string = await resp.text();
-  console.log(data);
-  return JSON.parse(data)["Cid"]["/"];
-}
-
-
-export async function uploadBlobToIPFS(rawData: Uint8Array | Blob, isBlob = false): Promise<string> {
-  const form = new FormData();
-
-  console.log(rawData);
-
-  let encodedData = await blobToBase64(rawData as Blob);
-
-  const blob = JSON.stringify({
-  	"message": encodedData
+    message: encodedData,
   });
 
   form.append("file", blob);
@@ -92,7 +62,37 @@ export async function uploadBlobToIPFS(rawData: Uint8Array | Blob, isBlob = fals
   return JSON.parse(data)["Cid"]["/"];
 }
 
+export async function uploadBlobToIPFS(
+  rawData: Uint8Array | Blob,
+  isBlob = false
+): Promise<string> {
+  const form = new FormData();
 
+  console.log(rawData);
+
+  let encodedData = await blobToBase64(rawData as Blob);
+
+  const blob = JSON.stringify({
+    message: encodedData,
+  });
+
+  form.append("file", blob);
+
+  const resp: Response = await fetch(
+    `https://ipfs.infura.io:5001/api/v0/dag/put`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: AUTH_DIGEST,
+      },
+      body: form,
+    }
+  );
+
+  const data: string = await resp.text();
+  console.log(data);
+  return JSON.parse(data)["Cid"]["/"];
+}
 
 /**
  * This function decodes from base 64.
@@ -105,12 +105,15 @@ export function decodeb64(b64String: any) {
 }
 
 export async function fetchFromIPFS(cid: string): Promise<Uint8Array> {
-  const resp = await fetch(`https://ipfs.infura.io:5001/api/v0/dag/get?arg=${cid}`, {
-    method: "POST",
-    headers: {
-    	"Authorization": AUTH_DIGEST,
-    },
-  });
+  const resp = await fetch(
+    `https://ipfs.infura.io:5001/api/v0/dag/get?arg=${cid}`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: AUTH_DIGEST,
+      },
+    }
+  );
 
   const text = await resp.text();
   console.log("IPFS Response: " + text);

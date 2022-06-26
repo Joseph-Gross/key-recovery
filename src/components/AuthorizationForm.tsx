@@ -16,6 +16,8 @@ import {
   Box,
   Stack,
   HStack,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 
 import { constants, ethers } from "ethers";
@@ -24,13 +26,8 @@ import {
   AuthorizationFormValues,
   useAuthorizationForm,
 } from "../hooks/useAuthorizationForm";
-import { useState } from "react";
-// import * as litUtils from "../sdk/litUtils"
-import * as tatumUtils from "../sdk/tatumUtils";
-import { usePrivySession } from "./PrivySession";
+import React, { useState } from "react";
 import { useSubmitGuardians } from "../hooks/useSubmitGuardians";
-import { AddressInput } from "./AddressInput";
-import { useController } from "react-hook-form";
 
 export function AuthorizationForm() {
   const {
@@ -60,6 +57,9 @@ export function AuthorizationForm() {
     console.log(data);
     onSubmit(data.guardians).then((r) => console.log("Form Submitted"));
   }
+
+  const [show, setShow] = useState(false);
+  const handleClick = () => setShow(!show);
 
   return (
     <>
@@ -130,12 +130,20 @@ export function AuthorizationForm() {
 
         <FormControl isInvalid={false}>
           <FormLabel>Private Key</FormLabel>
-          <Textarea
-            value={privateKey}
-            onChange={handleInputChange}
-            placeholder="Paste your private key or seed phrase to encrypt for social recovery"
-            size="sm"
-          />
+          <InputGroup>
+            <Input
+              type={show ? "text" : "password"}
+              value={privateKey}
+              onChange={handleInputChange}
+              placeholder="Paste your private key or seed phrase to encrypt for social recovery"
+              size="md"
+            />
+            <InputRightElement width="5.5rem">
+              <Button h="1.5rem" size="sm" onClick={handleClick}>
+                {show ? "Hide" : "Show"}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
         </FormControl>
 
         <Button onClick={handleSubmit(submitForm)} isLoading={isSubmitLoading}>
