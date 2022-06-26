@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { usePrivySession } from "../components/PrivySession";
 import { useContract, useSigner } from "wagmi";
-import { KEYKOVERY_CONTRACT_ADDRESS } from "../sdk/constants";
+import { KEYKOVERY_CONTRACT_ADDRESS_KOVAN } from "../sdk/constants";
 import KEYKOVERY_ABI from "../sdk/abis/Keycovery.json";
 import { Guardian, submitGuardians } from "../sdk/submitGuardians";
 
@@ -11,7 +11,7 @@ export function useSubmitGuardians(privateKey: string) {
 
   const { data: signer, isError, isLoading: isSignerLoading } = useSigner();
   const contract = useContract({
-    addressOrName: KEYKOVERY_CONTRACT_ADDRESS,
+    addressOrName: KEYKOVERY_CONTRACT_ADDRESS_KOVAN,
     contractInterface: KEYKOVERY_ABI,
     signerOrProvider: signer,
   });

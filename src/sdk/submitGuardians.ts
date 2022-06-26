@@ -1,5 +1,5 @@
 import { Contract, Signer } from "ethers";
-import { KEYKOVERY_CONTRACT_ADDRESS } from "./constants";
+import { KEYKOVERY_CONTRACT_ADDRESS_KOVAN } from "./constants";
 
 import * as litUtils from "./litUtils";
 import * as ipfsUtils from "./ipfsUtils";

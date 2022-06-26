@@ -1,6 +1,6 @@
 import { Contract, Signer, providers } from "ethers";
 
-import { KEYKOVERY_CONTRACT_ADDRESS, CHAIN_ID } from "./constants";
+import { KEYKOVERY_CONTRACT_ADDRESS_KOVAN } from "./constants";
 import KEYKOVERY_ABI from "./abis/Keycovery.json";
 
 export async function getUserNonce(
@@ -8,13 +8,13 @@ export async function getUserNonce(
   address: string
 ): Promise<number> {
   let contract = new Contract(
-    KEYKOVERY_CONTRACT_ADDRESS,
+    KEYKOVERY_CONTRACT_ADDRESS_KOVAN,
     KEYKOVERY_ABI,
     signer
   );
   return await contract.recoveryNonce(address);
 }
-
+/*
 export async function getUserNonceMumbai(
   address: string
 ): Promise<number> {
@@ -26,3 +26,4 @@ export async function getUserNonceMumbai(
   );
   return await contract.recoveryNonce(address);
 }
+*/

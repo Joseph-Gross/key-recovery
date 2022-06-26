@@ -1,6 +1,6 @@
 import {fetchSignatureNotifications} from "./epnsUtils";
-import {getFriendCountMumbai} from "./getFriendCount";
-import {getUserNonceMumbai} from "./getUserNonce";
+import {getFriendCount} from "./getFriendCount";
+import {getUserNonce} from "./getUserNonce";
 import {approveRecoverer} from "./approveRecoverer";
 import {fetchFromIPFS} from "./ipfsUtils";
 import {decryptString, generateAccessControlConditions, getAuthSig, getEncryptionKey} from "./litUtils";
@@ -10,8 +10,8 @@ import {PrivyClient} from "@privy-io/privy-browser";
 export async function recoverKey(oldAddress: string, newAddress: string, signer: Signer, privyClient: PrivyClient) {
     let signatureNotifs = await fetchSignatureNotifications(newAddress);
 
-    let friendCount = await getFriendCountMumbai(oldAddress);
-    let currentNonce = await getUserNonceMumbai(oldAddress);
+    let friendCount = await getFriendCount(signer, oldAddress);
+    let currentNonce = await getUserNonce(signer, oldAddress);
 
     console.log("Notifications: " + signatureNotifs);
 

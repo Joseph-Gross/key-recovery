@@ -1,6 +1,6 @@
 import { Contract, Signer, providers } from "ethers";
 
-import {CHAIN_ID, KEYKOVERY_CONTRACT_ADDRESS } from "./constants";
+import {MUMBAI_CHAIN_ID, KEYKOVERY_CONTRACT_ADDRESS_KOVAN } from "./constants";
 import KEYKOVERY_ABI from "./abis/Keycovery.json";
 
 
@@ -9,13 +9,14 @@ export async function getFriendCount(
   address: string
 ): Promise<number> {
   let contract = new Contract(
-    KEYKOVERY_CONTRACT_ADDRESS,
+    KEYKOVERY_CONTRACT_ADDRESS_KOVAN,
     KEYKOVERY_ABI,
     signer
   );
   return await contract.friendCount(address);
 }
 
+/*
 export async function getFriendCountMumbai(
   address: string
 ): Promise<number> {
@@ -27,3 +28,4 @@ export async function getFriendCountMumbai(
   );
   return await contract.friendCount(address);
 }
+*/

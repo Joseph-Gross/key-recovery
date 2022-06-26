@@ -36,7 +36,7 @@ import {
   generateAccessControlConditions,
   getAuthSig,
 } from "../sdk/litUtils";
-import { KEYKOVERY_CONTRACT_ADDRESS } from "../sdk/constants";
+import { KEYKOVERY_CONTRACT_ADDRESS_KOVAN } from "../sdk/constants";
 import { PrivyClient } from "@privy-io/privy-browser";
 import { useAccount, useSigner, useProvider } from "wagmi";
 import { usePrivySession } from "../components/PrivySession";

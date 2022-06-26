@@ -1,7 +1,7 @@
 // @ts-ignore
 import { EmbedSDK } from "@epnsproject/frontend-sdk-staging";
 import { Signer } from "ethers";
-import { CHAIN_ID, KOVAN_CHAIN_ID } from "./constants";
+import { KOVAN_CHAIN_ID } from "./constants";
 
 // @ts-ignore
 import EpnsSDK from "@epnsproject/backend-sdk-staging";
