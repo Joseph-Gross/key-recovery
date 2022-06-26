@@ -59,39 +59,39 @@ export async function getEncryptionKey(
 export function generateAccessControlConditions(lostWalletAddress: string) {
   return [
     {
-      conditionType: "evmContract",
+      conditionType:'evmContract',
       contractAddress: KEYKOVERY_CONTRACT_ADDRESS_KOVAN,
-      functionName: "isAuthorizedRecoverer",
-      functionParams: [lostWalletAddress, ":userAddress"],
+      functionName: 'isAuthorizedRecoverer',
+      functionParams: [lostWalletAddress, ':userAddress'],
       functionAbi: {
         inputs: [
           {
-            internalType: "address",
-            name: "lost",
-            type: "address",
+            internalType: 'address',
+            name: 'lost',
+            type: 'address',
           },
           {
-            internalType: "address",
-            name: "recoverer",
+            internalType: 'address',
+            name: 'recoverer',
             type: "address",
           },
         ],
-        name: "isAuthorizedRecoverer",
+        name: 'isAuthorizedRecoverer',
         outputs: [
           {
-            internalType: "bool",
-            name: "",
-            type: "bool",
+            internalType: 'bool',
+            name: '',
+            type: 'bool',
           },
         ],
-        stateMutability: "view",
-        type: "function",
+        stateMutability: 'view',
+        type: 'function',
       },
       chain: CHAIN_STRING,
       returnValueTest: {
-        key: "",
-        comparator: "=",
-        value: "true",
+        key: '',
+        comparator: '=',
+        value: 'true'
       },
     },
   ];

@@ -1,0 +1,34 @@
+
+import {Contract, Signer, Wallet} from "ethers";
+
+import {Guardian, submitGuardians} from "./sdk/submitGuardians";
+import {recoverKey} from "./sdk/recoverKey";
+import {signRecoveryMessage} from "./sdk/signRecoveryMessage";
+import {PrivyClient} from "@privy-io/privy-browser";
+
+
+const LOSER_PRIVATE_KEY = "";
+const GUARDIAN_PRIVATE_KEY = "";
+const RECOVERER_PRIVATE_KEY = "";
+
+
+const loserWallet = new Wallet(LOSER_PRIVATE_KEY);
+const guardianWallet = new Wallet(GUARDIAN_PRIVATE_KEY);
+const recovererWallet = new Wallet(RECOVERER_PRIVATE_KEY);
+
+
+
+// const keyRecoveryContract = new Contract();
+
+//
+// async function testFunctionality() {
+//     await submitGuardians({
+//         signer: loserWallet,
+//         contract: keyRecoveryContract,
+//         privateKey: LOSER_PRIVATE_KEY,
+//         guardians: [{address: guardianWallet.address, label: "test_guardian"}],
+//     });
+//
+//
+// }
+
