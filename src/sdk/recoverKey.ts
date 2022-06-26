@@ -49,6 +49,7 @@ export async function recoverKey(oldAddress: string, newAddress: string, signer:
             console.log(encryptedPrivateKey);
             console.log(encryptedSymmetricKey);
 
+
             let authSig = await getAuthSig();
 
             const symmetricKey = await getEncryptionKey(
@@ -58,6 +59,7 @@ export async function recoverKey(oldAddress: string, newAddress: string, signer:
             );
 
             // PLAINTEXT PRIVATE KEY
+            console.log("Attempting to decrypt string");
             return await decryptString(
                 new Blob([encryptedPrivateKey]),
                 symmetricKey

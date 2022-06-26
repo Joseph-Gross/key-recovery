@@ -7,7 +7,7 @@ import {NotificationList} from "../components/NotificationList";
 import {AddressInput} from "../components/AddressInput";
 import {RecoverySuccessModal} from "../components/RecoverySuccessModal";
 import {useEffect, useState} from "react";
-import {recoverKey} from "../sdk/recoveryKey";
+import {recoverKey} from "../sdk/recoverKey";
 import {ethers, Signer} from "ethers";
 import {useAccount, useSigner} from "wagmi";
 import {usePrivySession} from "../components/PrivySession";
