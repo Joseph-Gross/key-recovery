@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getUserNonceMumbai } from "../sdk/getUserNonce";
+import { getUserNonce } from "../sdk/getUserNonce";
 import { sendSignatureToAddress } from "../sdk/epnsUtils";
 import { constants } from "ethers";
 
@@ -27,7 +27,7 @@ export function FriendRecoveryForm() {
   async function onSendSignClick(oldAddress: string, newAddress: string) {
     setIsSending(true);
     // plug in SDK
-    const nonce = await getUserNonceMumbai(oldAddress);
+    const nonce = await getUserNonce(signer!, oldAddress);
     const message = await signRecoveryMessage(
       signer!,
       oldAddress,
