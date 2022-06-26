@@ -3,11 +3,10 @@ const AUTH_DIGEST =
 
 export async function uploadToIPFS(rawData: Uint8Array): Promise<string> {
   const form = new FormData();
-  const dec = new TextDecoder();
-  const stringRep = dec.decode(rawData.buffer);
-  console.log(stringRep);
 
-  let encodedData = Buffer.from(rawData).toString('base64');
+  console.log(rawData);
+
+  let encodedData = rawData.toString('base64');
 
   const blob = JSON.stringify({
   	"message": encodedData
