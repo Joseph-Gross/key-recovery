@@ -58,7 +58,7 @@ export function AddressInput({
   return (
       <FormControl isInvalid={isInvalidInput } w='full'>
         {label && (<FormLabel>{label}</FormLabel>)}
-        <InputGroup size='md' minW='md' >
+        <InputGroup size='md' minW='31rem' >
         <Input
             
             variant="filled"
