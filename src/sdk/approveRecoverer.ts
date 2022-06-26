@@ -7,6 +7,7 @@ export async function approveRecoverer(
   signer: Signer,
   lostWalletAddress: string,
   newWalletAddress: string,
+  nonce: number,
   friendSignatures: Array<string>
 ): Promise<providers.TransactionResponse> {
   let contract = new Contract(
@@ -17,6 +18,7 @@ export async function approveRecoverer(
   return await contract.approveRecoverer(
     lostWalletAddress,
     newWalletAddress,
+    nonce,
     friendSignatures
   );
 }

@@ -1,7 +1,7 @@
 // @ts-ignore
 import { EmbedSDK } from "@epnsproject/frontend-sdk-staging";
 import { Signer } from "ethers";
-import { CHAIN_ID } from "./constants";
+import { CHAIN_ID, KOVAN_CHAIN_ID } from "./constants";
 
 // @ts-ignore
 import EpnsSDK from "@epnsproject/backend-sdk-staging";
@@ -13,53 +13,20 @@ const CHANNEL_PK =
   "0xc9731b722aa9b3b0a4ac2badb57965615d5dbe569e701237e00eef4a8b98ffa3";
 const CHANNEL_ADDRESS = "0x0fc26CE09E56594Aa364D0890ae43BDC14152e25";
 
-
 const epnsSdk = new EpnsSDK(CHANNEL_PK);
 
-export function useEpns(account: string) {
-  return useEffect(() => {
-    EmbedSDK.init({
-      headerText: "Key Recovery", // optional
-      targetID: "sdk-trigger-id", // mandatory
-      appName: "consumerApp", // mandatory
-      user: account, // mandatory
-      viewOptions: {
-        type: "sidebar", // optional [default: 'sidebar', 'modal']
-        showUnreadIndicator: true, // optional
-        unreadIndicatorColor: "#cc1919",
-        unreadIndicatorPosition: "bottom-right",
-      },
-      theme: "light",
-      onOpen: () => {
-        console.log("-> client dApp onOpen callback");
-      },
-      onClose: () => {
-        console.log("-> client dApp onClose callback");
-      },
-    });
-    return () => {
-      EmbedSDK.cleanup();
-    };
-  }, []);
-}
 
-export async function isUserSubscribed(address: string): boolean {
+export async function isUserSubscribed(address: string): Promise<boolean> {
   return await channels.isUserSubscribed(address, CHANNEL_ADDRESS);
 }
 
 export async function optIn(signer: Signer) {
   let userAddress = await signer.getAddress();
-  await channels.optIn(
-    signer,
-    CHANNEL_ADDRESS,
-    CHAIN_ID,
-    userAddress,
-    {
-      onSuccess: () => {
-        console.log("opted in");
-      }
-    }
-  );
+  await channels.optIn(signer, CHANNEL_ADDRESS, KOVAN_CHAIN_ID, userAddress, {
+    onSuccess: () => {
+      console.log("opted in");
+    },
+  });
 }
 
 /**
@@ -94,7 +61,7 @@ export async function fetchSignatureNotifications(
   pageNumber = 1,
   itemsPerPage = 20
 ) {
-
+  console.log(recipientAddress);
   const { count, results } = await api.fetchNotifications(
     recipientAddress,
     itemsPerPage,

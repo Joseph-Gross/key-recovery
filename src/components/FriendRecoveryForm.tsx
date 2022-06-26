@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getUserNonce } from "../sdk/getUserNonce";
+import { getUserNonceMumbai } from "../sdk/getUserNonce";
 import { sendSignatureToAddress } from "../sdk/epnsUtils";
 import { constants } from "ethers";
 
@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { signRecoveryMessage } from "../sdk/signRecoveryMessage";
 import { useSigner } from "wagmi";
-import {AddressInput} from "./AddressInput";
+import { AddressInput } from "./AddressInput";
 
 export function FriendRecoveryForm() {
   const [oldAddress, setOldAddress] = useState("");
@@ -27,13 +27,14 @@ export function FriendRecoveryForm() {
   async function onSendSignClick(oldAddress: string, newAddress: string) {
     setIsSending(true);
     // plug in SDK
-    const nonce = await getUserNonce(signer!, oldAddress);
+    const nonce = await getUserNonceMumbai(oldAddress);
     const message = await signRecoveryMessage(
       signer!,
       oldAddress,
       newAddress,
       nonce
     );
+    console.log(oldAddress)
     const message2 = await sendSignatureToAddress(newAddress, message);
     setIsSending(false);
   }
@@ -44,7 +45,7 @@ export function FriendRecoveryForm() {
         <Text fontSize="xl" mr={4} w='full'>
           Lost Address:
         </Text>
-        <AddressInput inputValue={oldAddress} onChange={setOldAddress}/>
+        <AddressInput inputValue={oldAddress} onChange={setOldAddress} />
       </HStack>
 
       <HStack spacing={5} w='full'>

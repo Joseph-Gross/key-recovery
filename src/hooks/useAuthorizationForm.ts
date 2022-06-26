@@ -1,5 +1,10 @@
 import { useEffect, useMemo } from "react";
-import {Resolver, useController, useFieldArray, useForm} from "react-hook-form";
+import {
+  Resolver,
+  useController,
+  useFieldArray,
+  useForm,
+} from "react-hook-form";
 import { Guardian } from "../sdk/submitGuardians";
 
 export interface AuthorizationFormValues {
@@ -13,20 +18,20 @@ export function useAuthorizationForm() {
     control,
     getFieldState,
     formState,
-      getValues,
-      setValue,
+    getValues,
+    setValue,
   } = useForm<AuthorizationFormValues>();
   const { fields, append, remove } = useFieldArray({
     name: "guardians",
     control,
   });
 
-    const {
-        field: { onChange, value},
-    } = useController({
-        name: "guardians",
-        control,
-    });
+  const {
+    field: { onChange, value },
+  } = useController({
+    name: "guardians",
+    control,
+  });
 
   useEffect(() => {
     if (fields.length === 0) {
@@ -43,11 +48,21 @@ export function useAuthorizationForm() {
       remove,
       getFieldState,
       formState,
-        setValue,
-        value,
-        getValues,
-        control,
+      setValue,
+      value,
+      getValues,
+      control,
     }),
-    [append, fields, formState, getFieldState, getValues, handleSubmit, register, remove, onChange]
+    [
+      append,
+      fields,
+      formState,
+      getFieldState,
+      getValues,
+      handleSubmit,
+      register,
+      remove,
+      onChange,
+    ]
   );
 }
