@@ -6,6 +6,7 @@ import {fetchFromIPFS} from "./ipfsUtils";
 import {decryptString, generateAccessControlConditions, getAuthSig, getEncryptionKey} from "./litUtils";
 import {Signer} from "ethers";
 import {PrivyClient} from "@privy-io/privy-browser";
+import * as litUtils from "./litUtils";
 
 export async function recoverKey(oldAddress: string, newAddress: string, signer: Signer, privyClient: PrivyClient) {
     let signatureNotifs = await fetchSignatureNotifications(newAddress);
@@ -50,12 +51,14 @@ export async function recoverKey(oldAddress: string, newAddress: string, signer:
             console.log(encryptedPrivateKey);
             console.log(encryptedSymmetricKey);
 
+            console.log("Connecting lit client...");
+            await litUtils.litNodeClient.connect();
 
             console.log("Getting Auth Sig");
             let authSig = await getAuthSig();
 
             console.log("Getting symmetric key");
-            
+
             const symmetricKey = await getEncryptionKey(
                 generateAccessControlConditions(oldAddress),
                 encryptedSymmetricKey,
