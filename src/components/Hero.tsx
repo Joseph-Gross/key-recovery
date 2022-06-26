@@ -36,7 +36,7 @@ export function Hero() {
           </Heading>
           <Text color={"gray.500"}>
             Never lose access to your blockchain account again. Social recovery
-            method for any EVM compatible chain. Implemented using advanced
+            method for any EVM compatible chain. Implemented using decentralized storage,
             cryptography and threshold signatures.
           </Text>
 
