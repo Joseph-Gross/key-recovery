@@ -53,6 +53,7 @@ export function AuthorizationForm() {
     console.log(
       "Encrypting private key, uploading to IPFS, adding authorized guardians, etc."
     );
+    console.log(data);
     onSubmit(data.guardians).then((r) => console.log("Form Submitted"));
   }
 
@@ -62,7 +63,7 @@ export function AuthorizationForm() {
         <Flex direction="column">
           <Heading size="title.md">Guardian List</Heading>
           <Text size="body.md" fontStyle="italic">
-            Define the guardians who can recover your key
+            Define the guardians who can collectively recover your key
           </Text>
         </Flex>
 

@@ -3,6 +3,7 @@ import { KEYKOVERY_CONTRACT_ADDRESS } from "./constants";
 
 import * as litUtils from "./litUtils";
 import * as tatumUtils from "./tatumUtils";
+import { initializeWalletGuardians } from "./intializeWalletGuardians";
 import { CHAIN_STRING } from "./constants";
 
 import { PrivyClient } from "@privy-io/privy-browser";
@@ -27,18 +28,25 @@ export async function submitGuardians(
 
   console.log("Connecting lit client...");
   await litUtils.litNodeClient.connect();
-  
+
   console.log("Getting authSig...");
 
   let authSig = await litUtils.getAuthSig(CHAIN_STRING);
 
   console.log("Encrypting...");
+  console.log(privateKey);
 
   let { encryptedString, symmetricKey } = await litUtils.encryptString(
     privateKey
   );
+  console.log("encpk:");
+  console.log(encryptedString);
+  console.log("symmmkey:");
+  console.log(symmetricKey);
 
   let signerAddress = await signer.getAddress();
+
+  console.log("initter: " + signerAddress);
 
   let encryptedSymmetricKey = await litUtils.saveEncryptionKey(
     litUtils.generateAccessControlConditions(
@@ -49,14 +57,23 @@ export async function submitGuardians(
     authSig
   );
 
-  const encryptedSymmKeyCid = await tatumUtils.uploadToIPFS(encryptedSymmetricKey);
-  const encryptedPrivateKeyCid = await tatumUtils.uploadToIPFS(encryptedString);
+  console.log(encryptedString);
+  console.log(encryptedSymmetricKey);
+
+  const encryptedSymmKeyCid = "cid1"; // await tatumUtils.uploadToIPFS(encryptedSymmetricKey);
+  const encryptedPrivateKeyCid = "cid2"; // await tatumUtils.uploadToIPFS(encryptedString);
+
+  console.log(encryptedSymmKeyCid);
+  console.log(encryptedPrivateKeyCid);
 
   const serializedGuardians = JSON.stringify(guardians);
 
   await privyClient.put(signerAddress, [
-    { field: "encrypted-symm-key-cid", value: encryptedSymmKeyCid },
+    // { field: "encrypted-symmetric-key-cid", value: encryptedSymmKeyCid },
     { field: "encrypted-private-key-cid", value: encryptedPrivateKeyCid },
-    { field: "authorized-guardians-json", value: serializedGuardians },
+    // { field: "authorized-guardians-json", value: serializedGuardians },
   ]);
+
+  let tx = await initializeWalletGuardians(signer, guardians.map((guardian) => guardian.address));
+  await tx.wait();
 }

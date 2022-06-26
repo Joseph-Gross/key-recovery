@@ -30,6 +30,7 @@
     "@epnsproject/frontend-sdk-staging": "^1.8.5",
     "@privy-io/privy-browser": "^0.0.1",
     "@worldcoin/id": "^0.3.0",
+    "dotenv": "^16.0.1",
     "eslint-config-prettier": "^8.5.0",
     "ethers": "^5.6.9",
     "framer-motion": "^6",

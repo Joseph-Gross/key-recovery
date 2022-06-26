@@ -1,13 +1,15 @@
-import { TATUM_API_KEY } from "../../config";
+const TATUM_API_KEY = "e2fec12c-3054-4a69-87d5-844ecf9460e1";
 
 export async function uploadToIPFS(rawData: Uint8Array): Promise<string> {
   const form = new FormData();
-  const enc = new TextEncoder();
-  const stringRep = enc.decode(rawData);
-
+  const dec = new TextDecoder();
+  const stringRep = dec.decode(rawData.buffer);
+  console.log(stringRep);
   form.append("file", stringRep);
 
-  const resp: Response = await fetch(`https://api-eu1.tatum.io/v3/ipfs`, {
+  console.log("tatumkey: " + TATUM_API_KEY);
+
+  const resp: Response = await fetch(`https://api-us-west1.tatum.io/v3/ipfs`, {
     method: "POST",
     headers: {
       "x-api-key": TATUM_API_KEY,
@@ -20,13 +22,12 @@ export async function uploadToIPFS(rawData: Uint8Array): Promise<string> {
 }
 
 export async function fetchFromIPFS(cid: string): Promise<string> {
-  const id = "YOUR_id_PARAMETER";
-  const resp = await fetch(`https://api-eu1.tatum.io/v3/ipfs/${id}`, {
+  const resp = await fetch(`https://api-us-west1.tatum.io/v3/ipfs/${cid}`, {
     method: "GET",
     headers: {
       "x-api-key": TATUM_API_KEY,
     },
   });
 
-  return await resp.text();
+  return JSON.parse(await resp.text())["data"];
 }

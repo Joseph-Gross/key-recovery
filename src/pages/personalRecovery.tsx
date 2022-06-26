@@ -92,7 +92,7 @@ const PersonalRecovery: NextPage = () => {
         );
         const encryptedSymmetricKeyCid = await privy.get(
           lostAddress,
-          "encrypted-symm-key-cid"
+          "encrypted-symmetric-key-cid"
         );
 
         const encryptedPrivateKey = await fetchFromIPFS(

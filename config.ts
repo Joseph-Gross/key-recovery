@@ -1,3 +1,4 @@
+import "dotenv/config";
 
 export const PRIVY_API_HOST = process.env.PRIVY_API_HOST as string;
 export const PRIVY_KMS_HOST = process.env.PRIVY_KMS_HOST as string;
