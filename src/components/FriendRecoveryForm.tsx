@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { signRecoveryMessage } from "../sdk/signRecoveryMessage";
 import { useSigner } from "wagmi";
+import {AddressInput} from "./AddressInput";
 
 export function FriendRecoveryForm() {
   const [oldAddress, setOldAddress] = useState("");
@@ -44,29 +45,15 @@ export function FriendRecoveryForm() {
           {" "}
           Lost Address:{" "}
         </Text>
-        <FormControl isInvalid={false}>
-          <Input
-            variant="filled"
-            placeholder={constants.AddressZero}
-            onChange={(e) => setOldAddress(e.target.value)}
-          />
-          <FormErrorMessage></FormErrorMessage>
-        </FormControl>
+        <AddressInput inputValue={oldAddress} onChange={setOldAddress}/>
       </HStack>
 
       <HStack>
         <Text fontSize="xl" mr={4}>
           {" "}
-          Recoverer Address:{" "}
+          New Address:{" "}
         </Text>
-        <FormControl isInvalid={false}>
-          <Input
-            variant="filled"
-            placeholder={constants.AddressZero}
-            onChange={(e) => setNewAddress(e.target.value)}
-          />
-          <FormErrorMessage></FormErrorMessage>
-        </FormControl>
+        <AddressInput inputValue={newAddress} onChange={setNewAddress} />
       </HStack>
 
       <Button

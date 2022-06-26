@@ -1,12 +1,14 @@
-import { useEnsName, useProvider } from "wagmi";
-import { providers } from "ethers";
+import {useEnsAddress, useEnsName, useProvider} from "wagmi";
+import {ethers, providers} from "ethers";
 import {
   FormControl,
   FormLabel,
   Input,
   FormErrorMessage,
   InputProps,
-  FormHelperText
+  FormHelperText,
+  InputGroup,
+  InputRightElement, Button, useClipboard,
 } from '@chakra-ui/react';
 import { useState, useEffect } from "react";
 
@@ -16,86 +18,55 @@ type Omitted = "disabled" | "required" | "readOnly" | "size"
 
 
 export interface AddressInputProps {
-  /**
-   * The provider or signer to fetch the address from the ens
-   */
-  provider: providers.BaseProvider;
-  /**
-   * The value for the input
-   */
-  value: string;
-  /**
-   * The label for the input
-   */
-  label?: string;
-  /**
-   * Change handler for the text input
-   */
+  inputValue: string;
   onChange: (value: string) => void;
+  label?: string;
+  canCopy?: boolean;
 }
 
-/**
- * A text input component that is used to get ETH addresses. ENS support included. You can also pass all the styling props of the Chakra UI Input component.
- */
-export const AddressInput: React.FC<AddressInputProps & InputProps> = ({
-  provider,
-  value: _value,
-  onChange,
-  label,
-  ...props
-}) => {
-  const [inputValue, setInputValue] = useState('');
-  // const debouncedValue = useDebounce(inputValue, 700);
-  const [error, setError] = useState<null | string>(null);
-  // use ethers address checking instead
-  const regex = /^0x[a-fA-F0-9]{40}$/;
 
-  const getAddressFromEns = async () => {
-    try {
-      const address = await provider.resolveName(inputValue);
-      if (!address) {
-        setError('Invalid Input');
-      }
-      return address;
-    } catch (error) {
-      setError(error as string);
-      return;
-    }
-  };
+export function AddressInput({inputValue, onChange, label, canCopy=true}: AddressInputProps) {
+  // const [inputValue, setInputValue] = useState('');
+  const { data: ensName, isError: isEnsNameError, isLoading: isEnsNameLoading } = useEnsName({
+    address: inputValue,
+  })
+  const { data: ensAddress, isError: isEnsAddressError, isLoading: isEnsAddressLoading } = useEnsAddress({
+    name: inputValue,
+  })
 
-  useEffect(() => {
-    if (inputValue) {
-      onChange('');
-      setError(null);
-      if (regex.test(inputValue)) {
-        onChange(inputValue);
-      } else if (
-        inputValue.endsWith('.eth') ||
-        inputValue.endsWith('.xyz')
-      ) {
-        getAddressFromEns().then((address) => onChange(address ? address : ''));
-      }
-    }
-  }, [inputValue]);
+  const inputIsEns = inputValue.endsWith('.eth') || inputValue.endsWith('.xyz');
+  const isInvalidInput = (inputIsEns ? isEnsAddressError : !ethers.utils.isAddress(inputValue)) && inputValue.length > 0;
+  const helperMessage = inputIsEns ? ensAddress : ensName
 
-  useEffect(() => {
-    if (inputValue === '') {
-      onChange('');
-      setError(null);
-    }
-  }, [inputValue]);
+  const toCopy = inputIsEns ? ensAddress! : inputValue;
+  const { hasCopied, onCopy } = useClipboard(
+      toCopy
+  );
 
   return (
-    <FormControl isInvalid={!!error}>
-      {label && <FormLabel>Input address</FormLabel>}
-      <Input
-        isInvalid={!!error}
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        {...props}
-      />
-      <FormHelperText>We'll never share your email.</FormHelperText>
-      <FormErrorMessage>{error ? ' ' + error : ''}</FormErrorMessage>
-    </FormControl>
+      <FormControl isInvalid={isInvalidInput }>
+        {label && (<FormLabel>{label}</FormLabel>)}
+        <InputGroup size='md'>
+        <Input
+            variant="filled"
+            placeholder="address or ens"
+            isInvalid={isInvalidInput}
+            value={inputValue}
+            onChange={(e) => onChange(e.target.value)}
+        />
+          {canCopy &&
+          <InputRightElement width='5.0rem'>
+            <Button h='1.75rem' size='sm' onClick={onCopy} disabled={isInvalidInput}>
+              {hasCopied ? 'Copied' : 'Copy'}
+            </Button>
+          </InputRightElement>
+          }
+        </InputGroup>
+        {isInvalidInput ? (
+            <FormErrorMessage>Invalid address or ens</FormErrorMessage>
+        ) : (
+            <FormHelperText>{inputValue.length > 0 && helperMessage}</FormHelperText>
+        )}
+      </FormControl>
   );
-};
+}

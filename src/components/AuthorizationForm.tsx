@@ -29,6 +29,8 @@ import { useState } from "react";
 import * as tatumUtils from "../sdk/tatumUtils";
 import { usePrivySession } from "./PrivySession";
 import { useSubmitGuardians } from "../hooks/useSubmitGuardians";
+import {AddressInput} from "./AddressInput";
+import {useController} from "react-hook-form";
 
 export function AuthorizationForm() {
   const {
@@ -38,7 +40,9 @@ export function AuthorizationForm() {
     append,
     remove,
     getFieldState,
+      setValue,
     formState,
+      value
   } = useAuthorizationForm();
   const [privateKey, setPrivateKey] = useState<string>("");
 
@@ -74,6 +78,7 @@ export function AuthorizationForm() {
                 spacing={3}
                 direction={{ base: "column", md: "row" }}
               >
+
                 <FormControl
                   isInvalid={
                     !!getFieldState(`guardians.${index}.address`, formState)
