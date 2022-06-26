@@ -43,13 +43,13 @@ export function useEpns(account: string) {
   }, []);
 }
 
-export function isUserSubscribed(address: string): boolean {
-  return channels.isUserSubscribed(address, CHANNEL_ADDRESS);
+export async function isUserSubscribed(address: string): boolean {
+  return await channels.isUserSubscribed(address, CHANNEL_ADDRESS);
 }
 
 export async function optIn(signer: Signer) {
   let userAddress = await signer.getAddress();
-  channels.optIn(
+  await channels.optIn(
     signer,
     CHANNEL_ADDRESS,
     CHAIN_ID,
