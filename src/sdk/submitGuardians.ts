@@ -61,6 +61,7 @@ export async function submitGuardians(
   const encryptedSymmetricKeyCid = await ipfsUtils.uploadToIPFS(
     encryptedSymmetricKey
   );
+  
   const encryptedPrivateKeyCid = await ipfsUtils.uploadToIPFS(encryptedString);
 
   console.log(encryptedSymmetricKeyCid);
