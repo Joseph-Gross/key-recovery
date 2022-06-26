@@ -1,6 +1,6 @@
 // @ts-ignore
 import * as LitJsSdk from "lit-js-sdk";
-import { CHAIN_STRING } from "./constants";
+import { CHAIN_STRING, KEYKOVERY_CONTRACT_ADDRESS } from "./constants";
 
 export const litNodeClient = new LitJsSdk.LitNodeClient({
   alertWhenUnauthorized: false,
@@ -57,13 +57,12 @@ export async function getEncryptionKey(
 }
 
 export function generateAccessControlConditions(
-  keycoveryContractAddress: string,
   lostWalletAddress: string,
 ) {
   return [
     {
       conditionType: "evmContract",
-      contractAddress: keycoveryContractAddress,
+      contractAddress: KEYKOVERY_CONTRACT_ADDRESS,
       functionName: "isAuthorizedRecoverer",
       functionParams: [lostWalletAddress, ":userAddress"],
       functionAbi: {

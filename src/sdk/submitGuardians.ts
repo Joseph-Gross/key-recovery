@@ -2,7 +2,7 @@ import { Contract, Signer } from "ethers";
 import { KEYKOVERY_CONTRACT_ADDRESS } from "./constants";
 
 import * as litUtils from "./litUtils";
-import * as tatumUtils from "./tatumUtils";
+import * as ipfsUtils from "./ipfsUtils";
 import { initializeWalletGuardians } from "./initializeWalletGuardians";
 import { CHAIN_STRING } from "./constants";
 
@@ -39,6 +39,7 @@ export async function submitGuardians(
   let { encryptedString, symmetricKey } = await litUtils.encryptString(
     privateKey
   );
+
   console.log("encpk:");
   console.log(encryptedString);
   console.log("symmmkey:");
@@ -57,21 +58,22 @@ export async function submitGuardians(
     authSig
   );
 
-  console.log(encryptedString);
+  console.log("enc symmkey");
   console.log(encryptedSymmetricKey);
 
-  const encryptedSymmKeyCid = "cid1"; // await tatumUtils.uploadToIPFS(encryptedSymmetricKey);
-  const encryptedPrivateKeyCid = "cid2"; // await tatumUtils.uploadToIPFS(encryptedString);
+  const encryptedSymmKeyCid = await ipfsUtils.uploadToIPFS(encryptedSymmetricKey);
+  const encryptedPrivateKeyCid = await ipfsUtils.uploadToIPFS(encryptedString);
 
+  console.log("cids");
   console.log(encryptedSymmKeyCid);
   console.log(encryptedPrivateKeyCid);
 
   const serializedGuardians = JSON.stringify(guardians);
 
   await privyClient.put(signerAddress, [
-    // { field: "encrypted-symmetric-key-cid", value: encryptedSymmKeyCid },
+    { field: "encrypted-symmetric-key-cid", value: encryptedSymmKeyCid },
     { field: "encrypted-private-key-cid", value: encryptedPrivateKeyCid },
-    // { field: "authorized-guardians-json", value: serializedGuardians },
+    { field: "authorized-guardians-json", value: serializedGuardians },
   ]);
 
   let tx = await initializeWalletGuardians(signer, guardians.map((guardian) => guardian.address));
