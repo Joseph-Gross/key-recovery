@@ -121,13 +121,13 @@ const PersonalRecovery: NextPage = () => {
         let encodedSymmetricKey;
         const symmetricKey = await getEncryptionKey(
           generateAccessControlConditions(lostAddress),
-          stringToUint8Array(encryptedSymmetricKey),
+          encryptedSymmetricKey,
           authSig
         );
 
         // PLAINTEXT PRIVATE KEY
         let plaintextPrivateKey = await decryptString(
-          new Blob([stringToUint8Array(encryptedPrivateKey)]),
+          new Blob([encryptedPrivateKey]),
           symmetricKey
         );
       }
