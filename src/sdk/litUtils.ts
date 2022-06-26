@@ -76,7 +76,7 @@ export function generateAccessControlConditions(lostWalletAddress: string) {
             type: "address",
           },
         ],
-        name: "verify",
+        name: "isAuthorizedRecoverer",
         outputs: [
           {
             internalType: "bool",
